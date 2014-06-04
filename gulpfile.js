@@ -13,45 +13,49 @@ var gulp = require('gulp'),
 
 
 var paths = {
+    index: {
+        src: 'trak-client/index.html',
+        dist: 'dist/'
+    },
     sass: {
-        src: 'static/sass/main.sass',
-        dist: 'static/dist/css'
+        src: 'trak-client/sass/main.sass',
+        dist: 'dist/css'
     },
     js: {
         dev: {
             src: [
-                'static/js/**/*.js',
-                '!static/js/config_live.js'
+                'trak-client/js/**/*.js',
+                '!trak-client/js/config_live.js'
             ]
         },
         live: {
             src: [
-                'static/js/**/*.js',
-                '!static/js/config_dev.js'
+                'trak-client/js/**/*.js',
+                '!trak-client/js/config_dev.js'
             ]
         },
-        dist: 'static/dist/js'
+        dist: 'dist/js'
     },
     vendor_css: {
         src: [
-            'static/vendor/css/bootstrap.min.css'
+            'vendor/css/bootstrap.min.css'
         ],
-        dist: 'static/dist/css'
+        dist: 'dist/css'
     },
     vendor_js: {
         src: [  // order is important
-            'static/vendor/js/jquery.min.js',
-            'static/vendor/js/bootstrap.min.js',
-            'static/vendor/js/angular.min.js',
-            'static/vendor/js/angular-animate.min.js',
-            'static/vendor/js/angular-ui-router.min.js',
-            'static/vendor/js/ui-bootstrap-tpls.min.js'
+            'vendor/js/jquery.min.js',
+            'vendor/js/bootstrap.min.js',
+            'vendor/js/angular.min.js',
+            'vendor/js/angular-animate.min.js',
+            'vendor/js/angular-ui-router.min.js',
+            'vendor/js/ui-bootstrap-tpls.min.js'
         ],
-        dist: 'static/dist/js'
+        dist: 'dist/js'
     },
     fonts: {
-        src: 'static/vendor/fonts/*',
-        dist: 'static/dist/fonts'
+        src: 'vendor/fonts/*',
+        dist: 'dist/fonts'
     }
 
 };
@@ -143,12 +147,20 @@ gulp.task('watch', function() {
 /* DEFAULT */
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('sass', 'js:dev', 'js:vendor', 'css:vendor', 'fonts');
+    gulp.start('sass', 'js:dev', 'js:vendor', 'css:vendor', 'fonts',
+               'copy:html');
 });
 
 /* BUILD TO LIVE */
 
 gulp.task('build', ['clean'], function() {
-    gulp.start('sass', 'js:live', 'js:vendor', 'css:vendor', 'fonts');
+    gulp.start('sass', 'js:live', 'js:vendor', 'css:vendor', 'fonts',
+               'copy:html');
 });
 
+/* Move HTML */
+
+gulp.task('copy:html', function() {
+    gulp.src(paths.index.src)
+        .pipe(gulp.dest(paths.index.dist));
+});
