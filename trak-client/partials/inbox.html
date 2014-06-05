@@ -1,12 +1,11 @@
 <div class="row">
-    <div class="col-md-4">
-        <h1>Labels or threads</h1>
-        <ul>
-            <li ng-repeat="label in labels">
-                <a ui-sref=".thread({threadId: label})"
-                   ui-sref-active="cool-active">{{ label }}</a>
+    <nav class="col-md-4">
+        <ul class="nav nav-pills nav-stacked">
+            <li ui-sref=".thread({threadId: label})"
+                   ui-sref-active="active" ng-repeat="label in labels">
+                <a href="#">{{ label }}</a>
             </li>
         </ul>
-    </div>
+    </nav>
     <div class="col-md-8" ui-view></div>
 </div>
