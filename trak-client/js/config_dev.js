@@ -1,4 +1,10 @@
-angular.module('helpdesk.config', [])
-    .constant('config', {
-        debug: true
-    });
+(function() {
+    'use strict';
+
+    angular.module('trak.config', [])
+        .constant('config', {
+            debug: true
+        });
+
+})();
+

@@ -1,9 +1,15 @@
-angular.module('helpdesk.services', [])
+(function() {
+    'use strict';
 
-    .service('helloService', function($log) {
+    angular.module('trak.services', [])
 
-        return {
-            hello: 'world'
-        };
+        .service('helloService', function($log) {
 
-    });
+            return {
+                hello: 'world',
+                log: $log.debug
+            };
+
+        });
+})();
+
