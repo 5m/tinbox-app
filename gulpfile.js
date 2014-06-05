@@ -202,6 +202,7 @@ gulp.task('test', function() {
 /* WATCH */
 
 gulp.task('watch', function() {
+  gulp.watch([paths.index.src, paths.partials.src], ['copy:html']);
   gulp.watch(paths.sass.src, ['sass']);
   gulp.watch(paths.js.dev.src, ['js:dev']);
 });
