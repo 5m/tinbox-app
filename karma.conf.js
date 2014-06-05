@@ -22,9 +22,9 @@ module.exports = function(config) {
             'bower_components/angular-ui-router/release/angular-ui-router.js',
             'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
             'bower_components/angular-mocks/angular-mocks.js',
-            'trak-client/js/**/*.js',
+            'trak-client/js/**/*.coffee',
 
-            'test/*.js',
+            'test/*.coffee',
 
             'trak-client/partials/**/*.html'
         ],
@@ -32,18 +32,32 @@ module.exports = function(config) {
 
         // list of files to exclude
         exclude: [
-            'trak-client/js/config_live.js'
+            'trak-client/js/config_live.coffee'
         ],
 
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'trak-client/partials/*.html': 'ng-html2js'
+            'trak-client/partials/*.html': 'ng-html2js',
+            'trak-client/js/**/*.coffee': 'coffee',
+            'test/*.coffee': 'coffee'
         },
 
         ngHtml2JsPreprocessor: {
             stripPrefix: 'trak-client/'
+        },
+
+        coffeePreprocessor: {
+            // options passed to the coffee compiler
+            options: {
+                bare: true,
+                sourceMap: false
+            },
+            // transforming the filenames
+            transformPath: function(path) {
+                return path.replace(/\.coffee$/, '.js');
+            }
         },
 
         // test results reporter to use

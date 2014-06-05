@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     gutil = require('gulp-util'),
     karma = require('gulp-karma'),
+    coffee = require('gulp-coffee')
     ngmin = require('gulp-ngmin');
 
 var testFiles = [
@@ -44,14 +45,14 @@ var paths = {
     js: {
         dev: {
             src: [
-                'trak-client/js/**/*.js',
-                '!trak-client/js/config_live.js'
+                'trak-client/js/**/*.coffee',
+                '!trak-client/js/config_live.coffee'
             ]
         },
         live: {
             src: [
-                'trak-client/js/**/*.js',
-                '!trak-client/js/config_dev.js'
+                'trak-client/js/**/*.coffee',
+                '!trak-client/js/config_dev.coffee'
             ]
         },
         dist: 'dist/js'
@@ -108,8 +109,9 @@ gulp.task('sass', function() {
 
 gulp.task('js:dev', function() {
     return gulp.src(paths.js.dev.src)
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('default'))
+//        .pipe(jshint('.jshintrc'))
+//        .pipe(jshint.reporter('default'))
+        .pipe(coffee({ bare: true }))
         .on('error', gutil.log)
         .pipe(concat('main.js'))
         .pipe(ngmin())
@@ -123,8 +125,9 @@ gulp.task('js:dev', function() {
 
 gulp.task('js:live', function() {
     return gulp.src(paths.js.live.src)
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('default'))
+//        .pipe(jshint('.jshintrc'))
+//        .pipe(jshint.reporter('default'))
+        .pipe(coffee({ bare: true }))
         .pipe(concat('main.js'))
         .pipe(ngmin())
         .pipe(gulp.dest(paths.js.dist))
