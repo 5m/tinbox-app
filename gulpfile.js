@@ -35,7 +35,7 @@ var paths = {
         dist: 'dist/'
     },
     partials: {
-        src: 'trak-client/partials/*.html',
+        src: 'trak-client/partials/**/*.html',
         dist: 'dist/partials'
     },
     sass: {
@@ -69,6 +69,7 @@ var paths = {
             'bower_components/bootstrap/dist/js/bootstrap.min.js',
             'bower_components/angular/angular.min.js',
             'bower_components/angular-animate/angular-animate.min.js',
+            'bower_components/angular-resource/angular-resource.min.js',
             'bower_components/angular-ui-router/release/angular-ui-router.min.js',
             'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js'
         ],
@@ -77,6 +78,7 @@ var paths = {
             'bower_components/bootstrap/dist/js/bootstrap.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-ui-router/release/angular-ui-router.js',
             'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js'
         ],

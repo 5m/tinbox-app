@@ -1,11 +1,18 @@
 'use strict'
-angular.module('trak.controllers', [])
-.controller 'HomeCtrl', ($scope, helloService) ->
-    $scope.hello = 'hello #{helloService.hello}'
+angular.module('trak.controllers', ['trak.services'])
+.controller 'InboxCtrl', ($scope, ticketService) ->
+    $scope.labels = [
+        'Återbud',
+        'Support'
+    ]
+    $scope.tickets = ticketService.query()
 
-.controller 'InboxCtrl', ($scope) ->
-    $scope.labels = ['Inbox', 'Dunno', 'More stuff']
-
-.controller 'ThreadCtrl', ($scope, $log, $stateParams) ->
+.controller 'FilterCtrl', ($scope, $log, $stateParams, ticketService) ->
     $log.debug $stateParams
-    $scope.thread = $stateParams.threadId
+    $scope.tickets = ticketService.query()
+
+.controller 'TicketCtrl', ($scope, $log, $stateParams, ticketService) ->
+    $log.debug $stateParams
+    $scope.ticket = ticketService.get($stateParams)
+
+    $log.debug $scope

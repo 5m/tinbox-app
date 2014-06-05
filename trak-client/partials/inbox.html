@@ -1,9 +1,9 @@
 <div class="row">
     <nav class="col-md-4">
         <ul class="nav nav-pills nav-stacked">
-            <li ui-sref=".thread({threadId: label})"
+            <li ui-sref=".tickets({filter: label})"
                    ui-sref-active="active" ng-repeat="label in labels">
-                <a href="#">{{ label }}</a>
+                <a ui-sref=".tickets({filter: label})">{{ label }}</a>
             </li>
         </ul>
     </nav>

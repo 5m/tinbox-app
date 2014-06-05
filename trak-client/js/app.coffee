@@ -20,17 +20,16 @@ config (config, $logProvider, $stateProvider, $urlRouterProvider) ->
     $urlRouterProvider.otherwise '/'
 
     $stateProvider
-    .state('home',
-        url: '/',
-        controller: 'HomeCtrl',
-        templateUrl: t 'home.html')
-
-    .state('inbox',
-        url: '/inbox',
-        controller: 'InboxCtrl',
-        templateUrl: t 'inbox.html')
-    .state('inbox.thread',
-        url: '/:threadId',
-        controller: 'ThreadCtrl',
-        templateUrl: t 'thread.html')
+        .state('inbox',
+            url: '/tickets'
+            controller: 'InboxCtrl'
+            templateUrl: t 'inbox.html')
+        .state('inbox.tickets',
+            url: '/list/:filter'
+            controller: 'FilterCtrl'
+            templateUrl: t 'ticket/list.html')
+        .state('inbox.single',
+            url: '/show/:ticketId'
+            controller: 'TicketCtrl'
+            templateUrl: t 'ticket/show.html')
 
