@@ -10,14 +10,14 @@ describe 'controllers', ->
             $templateCache.put 'partials/thread.html', ''
 
     describe 'HomeCtrl', ->
-        homeCtrl = $scope = null
+        inboxCtrl = $scope = null
 
         beforeEach inject ($controller, $rootScope) ->
             $scope = $rootScope.$new()
 
-            homeCtrl = $controller 'HomeCtrl',
+            inboxCtrl = $controller 'InboxCtrl',
                 $scope: $scope
 
         it 'should be defined and shit', ->
-            expect(homeCtrl).toBeDefined()
+            expect(inboxCtrl).toBeDefined()
             expect($scope).toBeDefined()

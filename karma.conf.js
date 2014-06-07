@@ -19,6 +19,7 @@ module.exports = function(config) {
             'bower_components/bootstrap/dist/js/bootstrap.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-ui-router/release/angular-ui-router.js',
             'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
             'bower_components/angular-mocks/angular-mocks.js',
@@ -91,7 +92,8 @@ module.exports = function(config) {
             // these plugins will be require() by Karma
             'karma-jasmine',
             'karma-chrome-launcher',
-            'karma-ng-html2js-preprocessor'
+            'karma-ng-html2js-preprocessor',
+            'karma-coffee-preprocessor'
         ],
 
         // Continuous Integration mode

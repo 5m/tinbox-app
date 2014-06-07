@@ -2,7 +2,7 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
-    jshint = require('gulp-jshint'),
+    coffeelint = require('gulp-coffeelint'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
     rename = require('gulp-rename'),
@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     gutil = require('gulp-util'),
     karma = require('gulp-karma'),
-    coffee = require('gulp-coffee')
+    coffee = require('gulp-coffee'),
     ngmin = require('gulp-ngmin');
 
 var testFiles = [
@@ -19,12 +19,13 @@ var testFiles = [
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-animate/angular-animate.js',
+    'bower_components/angular-resource/angular-resource.js',
     'bower_components/angular-ui-router/release/angular-ui-router.js',
     'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
     'bower_components/angular-mocks/angular-mocks.js',
-    'trak-client/js/**/*.js',
+    'trak-client/js/**/*.coffee',
 
-    'test/*.js',
+    'test/*.coffee',
 
     'trak-client/partials/**/*.html'
 ];
@@ -127,8 +128,8 @@ gulp.task('js:dev', function() {
 
 gulp.task('js:live', function() {
     return gulp.src(paths.js.live.src)
-//        .pipe(jshint('.jshintrc'))
-//        .pipe(jshint.reporter('default'))
+        .pipe(coffeelint())
+        .pipe(coffeelint.reporter())
         .pipe(coffee({ bare: true }))
         .pipe(concat('main.js'))
         .pipe(ngmin())
@@ -227,7 +228,7 @@ gulp.task('build', ['clean'], function() {
 /* Move HTML */
 
 gulp.task('copy:html', function() {
-    // TODO: split into live and dev, cache buster for live, select min or non-min
+    // TODO: split into live and dev, cache buster for live, update template to reflect choice
 
     gulp.src(paths.index.src)
         .pipe(gulp.dest(paths.index.dist));
