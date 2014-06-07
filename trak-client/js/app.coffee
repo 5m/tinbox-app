@@ -9,9 +9,10 @@ angular.module('trak', [
     'trak.directives',
     'trak.services'
 ]).
-config (config, $logProvider, $stateProvider, $urlRouterProvider) ->
+config (config, $logProvider, $stateProvider, $urlRouterProvider, $resourceProvider) ->
     # $locationProvider.html5Mode(true);  dis destroys refresh, needs to be configured on server.
     $logProvider.debugEnabled config.debug
+    $resourceProvider.defaults.stripTrailingSlashes = false;  # make it work with django.
 
     t = (template) ->
         'partials/' + template
