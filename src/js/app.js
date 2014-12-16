@@ -1,9 +1,5 @@
 var React = require('react');
 
-var HelloWorld = React.createClass({
-    render: function () {
-        return (<div>Hello World</div>);
-    }
-});
+var HelloWorld = require('./components/hello.coffee');
 
 React.render(<HelloWorld />, document.body);

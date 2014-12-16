@@ -4,23 +4,25 @@ var del = require('del');
 var $ = require('gulp-load-plugins')();
 var browserify = require('browserify');
 var reactify = require('reactify');
+var coffeeReactify = require('coffee-reactify');
+var coffeeify = require('coffeeify');
 var source = require('vinyl-source-stream');
 
 gulp.task('js', function () {
-    return browserify('./src/js/app.js')
+    var app = browserify('./src/js/app.js')
         .transform(reactify)
+        .transform(coffeeReactify)
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('dist/js'));
 });
-
 gulp.task('html', function () {
     return gulp.src('./src/**.html')
         .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./src/js/**.js̈́', ['js']);
+    gulp.watch('./src/js/**', ['js']);
     gulp.watch('./src/**.html', ['html']);
 });
 

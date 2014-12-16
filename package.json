@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/5m/trak-client",
   "dependencies": {
+    "coffee-reactify": "^2.1.0",
+    "coffeeify": "^1.0.0",
     "gulp": "^3.7.0",
     "gulp-autoprefixer": "0.0.7",
     "gulp-clean": "^0.3.0",
@@ -32,7 +34,9 @@
     "gulp-uglify": "^0.3.0",
     "gulp-util": "^2.2.16",
     "react": "^0.12.1",
-    "react-router": "^0.11.4"
+    "react-router": "^0.11.4",
+    "shoe": "0.0.15",
+    "through": "^2.3.6"
   },
   "devDependencies": {
     "gulp-karma": "0.0.4",
