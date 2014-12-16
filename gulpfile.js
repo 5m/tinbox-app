@@ -1,3 +1,38 @@
+var gulp = require('gulp');
+var del = require('del');
+
+var $ = require('gulp-load-plugins')();
+var browserify = require('browserify');
+var reactify = require('reactify');
+var source = require('vinyl-source-stream');
+
+gulp.task('js', function () {
+    return browserify('./src/js/app.js')
+        .transform(reactify)
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('html', function () {
+    return gulp.src('./src/**.html')
+        .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('watch', function () {
+    gulp.watch('./src/js/**.js̈́', ['js']);
+    gulp.watch('./src/**.html', ['html']);
+});
+
+gulp.task('default', function () {
+    gulp.start('js', 'html', 'watch');
+});
+
+
+return false;
+/***********************************************
+ ***********************************************
+ ***********************************************/
 var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -13,6 +48,7 @@ var gulp = require('gulp'),
     karma = require('gulp-karma'),
     coffee = require('gulp-coffee'),
     ngmin = require('gulp-ngmin');
+
 
 var testFiles = [
     'bower_components/jquery/dist/jquery.js',
@@ -93,6 +129,11 @@ var paths = {
     }
 
 };
+
+
+gulp.task('scss', function() {
+
+});
 
 /* SASS */
 

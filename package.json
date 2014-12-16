@@ -30,7 +30,9 @@
     "gulp-rename": "^1.2.0",
     "gulp-ruby-sass": "^0.5.0",
     "gulp-uglify": "^0.3.0",
-    "gulp-util": "^2.2.16"
+    "gulp-util": "^2.2.16",
+    "react": "^0.12.1",
+    "react-router": "^0.11.4"
   },
   "devDependencies": {
     "gulp-karma": "0.0.4",
