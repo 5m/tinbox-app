@@ -1,38 +1,38 @@
 React = require 'react'
+#sock = require('../app').sock
+
+div = React.createFactory 'div'
+button = React.createFactory 'button'
 
 HelloWorld = React.createClass
     getInitialState: ->
-            result: null
+        result: null
+
     componentDidMount: ->
-        @ws = new WebSocket('ws://localhost:8765/ws');
-        @sendQ = [];
-
-        @ws.addEventListener 'close', (e) =>
-            console.log "Closed #{@ws}", e
-
-        @ws.addEventListener 'message', (e) =>
-            @setState({result: e.data})
-            console.log e
-
-        @ws.addEventListener 'open', (e) =>
-            console.log 'Open', e
-            @ws.send msg for msg in @sendQ
+        sock.on('hello', (data) =>
+            console.log data
+            @setState result: data
+        )
 
     onClick: ->
         msg = 'Hello via sock!'
+        sock.emit(msg)
 
-        if @ws.readyState == WebSocket.OPEN
-            @ws.send(msg)
-        else
-            @sendQ.push(msg)
     render: ->
-        React.createElement('div', null, 'Hello World!',
-            React.createElement('button', {onClick: @onClick}, 'Sock')
+        div(null, 'Hello World!',
+            button({onClick: @onClick}, 'Sock'),
             React.createElement(Result, {result: @state.result})
+        )
+
+ConnectionStatus = React.createClass
+    render: ->
+        React.createElement(
+            'div', {className: 'connection-status'},
+            @props.status
         )
 
 Result = React.createClass
     render: ->
-        React.createElement 'div', null, this.props.result
+        React.createElement 'pre', null, this.props.result
 
 module.exports = HelloWorld

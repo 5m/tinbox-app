@@ -19,6 +19,7 @@
   "dependencies": {
     "coffee-reactify": "^2.1.0",
     "coffeeify": "^1.0.0",
+    "es6-class": "^0.9.2",
     "gulp": "^3.7.0",
     "gulp-autoprefixer": "0.0.7",
     "gulp-clean": "^0.3.0",
@@ -36,6 +37,7 @@
     "react": "^0.12.1",
     "react-router": "^0.11.4",
     "shoe": "0.0.15",
+    "socket.io": "^1.2.1",
     "through": "^2.3.6"
   },
   "devDependencies": {
