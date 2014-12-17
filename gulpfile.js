@@ -5,16 +5,16 @@ var source = require('vinyl-source-stream');
 
 var browserify = require('browserify');
 var reactify = require('reactify');
-var coffeeReactify = require('coffee-reactify');
 var coffeeify = require('coffeeify');
-var es6Class = require('es6-class');
 
 
 gulp.task('js', function () {
-    var app = browserify('./src/js/app.js')
+    var app = browserify({
+        entries: ['./src/index.js'],
+        paths: ['./node_modules', './src', './src/components']
+    })
         .transform(coffeeify)
         .transform(reactify)
-        .transform(es6Class)
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('dist/js'));
@@ -26,7 +26,7 @@ gulp.task('html', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./src/js/**', ['js']);
+    gulp.watch('./src/**/*.{js,coffee}', ['js']);
     gulp.watch('./src/**.html', ['html']);
 });
 

@@ -1,6 +1,5 @@
 React = require 'react'
-#sock = require('../app').sock
-
+sock = require('app').sock
 div = React.createFactory 'div'
 button = React.createFactory 'button'
 
@@ -27,7 +26,8 @@ HelloWorld = React.createClass
 ConnectionStatus = React.createClass
     render: ->
         React.createElement(
-            'div', {className: 'connection-status'},
+            'div',
+            {className: 'connection-status'},
             @props.status
         )
 

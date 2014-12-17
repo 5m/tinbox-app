@@ -1,8 +1,3 @@
-/**
- * NOT TO BE CONFUSED WITH "sockjs".
- *
- * Created by joar on 2014-12-17.
- */
 class SockMessage {
     constructor(name, data) {
         this.name = name;
@@ -54,18 +49,15 @@ class Sock {
     }
 
     log() {
-        console.log.apply(
-            console,
-            [arguments.caller].concat(
-                Array.prototype.slice.call(arguments)
-            )
-        );
+        console.log.apply(console, Array.prototype.slice.call(arguments));
     }
 
     _send(string) {
         if ('string' !== typeof string) {
             throw new Error('Function _send(string) should get a string');
         }
+
+        this.log('> ' + string);
 
         this.ws.send(string)
     }
