@@ -4,6 +4,7 @@ div = React.createFactory 'div'
 button = React.createFactory 'button'
 
 HelloWorld = React.createClass
+    displayName: 'HelloWorld'
     getInitialState: ->
         result: null
 
@@ -24,6 +25,7 @@ HelloWorld = React.createClass
         )
 
 ConnectionStatus = React.createClass
+    displayName: 'HelloWorld'
     render: ->
         React.createElement(
             'div',
