@@ -9,16 +9,18 @@ HelloWorld = React.createClass
         result: null
 
     componentDidMount: ->
-        sock.on('hello', (data) =>
+        sock.on('hello', (data, message) =>
             console.log data
-            @setState result: data
+            @setState({result: message.toString()})
         )
 
     onClick: ->
-        msg = 'Hello via sock!'
-        sock.emit(msg)
+        sock.emit('hello',
+            message: 'Hello from track!'
+        )
 
     render: ->
+        console.log 'hello render'
         div(null, 'Hello World!',
             button({onClick: @onClick}, 'Sock'),
             React.createElement(Result, {result: @state.result})
