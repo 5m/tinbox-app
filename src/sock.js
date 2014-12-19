@@ -33,7 +33,7 @@ class Sock {
         this.listeners = {};
         this._queue = [];
 
-        this.ws.addEventListener('connect', function(e) {
+        this.ws.addEventListener('open', function(e) {
             self.log('Connected', e);
             self._sendAll();
         });
