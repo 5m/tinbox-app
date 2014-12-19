@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 var { sock } = require('app');
+var { Sock } = require('sock');
 
 var { PageHeader } = require('react-bootstrap');
 
@@ -13,12 +14,13 @@ var Inbox = React.createClass({
     },
     componentDidMount: function () {
         var self = this;
+        this.sock = new Sock('ws://localhost:8765/joar');
 
-        sock.on('hello', function (data, message) {
+        this.sock.on('hello', function (data, message) {
             self.setState({response: message.toString()});
         });
 
-        sock.emit('hello', {foo: 'bar'});
+        this.sock.emit('hello', {foo: 'bar'});
     },
     render: function () {
         return (
