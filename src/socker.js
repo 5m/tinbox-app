@@ -116,6 +116,18 @@ class Socker {
         this.listeners[name].push(cb);
     }
 
+    off(name, func) {
+        if (func) {
+            delete this.listeners[name];
+        } else if (this.listeners.hasOwnProperty(name)) {
+            this.listeners[name].forEach(function(callback, i) {
+                if (callback == func) {
+                    delete this.listeners[name][i];
+                }
+            });
+        }
+    }
+
     emit(name, data) {
         this.send(new SockerMessage(name, data).toString());
     }
