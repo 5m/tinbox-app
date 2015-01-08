@@ -45,9 +45,7 @@ class Socker {
         this.ws.addEventListener('open', function(e) {
             self.log('Connected', e);
 
-            Object.keys(self.listeners).forEach(function (name) {
-                self._subscribe(name);
-            });
+            self._subscribeAll();
 
             self._sendAll();
         });
@@ -101,13 +99,17 @@ class Socker {
         this._send(message.toString());
     }
 
-    _subscribe(name) {
-        this.emit('subscribe', name);
+    _subscribe(channels) {
+        this.emit('subscribe', channels);
+    }
+
+    _subscribeAll() {
+        this._subscribe(Object.keys(this.listeners));
     }
 
     on(name, cb) {
-        if (!this.listeners.hasOwnProperty('name')) {
-            this._subscribe(name);
+        if (!this.listeners.hasOwnProperty(name)) {
+            this._subscribeAll();
             this.listeners[name] = [];
         }
 
