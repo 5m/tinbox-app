@@ -45,12 +45,11 @@ class Socker {
         this.ws.addEventListener('open', function(e) {
             self.log('Connected', e);
 
-            self._subscribeAll();
-
             self._sendAll();
         });
 
         this.ws.addEventListener('close', function (e) {
+            // TODO: Implement reconnect and do self._subscribeAll();
             self.log('Connection closed', e);
             self._closed = true;
 
@@ -104,13 +103,16 @@ class Socker {
     }
 
     _subscribeAll() {
-        this._subscribe(Object.keys(this.listeners));
+        var channels = Object.keys(this.listeners);
+        if (channels.length) {
+            this._subscribe(channels);
+        }
     }
 
     on(name, cb) {
         if (!this.listeners.hasOwnProperty(name)) {
-            this._subscribeAll();
             this.listeners[name] = [];
+            this._subscribeAll();
         }
 
         this.listeners[name].push(cb);
