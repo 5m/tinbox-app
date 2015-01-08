@@ -1,5 +1,5 @@
-var sock = require('./sock');
+var socker = require('./socker');
 
 module.exports = {
-    sock: new sock.Sock('ws://localhost:8765')
+    socker: new socker.Socker('ws://localhost:8765')
 };

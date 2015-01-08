@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 var Router = require('react-router');
 var ReactBootstrap = require('react-bootstrap');

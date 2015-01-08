@@ -1,4 +1,4 @@
-class SockMessage {
+class SockerMessage {
     constructor(name, data) {
         console.log('Create message: ', name, data);
         this.name = name;
@@ -15,7 +15,7 @@ class SockMessage {
         var name = values[0];
         var data = JSON.parse(values[1]);
 
-        return new SockMessage(name, data);
+        return new SockerMessage(name, data);
     }
 
     toString() {
@@ -23,28 +23,44 @@ class SockMessage {
     }
 }
 
-class Sock {
-    constructor(uri) {
+class Socker {
+    constructor(uri, reconnect) {
         var self = this;
 
-        this.log('sock connecting to', uri);
+        // Option flag to reconnect automatically
+        this.reconnect = (typeof reconnect == 'undefined') ? true : reconnect;
+
+        this.log('socker connecting to', uri);
+
+        this.subscriptions = [];
 
         this.ws = new WebSocket(uri);
         this.listeners = {};
-        this._queue = [];
+        this.queue = [];
+
+        this._closed = false;
+
+        this._reconnectTimeoutID = null;
 
         this.ws.addEventListener('open', function(e) {
             self.log('Connected', e);
+
+            Object.keys(self.listeners).forEach(function (name) {
+                self._subscribe(name);
+            });
+
             self._sendAll();
         });
 
         this.ws.addEventListener('close', function (e) {
             self.log('Connection closed', e);
+            self._closed = true;
+
         });
 
         this.ws.addEventListener('message', function (e) {
             self.log('sock << ' + e.data);
-            var message = SockMessage.fromString(e.data);
+            var message = SockerMessage.fromString(e.data);
             var handlers = self.listeners[message.name] || [];
 
             handlers.forEach(function (handler) {
@@ -59,7 +75,8 @@ class Sock {
 
     _sendAll() {
         var self = this;
-        this._queue.forEach(function (message) {
+
+        this.queue.forEach(function (message) {
             self._send(message.toString());
         });
     }
@@ -69,10 +86,6 @@ class Sock {
     }
 
     _send(string) {
-        if ('string' !== typeof string) {
-            throw new Error('Function _send(string) should get a string');
-        }
-
         this.log('sock >> ' + string);
 
         this.ws.send(string)
@@ -81,15 +94,20 @@ class Sock {
     send(message) {
         if (!this.isConnected()) {
             this.log('Not connected. Putting message in queue.');
-            this._queue.push(message);
+            this.queue.push(message);
             return;
         }
 
         this._send(message.toString());
     }
 
+    _subscribe(name) {
+        this.emit('subscribe', name);
+    }
+
     on(name, cb) {
         if (!this.listeners.hasOwnProperty('name')) {
+            this._subscribe(name);
             this.listeners[name] = [];
         }
 
@@ -97,11 +115,15 @@ class Sock {
     }
 
     emit(name, data) {
-        this.send((new SockMessage(name, data)).toString());
+        this.send(new SockerMessage(name, data).toString());
     }
 }
 
+try {
+    window.Socker = Socker;
+} catch (e) {}
+
 module.exports = {
-    Sock: Sock,
-    SockMessage: SockMessage
+    Socker: Socker,
+    SockerMessage: SockerMessage
 };
