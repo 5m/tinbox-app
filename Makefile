@@ -5,12 +5,11 @@ BOWER_BIN=bower
 
 all: gulp bowerdeps npmdeps http-server
 
+deps: bowerdeps npmdeps
+
 clean:
 	rm -rf bower_components
 	rm -rf node_modules
-	$(NPM_BIN) uninstall -g bower
-	$(NPM_BIN) uninstall -g gulp
-	$(NPM_BIN) uninstall -g http-server
 
 bower:
 	$(NPM_BIN) install -g bower
