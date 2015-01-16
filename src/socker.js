@@ -1,21 +1,25 @@
-class SockerMessage {
+class Message {
     constructor(name, data) {
-        console.log('Create message: ', name, data);
         this.name = name;
         this.data = data;
     }
 
     static fromString(string) {
         if ('string' !== typeof string) {
-            throw new Error('SockMessage.fromString must' +
-                            ' get a string as argument');
+            var msg = 'SockMessage.fromString must get a string as argument';
+
+            if (console.warn) {
+                console.warn(msg);
+            } else {
+                throw new Error(msg);
+            }
         }
 
         var values = string.split('|');
         var name = values[0];
         var data = JSON.parse(values[1]);
 
-        return new SockerMessage(name, data);
+        return new Message(name, data);
     }
 
     toString() {
@@ -25,45 +29,69 @@ class SockerMessage {
 
 class Socker {
     constructor(uri, reconnect) {
-        var self = this;
-
         // Option flag to reconnect automatically
         this.reconnect = (typeof reconnect == 'undefined') ? true : reconnect;
 
-        this.log('socker connecting to', uri);
+        // Print logging
+        this.debug = true;
 
-        this.subscriptions = [];
+        this.wsURI = uri;
 
-        this.ws = new WebSocket(uri);
         this.listeners = {};
         this.queue = [];
 
         this._closed = false;
 
         this._reconnectTimeoutID = null;
+        this.reconnectTimeout = 15000;
+
+        this._connect();
+    }
+
+    _connect(_reconnecting) {
+        var self = this;
+
+        this.log('socker connecting to', this.wsURI);
+
+        this.ws = new WebSocket(this.wsURI);
 
         this.ws.addEventListener('open', function(e) {
             self.log('Connected', e);
+
+            if (_reconnecting) {
+                self._subscribeAll();
+            }
 
             self._sendAll();
         });
 
         this.ws.addEventListener('close', function (e) {
-            // TODO: Implement reconnect and do self._subscribeAll();
             self.log('Connection closed', e);
             self._closed = true;
 
+            if (self.reconnect) {
+                self.log('Reconnecting in ' + self.reconnectTimeouth / 1000
+                          + ' seconds.');
+                self._reconnectTimeoutID = setTimeout(
+                    self._reconnect.bind(self),
+                self.reconnectTimeout);
+            }
         });
 
         this.ws.addEventListener('message', function (e) {
             self.log('sock << ' + e.data);
-            var message = SockerMessage.fromString(e.data);
+            var message = Message.fromString(e.data);
             var handlers = self.listeners[message.name] || [];
 
             handlers.forEach(function (handler) {
                 handler(message.data, message, e);
             });
         });
+    }
+
+    _reconnect() {
+        this.log('reconnecting...');
+        this._connect(true);  // Indicate to _connect that we are reconnecting.
     }
 
     isConnected() {
@@ -76,10 +104,6 @@ class Socker {
         this.queue.forEach(function (message) {
             self._send(message.toString());
         });
-    }
-
-    log() {
-        console.log.apply(console, Array.prototype.slice.call(arguments));
     }
 
     _send(string) {
@@ -131,7 +155,31 @@ class Socker {
     }
 
     emit(name, data) {
-        this.send(new SockerMessage(name, data).toString());
+        this.send(new Message(name, data).toString());
+    }
+
+    log() {
+        var args = [this.toString()].concat(Array.prototype.slice.call(arguments));
+
+        if (this.debug) {
+            console.log.apply(console, args);
+        }
+    }
+
+    toString() {
+        var status = 'UNKNOWN';
+        var stateMap = {
+            0: 'CONNECTING',
+            1: 'OPEN',
+            2: 'CLOSING',
+            3: 'CLOSED'
+        };
+
+        if (this.ws) {
+            status = stateMap[this.ws.readyState];
+        }
+
+        return '<Socker uri=' + this.wsURI + ' status=' + status + '>';
     }
 }
 
@@ -141,5 +189,5 @@ try {
 
 module.exports = {
     Socker: Socker,
-    SockerMessage: SockerMessage
+    Message: Message
 };

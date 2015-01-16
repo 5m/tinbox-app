@@ -1,49 +1,30 @@
 var React = require('react/addons');
 var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 var Router = require('react-router');
-var ReactBootstrap = require('react-bootstrap');
 var components = require('components');
-var lib = require('lib');
 
-var { LinkNavItem } = lib;
-var { Navbar, Nav } = ReactBootstrap;
+var { Default, Trak, Inbox } = require('handlers');
 
-var { State, Route, RouteHandler, Link, Navigation } = Router;
+var { State, Route, Link, Navigation, DefaultRoute, RouteHandler } = Router;
 
-var Trak = React.createClass({
-    mixins: [State],
+var Root = React.createClass({
     render: function () {
-        var name = this.getRoutes().reverse()[0].name;
-
-        return (
-            <div>
-                <Navbar>
-                    <Nav>
-                        <LinkNavItem to="inbox">
-                            Inbox
-                        </LinkNavItem>
-                        <LinkNavItem to="settings">
-                            Settings
-                        </LinkNavItem>
-                    </Nav>
-                </Navbar>
-                <ReactCSSTransitionGroup
-                    component="div"
-                    transitionName="example">
-                    <RouteHandler key={name} />
-                </ReactCSSTransitionGroup>
-            </div>
-        )
+        return (<RouteHandler />);
     }
 });
 
 var routes = (
-    <Route handler={Trak}>
-        <Route name="inbox" handler={components.Inbox} addHandlerKey={true} />
-        <Route name="settings" handler={components.Settings} addHandlerKey={true} />
+    <Route handler={Root} path="/">
+        <Route handler={Trak} name="app" path="/app">
+            <Route name="inbox" handler={Inbox} addHandlerKey={true} />
+            <Route name="settings" handler={components.Settings} addHandlerKey={true} />
+            <Route name="login" handler={components.Login} />
+        </Route>
+        <DefaultRoute handler={Default} />
     </Route>
 );
 
-Router.run(routes, function (Handler) {
+Router.run(routes, Router.HistoryLocation, function (Handler) {
+    console.log('Dispatching', Handler);
     React.render(<Handler />, document.body);
 });

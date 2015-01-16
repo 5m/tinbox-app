@@ -10,10 +10,10 @@ var es6Class = require('es6-class');
 
 
 gulp.task('js', function () {
-    var app = browserify({
-        entries: ['./src/index.js'],
-        paths: ['./src', './src/components']
-    })
+    var app = browserify('./src/index.js',
+        {
+            paths: ['./src', './src/components']
+        })
         .transform(coffeeify)
         .transform(reactify)
         .bundle()
