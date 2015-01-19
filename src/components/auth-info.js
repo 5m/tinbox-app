@@ -3,7 +3,7 @@ var ReactBootstrap = require('react-bootstrap');
 var { Auth, api } = require('lib');
 
 var { auth } = require('app');
-var { BootstrapMixin, NavItem } = ReactBootstrap;
+var { BootstrapMixin, NavItem, DropdownButton, MenuItem } = ReactBootstrap;
 
 var AuthInfo = React.createClass({
     mixins: [BootstrapMixin],
@@ -31,6 +31,9 @@ var AuthInfo = React.createClass({
                 self.setState({user: data});
             })
     },
+    handleLogout: function () {
+        auth.logOut();
+    },
     render: function () {
         if (typeof this.props.auth == 'undefined'
                 || !this.props.auth.isAuthenticated) {
@@ -41,7 +44,11 @@ var AuthInfo = React.createClass({
 
         if (this.state.user) {
             return (
-                <NavItem>{this.state.user.email}</NavItem>
+                <DropdownButton title={this.state.user.email} navItem={true}>
+                    <MenuItem onClick={this.handleLogout}>
+                        Log out
+                    </MenuItem>
+                </DropdownButton>
             );
         }
 

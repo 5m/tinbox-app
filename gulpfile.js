@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 
 var $ = require('gulp-load-plugins')();
 var source = require('vinyl-source-stream');
@@ -16,9 +17,10 @@ gulp.task('js', function () {
         })
         .transform(coffeeify)
         .transform(reactify)
-        .bundle()
+        .bundle().on('error', gutil.log)
         .pipe(source('trak.js'))
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest('dist/js'))
+        .on('error', gutil.log);
 });
 
 gulp.task('scss', function () {
@@ -27,7 +29,7 @@ gulp.task('scss', function () {
             style: 'expanded',
             precision: 10,
             loadPath: ['bower_components']
-        }))
+        })).on('error', gutil.log)
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest('dist/css'))
         .pipe($.size());
@@ -37,7 +39,7 @@ gulp.task('html', function () {
     return gulp.src('src/index.html')
         .pipe($.useref())
         .pipe(gulp.dest('dist/'))
-        .pipe($.size());
+        .pipe($.size()).on('error', gutil.log);
 });
 
 gulp.task('watch', function () {
