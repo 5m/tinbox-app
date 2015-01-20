@@ -56,7 +56,7 @@ class Socker {
         this.ws = new WebSocket(this.wsURI);
 
         this.ws.addEventListener('open', function(e) {
-            self.log('Connected', e);
+            self.log('Connected');
 
             if (_reconnecting) {
                 self._subscribeAll();
@@ -66,7 +66,7 @@ class Socker {
         });
 
         this.ws.addEventListener('close', function (e) {
-            self.log('Connection closed', e);
+            self.log('Connection closed');
             self._closed = true;
 
             if (self.reconnect) {
@@ -143,14 +143,21 @@ class Socker {
     }
 
     off(name, func) {
-        if (func) {
-            delete this.listeners[name];
-        } else if (this.listeners.hasOwnProperty(name)) {
-            this.listeners[name].forEach(function(callback, i) {
-                if (callback == func) {
-                    delete this.listeners[name][i];
-                }
-            });
+        var self = this;
+
+        if (!this.listeners.hasOwnProperty(name)) {
+            self.log('Could not off event handlers, no subscribers to', name);
+        }
+
+        this.listeners[name].forEach(function(callback, i) {
+            if (callback == func) {
+                delete self.listeners[name][i];
+            }
+        });
+
+        // Remove channel key if empty
+        if (!self.listeners[name].length) {
+            delete self.listeners[name];
         }
     }
 

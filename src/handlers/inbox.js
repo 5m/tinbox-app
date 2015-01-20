@@ -1,11 +1,14 @@
 /** @jsx React.DOM */
 var $ = require('jquery');
 var React = require('react/addons');
+var { PageHeader } = require('react-bootstrap');
+var { RouteHandler } = require('react-router');
+
 var { socker } = require('app');
 var { api } = require('lib');
 var { Socker } = require('socker');
 
-var { PageHeader } = require('react-bootstrap');
+var { TicketList } = require('components/ticket');
 
 
 var Inbox = React.createClass({
@@ -18,9 +21,8 @@ var Inbox = React.createClass({
     componentDidMount: function () {
         var self = this;
 
-        this.socker = new Socker('ws://localhost:8765/joar');
-
-        this.socker.on('ticket.*', function (ticket) {
+        socker.on('ticket.*', function (ticket) {
+            ticket.confirmed = false;
             self.setState({tickets: [ticket].concat(self.state.tickets)});
         });
 
@@ -30,36 +32,15 @@ var Inbox = React.createClass({
             });
     },
     render: function () {
-        var tickets = this.state.tickets.map(function (ticket) {
-            return (<Ticket key={ticket.uuid} {...ticket} />);
-        });
         return (
             <div className="container">
-                <PageHeader>Inbox</PageHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        {tickets}
+                        <RouteHandler tickets={this.state.tickets} />
                     </div>
                 </div>
             </div>
         );
-    }
-});
-
-var Ticket = React.createClass({
-    render: function () {
-        return (
-            <div className="ticket">
-                <div className="title">
-                    {this.props.subject}
-                </div>
-                <div className="created">
-                    <time dateTime={this.props.created}>
-                        {this.props.created}
-                    </time>
-                </div>
-            </div>
-        )
     }
 });
 

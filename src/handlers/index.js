@@ -3,4 +3,5 @@
 // module mapping.
 module.exports.Trak = require('./trak');
 module.exports.Default = require('./default');
-module.exports.Inbox= require('./inbox');
+module.exports.Inbox = require('./inbox');
+module.exports.Ticket = require('./ticket');

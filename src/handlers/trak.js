@@ -34,15 +34,13 @@ var Trak = React.createClass({
         if (!auth.isAuthenticated) {
             return (<div>Redirecting...</div>);
         }
+
         return (
             <div>
                 <Navbar>
                     <Nav>
                         <LinkNavItem to="inbox">
                             Inbox
-                        </LinkNavItem>
-                        <LinkNavItem to="settings">
-                            Settings
                         </LinkNavItem>
                     </Nav>
                     <Nav className="pull-right">

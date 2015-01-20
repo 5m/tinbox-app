@@ -1,0 +1,7 @@
+@mixin unconfirmed {
+    &.unconfirmed {
+        color: lighten($text-color, 20%);
+        font-style: italic;
+    }
+}
+

@@ -29,7 +29,8 @@ gulp.task('scss', function () {
             style: 'expanded',
             precision: 10,
             loadPath: ['bower_components']
-        })).on('error', gutil.log)
+        }).on('error', gutil.log))
+        .on('error', gutil.log)
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest('dist/css'))
         .pipe($.size());

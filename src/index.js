@@ -3,7 +3,8 @@ var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 var Router = require('react-router');
 var components = require('components');
 
-var { Default, Trak, Inbox } = require('handlers');
+var { Default, Trak, Inbox, Ticket } = require('handlers');
+var { TicketList } = require('components/ticket');
 
 var { State, Route, Link, Navigation, DefaultRoute, RouteHandler } = Router;
 
@@ -16,15 +17,17 @@ var Root = React.createClass({
 var routes = (
     <Route handler={Root} path="/">
         <Route handler={Trak} name="app" path="/app">
-            <Route name="inbox" handler={Inbox} addHandlerKey={true} />
-            <Route name="settings" handler={components.Settings} addHandlerKey={true} />
-            <Route name="login" handler={components.Login} />
+            <Route name="inbox"
+                   handler={Inbox}
+                   addHandlerKey={true}>
+                <Route name="ticket" path=":ticketID" handler={Ticket} />
+                <DefaultRoute name="ticketList" handler={TicketList} />
+            </Route>
         </Route>
         <DefaultRoute handler={Default} />
     </Route>
 );
 
 Router.run(routes, Router.HistoryLocation, function (Handler) {
-    console.log('Dispatching', Handler);
     React.render(<Handler />, document.body);
 });

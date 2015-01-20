@@ -4,6 +4,7 @@ var joinClasses = require('react-bootstrap/utils/joinClasses');
 var { BootstrapMixin } = require('react-bootstrap');
 var { Link } = require('react-router');
 
+
 var LinkNavItem = React.createClass({
     mixins: [BootstrapMixin],
 
