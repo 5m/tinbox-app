@@ -21,11 +21,6 @@ var Inbox = React.createClass({
     componentDidMount: function () {
         var self = this;
 
-        socker.on('ticket.*', function (ticket) {
-            ticket.confirmed = false;
-            self.setState({tickets: [ticket].concat(self.state.tickets)});
-        });
-
         api.get('/tickets/')
             .then(function (tickets) {
                 self.setState({tickets: tickets});

@@ -8,65 +8,6 @@ var { socker } = require('app');
 var { SubscriberMixin } = require('mixins/socker');
 
 
-var TicketRow = React.createClass({
-    mixins: [State, Navigation],
-
-    propTypes: {
-        subject: React.PropTypes.string,
-        created: React.PropTypes.string,
-        confirmed: React.PropTypes.bool
-    },
-
-    handleClick: function () {
-        this.transitionTo('ticket', {ticketID: this.props.uuid});
-    },
-
-    render: function () {
-        var created = moment(this.props.created);
-        var cx = React.addons.classSet;
-        var classes = cx({
-            'ticket': true,
-        });
-
-        return (
-            <div className={classes}
-                 onClick={this.handleClick}>
-                <div className="title">
-                    {this.props.subject}
-                </div>
-                <div className="created">
-                    <Timestamp value={created}
-                        title={created.format()}
-                        relative/>
-                </div>
-            </div>
-        );
-    }
-});
-
-
-var TicketList = React.createClass({
-    mixins: [SubscriberMixin],
-
-    componentDidMount: function () {
-        this.subscribe('ticket.*', 'tickets');
-    },
-
-    render: function () {
-        var tickets = this.consolidated('tickets').map(function (ticket) {
-            ticket.key = ticket.uuid;
-            return (<TicketRow {...ticket} />);
-        });
-
-        return (
-            <div className="ticket-list">
-                {tickets}
-            </div>
-        );
-    }
-});
-
-
 var Ticket = React.createClass({
     mixins: [SubscriberMixin],
 
@@ -152,8 +93,7 @@ var Message = React.createClass({
 
 _.merge(module.exports, {
     Ticket: Ticket,
-    TicketRow: TicketRow,
-    TicketList: TicketList,
     Message: Message,
-    Thread: Thread
+    Thread: Thread,
+    TicketList: require('./list').TicketList
 });

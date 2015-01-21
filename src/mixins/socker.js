@@ -3,6 +3,13 @@ var React = require('react/addons');
 var { socker } = require('app');
 
 
+class SubscriberHandler {
+    constructor() {
+
+    }
+}
+
+
 var SubscriberMixin = {
     componentWillMount: function () {
         this.__sockerHandlers = {};
@@ -15,15 +22,17 @@ var SubscriberMixin = {
 
     subscribe: function (channel, stateKey) {
         var self = this;
-
         if (channel && channel.constructor === Array) {
             channel = channel.join('.')
         }
 
-        var handlerFunc = function (sockerMessage) {
-            var previousMaybe = self.state[stateKey] || [];
+        // XXX: Evil eval to avoid function identity check pass for handlers
+        // with different contexts.
+        var handlerFunc = eval(function (sockerMessage) {
+            var _s = self.state,
+                previousMaybe = _s ? (_s[stateKey] || []) : [],  // Sorry
+                newState = {};
 
-            var newState = {};
             newState[stateKey] = [sockerMessage].concat(previousMaybe);
 
             console.log('Updating', stateKey,
@@ -31,7 +40,9 @@ var SubscriberMixin = {
                         'to', newState);
 
             self.setState(newState);
-        };
+        });
+
+        console.log('Subscribing to ', channel, 'for', stateKey);
 
         socker.on(channel, handlerFunc);
 
@@ -47,7 +58,7 @@ var SubscriberMixin = {
 
         channels.forEach(function (channel) {
             self.__sockerHandlers[channel].forEach(function (handler) {
-                console.log('Offing', handler, 'from', channel);
+                console.log('Offing', handler.name, 'from', channel);
                 socker.off(channel, handler);
             });
         });
