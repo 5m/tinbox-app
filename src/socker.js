@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 class Message {
     constructor(name, data) {
         this.name = name;
@@ -29,7 +31,7 @@ class Message {
 
 class Socker {
     constructor(uri, reconnect) {
-        // Option flag to reconnect automatically
+        // Reconnect automatically
         this.reconnect = (typeof reconnect == 'undefined') ? true : reconnect;
 
         // Print logging
@@ -40,53 +42,79 @@ class Socker {
         this.listeners = {};
         this.queue = [];
 
-        this._closed = false;
-
         this._reconnectTimeoutID = null;
         this.reconnectTimeout = 15000;
+
+        this.bundleSubscriptions = true;
+        this.bundleTimeout = 1;
+        this._bundleTimeoutID = null;
 
         this._connect();
     }
 
-    _connect(_reconnecting) {
-        var self = this;
+    _debug() {
+        var stats = {
+            numChannels: Object.keys(this.listeners).length,
+            channelStats: _.clone(this.listeners, true),
+        };
 
+        Object.keys(stats.channelStats).map(function (channel) {
+            var cs = stats.channelStats;
+
+            cs[channel] = cs[channel].length;
+        });
+
+        console.log('stats',
+            JSON.stringify(stats, null, '\t'),
+            this.listeners);
+    }
+
+    _connect(_reconnecting) {
         this.log('socker connecting to', this.wsURI);
 
         this.ws = new WebSocket(this.wsURI);
 
         this.ws.addEventListener('open', function(e) {
-            self.log('Connected');
+            if (this._reconnectTimeoutID) {
+                clearTimeout(this._reconnectTimeoutID);
+            }
+            this._reconnectTimeoutID = null;
+
+            this.log('Connected');
 
             if (_reconnecting) {
-                self._subscribeAll();
+                this._subscribeAll();
             }
 
-            self._sendAll();
+            this._sendAll();
+        }.bind(this));
+
+        this.ws.addEventListener('message', this._onMessage.bind(this));
+
+        this.ws.addEventListener('close', this._onClose.bind(this));
+    }
+
+    _onMessage(e) {
+        this.log('sock << ' + e.data);
+        var message = Message.fromString(e.data);
+        var handlers = this.listeners[message.name] || [];
+
+        handlers.forEach(function (handler) {
+            handler(message.data, message, e);
         });
+    }
 
-        this.ws.addEventListener('close', function (e) {
-            self.log('Connection closed');
-            self._closed = true;
+    _onClose(e) {
+        this.log('Connection closed');
+        this._closed = true;
 
-            if (self.reconnect) {
-                self.log('Reconnecting in ' + self.reconnectTimeouth / 1000
-                          + ' seconds.');
-                self._reconnectTimeoutID = setTimeout(
-                    self._reconnect.bind(self),
-                self.reconnectTimeout);
-            }
-        });
+        if (this.reconnect) {
+            this.log('Reconnecting in ' + this.reconnectTimeout / 1000
+                      + ' seconds.');
 
-        this.ws.addEventListener('message', function (e) {
-            self.log('sock << ' + e.data);
-            var message = Message.fromString(e.data);
-            var handlers = self.listeners[message.name] || [];
-
-            handlers.forEach(function (handler) {
-                handler(message.data, message, e);
-            });
-        });
+            this._reconnectTimeoutID = setTimeout(
+                this._reconnect.bind(this), this.reconnectTimeout);
+        }
     }
 
     _reconnect() {
@@ -99,11 +127,9 @@ class Socker {
     }
 
     _sendAll() {
-        var self = this;
-
         this.queue.forEach(function (message) {
-            self._send(message.toString());
-        });
+            this._send(message.toString());
+        }.bind(this));
     }
 
     _send(string) {
@@ -122,15 +148,27 @@ class Socker {
         this._send(message.toString());
     }
 
-    _subscribe(channels) {
-        this.emit('subscribe', channels);
+    _subscribeAll() {
+        var self = this;
+        var channels = Object.keys(this.listeners);
+
+        if (this.bundleSubscriptions) {
+            if (this._bundleTimeoutID) {
+                clearTimeout(this._bundleTimeoutID);
+            }
+            this.log('Bundling subscriptions');
+
+            this._bundleTimeoutID = setTimeout(function () {
+                self._subscribe(channels);
+            }, this.bundleTimeout);
+            return;
+        }
+
+        this._subscribe(channels);
     }
 
-    _subscribeAll() {
-        var channels = Object.keys(this.listeners);
-        if (channels.length) {
-            this._subscribe(channels);
-        }
+    _subscribe(channels) {
+        this.emit('subscribe', channels);
     }
 
     on(name, cb) {
@@ -151,9 +189,9 @@ class Socker {
 
         this.listeners[name].forEach(function(callback, i) {
             if (callback == func) {
-                delete self.listeners[name][i];
+                this.listeners[name].splice(i);
             }
-        });
+        }.bind(this));
 
         // Remove channel key if empty
         if (!self.listeners[name].length) {
