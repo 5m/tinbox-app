@@ -1,7 +1,9 @@
 var React = require('react/addons');
+/*
 var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 var Router = require('react-router');
 var components = require('components');
+
 
 var { Default, Trak, Inbox, Ticket } = require('handlers');
 var { TicketList } = require('components/ticket');
@@ -26,6 +28,10 @@ var routes = (
         </Route>
         <DefaultRoute handler={Default} />
     </Route>
+);
+*/
+var routes = (
+    <Route />
 );
 
 Router.run(routes, Router.HistoryLocation, function (Handler) {

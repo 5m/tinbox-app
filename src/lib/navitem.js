@@ -27,18 +27,16 @@ var LinkNavItem = React.createClass({
         var {
             disabled,
             active,
-            href,
             title,
-            children,
-            ...props } = this.props,
-            classes = {
+            children } = this.props;
+
+        var classes = {
                 'active': active,
                 'disabled': disabled
             };
 
         return (
-            <li {...props}
-                className={joinClasses(props.className, classSet(classes))}>
+            <li className={joinClasses(this.props.className, classSet(classes))}>
                 <Link
                     to={this.props.to}
                     title={title}

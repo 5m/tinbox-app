@@ -1,7 +1,6 @@
 .ticket-list {
     .ticket {
         @include clearfix;
-        @include unconfirmed;
 
         display: flex;
         flex-direction: row;

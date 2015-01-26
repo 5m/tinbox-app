@@ -6,7 +6,7 @@ var { RouteHandler } = require('react-router');
 
 var { socker } = require('app');
 var { api } = require('lib');
-var { Socker } = require('socker');
+var { Socker } = require('socker.js');
 
 var { TicketList } = require('components/ticket');
 

@@ -17,10 +17,12 @@
   },
   "homepage": "https://github.com/5m/trak-client",
   "dependencies": {
+    "bl": "^0.9.4",
     "browserify": "^7.0.2",
     "coffee-reactify": "^2.1.0",
     "coffeeify": "^1.0.0",
     "es6-class": "^0.9.3",
+    "es6ify": "^1.6.0",
     "factor-bundle": "^2.3.3",
     "gulp": "^3.7.0",
     "gulp-autoprefixer": "0.0.7",
@@ -43,13 +45,17 @@
     "loglevel": "^1.2.0",
     "moment": "^2.9.0",
     "query-string": "^1.0.0",
-    "react": "^0.12.1",
+    "react": "^0.12.2",
     "react-bootstrap": "^0.13.2",
     "react-router": "^0.11.4",
     "react-time": "^2.3.0",
     "reactify": "^0.17.1",
+    "socker.js": "^0.1.2",
     "through": "^2.3.6",
-    "vinyl-source-stream": "^1.0.0"
+    "through2": "^0.6.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.2.1"
   },
   "devDependencies": {
     "gulp-karma": "0.0.4",
@@ -59,15 +65,5 @@
     "karma-jasmine": "^0.1.5",
     "karma-ng-html2js-preprocessor": "^0.1.0",
     "karma-phantomjs-launcher": "^0.1.4"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "reactify",
-        {
-          "es6": true
-        }
-      ]
-    ]
   }
 }

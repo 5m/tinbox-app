@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var socker = require('socker');
+var socker = require('socker.js');
 var Auth = require('lib/auth');
 var config = require('config');
 var events = require('lib/events');
