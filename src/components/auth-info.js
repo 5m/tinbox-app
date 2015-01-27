@@ -38,24 +38,28 @@ var AuthInfo = React.createClass({
         if (typeof this.props.auth == 'undefined'
                 || !this.props.auth.isAuthenticated) {
             return (
-                <NavItem href={this.state.authURL}>Log in</NavItem>
+                <a className="btn btn-lg btn-block"
+                    href={this.state.authURL}>
+                    Log in
+                </a>
             );
         }
 
         if (this.state.user) {
             return (
-                <DropdownButton title={this.state.user.email} navItem={true}>
-                    <MenuItem onClick={this.handleLogout}>
+                <button className="btn btn-lg btn-block">
+                    {this.state.user.email}
+                    <a onClick={this.handleLogout}>
                         Log out
-                    </MenuItem>
-                </DropdownButton>
+                    </a>
+                </button>
             );
         }
 
         this.getUserInfo();
 
         return (
-            <NavItem>Logged in</NavItem>
+            <button className="btn btn-lg btn-block">Logged in</button>
         );
     }
 });
