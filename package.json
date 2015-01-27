@@ -1,7 +1,7 @@
 {
   "name": "trak-app",
   "version": "0.0.0",
-  "description": "Client application for trak."
+  "description": "Client application for trak.",
   "main": "",
   "scripts": {
     "test": "gulp test"

@@ -28,13 +28,7 @@ var Inbox = React.createClass({
     },
     render: function () {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-sm-12">
-                        <RouteHandler tickets={this.state.tickets} />
-                    </div>
-                </div>
-            </div>
+            <RouteHandler tickets={this.state.tickets} />
         );
     }
 });

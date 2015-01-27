@@ -3,12 +3,13 @@ html, body {
 }
 
 body {
-    display: flex;
-    display: -webkit-flex;
+    .app-root {
+        display: flex;
+    }
 
     color: rgba(255, 255, 255, 0.9);
     -moz-osx-font-smoothing: grayscale;
-     -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 
     /*background-color: #795548;*/
     /*background-color: #2980b9;*/
@@ -23,7 +24,7 @@ aside {
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
     width: 300px;
 }
 
@@ -45,9 +46,9 @@ aside footer .btn-lg {
     display: -webkit-flex;
     display: flex;
     -webkit-flex-grow: 1;
-            flex-grow: 1;
+    flex-grow: 1;
     -webkit-flex-direction: row;
-            flex-direction: row;
+    flex-direction: row;
 }
 
 .navbar.navbar-vertical {
@@ -93,7 +94,7 @@ aside footer .btn-lg {
     border-radius: 0;
     background-color: transparent;
     -webkit-flex-grow: 1;
-            flex-grow: 1;
+    flex-grow: 1;
 }
 .navbar-context .navbar-nav {
     margin-top: 15px;
@@ -159,8 +160,7 @@ aside footer .btn-lg {
 
 article {
     /*background-color: #fff;*/
-    -webkit-flex: 1 100%;
-            flex: 1 100%;
+    flex: 1 100%;
 }
 
 /* table */

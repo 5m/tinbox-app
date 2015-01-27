@@ -1,31 +1,8 @@
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+
 @import "variables";
+
 @import "ticket";
+@import "mock";
+
 @import "mixins/unconfirmed";
-
-
-.Image {
-    position: relative;
-}
-
-.Image {
-    position: absolute;
-}
-
-.example-enter {
-    opacity: 0.01;
-    transition: opacity .5s ease-in;
-}
-
-.example-enter.example-enter-active {
-    opacity: 1;
-}
-
-.example-leave {
-    opacity: 1;
-    transition: opacity .5s ease-in;
-}
-
-.example-leave.example-leave-active {
-    opacity: 0.01;
-}

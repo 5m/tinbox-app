@@ -25,17 +25,20 @@ var TicketRow = React.createClass({
         var created = moment(this.props.created);
 
         return (
-            <div className="ticket"
-                 onClick={this.handleClick}>
-                <div className="title">
-                    {this.props.subject}
-                </div>
-                <div className="created">
+            <tr>
+                <td><input type="checkbox" /></td>
+                <td>234</td>
+                <td>{this.props.subject}</td>
+                <td>Bruce Lee</td>
+                <td>Kundtjänst</td>
+                <td>Joppe Myra</td>
+                <td>2014-12-24</td>
+                <td>
                     <Timestamp value={created}
                         title={created.format()}
-                        relative/>
-                </div>
-            </div>
+                        relative />
+                </td>
+            </tr>
         );
     }
 });
@@ -55,9 +58,23 @@ var TicketList = React.createClass({
         });
 
         return (
-            <div className="ticket-list">
-                {tickets}
-            </div>
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" /></th>
+                        <th>ID</th>
+                        <th>Ämne</th>
+                        <th>Frågeställare</th>
+                        <th>Grupp</th>
+                        <th>Handläggare</th>
+                        <th>Inkommet</th>
+                        <th>Uppdaterat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {tickets}
+                </tbody>
+            </table>
         );
     }
 });
