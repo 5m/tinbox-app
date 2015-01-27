@@ -8,11 +8,7 @@ var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
-var es6ify = require('es6ify');
 
-
-// XXX: Not sure why this is necessary
-//var requiredFiles = './node_modules/react/react.js';
 
 gulp.task('js', function () {
     compileScripts();
@@ -20,21 +16,21 @@ gulp.task('js', function () {
 
 
 function compileScripts(watch) {
-    //es6ify.traceurOverrides = {experimental: true};
+    var entry = './src/index.js';
+    var options = {
+        paths: ['./src'],
+        transform: [
+            ["reactify", {es6: true}]
+        ]
+    };
 
-    var entry = './src/index.js',
-        options = {
-            paths: ['./src']
-        },
-        bundler = browserify(es6ify.runtime, options);
+    var bundler = browserify(entry, options);
 
     if (watch) {
         bundler = watchify(bundler, watchify.args);
     }
 
-    return bundler.add(entry)
-        .transform(reactify)
-        .transform(es6ify)
+    return bundler.transform(reactify)
         .bundle()
         .on('error', gutil.log)
         .pipe(source('trak.js'))
@@ -43,6 +39,7 @@ function compileScripts(watch) {
         .pipe(gulp.dest('dist/js'))
         .on('error', gutil.log);
 }
+
 
 gulp.task('scss', function () {
     return gulp.src('./src/scss/trak.scss')
@@ -56,12 +53,13 @@ gulp.task('scss', function () {
         .pipe($.size({showFiles: true}));
 });
 
+
 gulp.task('html', function () {
     return gulp.src('src/index.html')
-        .pipe($.useref())
         .pipe(gulp.dest('dist/'))
         .pipe($.size({showFiles: true})).on('error', gutil.log);
 });
+
 
 gulp.task('watch', function () {
     // compileScripts(true); // watch
@@ -69,6 +67,7 @@ gulp.task('watch', function () {
     gulp.watch('src/scss/**/*.scss', ['scss']);
     gulp.watch('src/**.html', ['html']);
 });
+
 
 gulp.task('default', function () {
     gulp.start('js', 'scss', 'html', 'watch');
