@@ -45,7 +45,7 @@ var ColorChooser = React.createClass({
 
         return (
             <div className={classes}>
-                <ColorPicker defaultValue={this.state.currentColor}
+                <ColorPicker value={this.props.value}
                     onDrag={this.onDrag} />
             </div>
         );
