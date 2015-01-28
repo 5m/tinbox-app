@@ -1,0 +1,21 @@
+$app-color: #fff;
+$inverse-when-dark: #fff;
+$inverse-when-light: #000;
+
+@mixin inverse($opacity: 1, $attribute: color) {
+    body.dark & {
+        $attribute: rgba($inverse-when-dark, $opacity);
+    }
+
+    body.light & {
+        $attribute: rgba($inverse-when-light, $opacity);
+    }
+}
+
+@mixin inverse-bg($opacity) {
+    @include inverse($opacity, background-color);
+}
+
+@mixin text-color($opacity: 1) {
+    @include inverse($opacity);
+}

@@ -35,10 +35,12 @@ var AuthInfo = React.createClass({
         auth.logOut();
     },
     render: function () {
+        var buttonClass = 'btn btn-lg btn-block fg-100';
+
         if (typeof this.props.auth == 'undefined'
                 || !this.props.auth.isAuthenticated) {
             return (
-                <a className="btn btn-lg btn-block"
+                <a className={buttonClass}
                     href={this.state.authURL}>
                     Log in
                 </a>
@@ -47,7 +49,7 @@ var AuthInfo = React.createClass({
 
         if (this.state.user) {
             return (
-                <button className="btn btn-lg btn-block">
+                <button className={buttonClass}>
                     {this.state.user.email}
                     <a onClick={this.handleLogout}>
                         Log out
@@ -59,7 +61,7 @@ var AuthInfo = React.createClass({
         this.getUserInfo();
 
         return (
-            <button className="btn btn-lg btn-block">Logged in</button>
+            <button className={buttonClass}>Logged in</button>
         );
     }
 });

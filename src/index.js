@@ -32,3 +32,10 @@ var routes = (
 Router.run(routes, Router.HistoryLocation, function (Handler) {
     React.render(<Handler />, document.body);
 });
+
+try {
+    window.jQuery = require('jquery');
+    require('bootstrap-sass-official/assets/javascripts/bootstrap');
+} catch (e) {
+    console.error(e);
+}

@@ -7,7 +7,14 @@ body {
         display: flex;
     }
 
-    color: rgba(255, 255, 255, 0.9);
+    &.dark {
+        color: rgba($inverse-when-dark, 0.9);
+    }
+
+    &.light {
+        color: rgba($inverse-when-light, 0.9);
+    }
+
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 
@@ -15,7 +22,7 @@ body {
     /*background-color: #2980b9;*/
     /*background-color: #27ae60;*/
     /*background-color: #e74c3c;*/
-    background-color: #455A64;
+    background-color: $app-color;
     /*background-color: #3f3e3d;*/
 }
 
@@ -37,131 +44,132 @@ aside footer .btn-lg {
     text-align: left;
 }
 
-.navbars .navbar-nav>li>a {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-
-.navbars {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-}
-
-.navbar.navbar-vertical {
-    border: 0;
-    margin-bottom: 0;
-}
-.navbar-vertical .navbar-nav {
-    float: none;
-}
-.navbar-vertical .navbar-nav>li {
-    float: none;
-}
-
-/* navbar-main */
-
-.navbar-main {
-    border-radius: 0;
-    background-color: rgba(0, 0, 0, 0.2);
-    width: 50px;
-}
-.navbar-main .navbar-nav>li>a {
-    text-align: center;
-    font-size: 25px;
-    line-height: 30px;
-    padding: 10px;
-}
-.navbar-main .navbar-nav>.active>a,
-.navbar-main .navbar-nav>.active>a:focus,
-.navbar-main .navbar-nav>.active>a:hover {
-    background-color: rgba(0, 0, 0, 0.4);
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
-}
-.navbar-main .navbar-nav>li>a:focus,
-.navbar-main .navbar-nav>li>a:hover {
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-/* navbar-context */
-
-.navbar-context {
-    border-radius: 0;
-    background-color: transparent;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-}
-.navbar-context .navbar-nav {
-    margin-top: 15px;
-}
-
-.navbar-context .navbar-nav .badge {
-    float: right;  /* problem, if not fitted puts the badge on next row (item) visually */
-    margin-top: 6px;
-    font-weight: normal;
-    /*background-color: rgba(0, 0, 0, 0.2);*/
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.navbar-context .navbar-nav>li {
-    /*padding-left: 4px;*/
-    /*padding-left: 10px;*/
-    /*padding-left: 4px;*/
-}
-.navbar-context .navbar-nav>li>a {
-    padding: 0 15px 0 30px;
-    /*padding-left: 4px;*/
-    /*padding: 0;*/
-    height: 30px;
-    line-height: 30px;
-    /*padding: 5px 0;*/
-    /*padding: 5px 10px 5px 25px;*/
-}
-.navbar-context .navbar-nav>.active>a {
-    padding-left: 26px;  /* compensate active left (red) border, 30-4 */
-    border-left: 4px solid #f40;
-}
-
-.navbar-context .navbar-nav>.active>a,
-.navbar-context .navbar-nav>.active>a:focus,
-.navbar-context .navbar-nav>.active>a:hover {
-    color: #fff;
-    font-weight: bold;
-    background-color: transparent;
-}
-.navbar-context .navbar-nav>li>a:focus,
-.navbar-context .navbar-nav>li>a:hover {
-    color: #fff;
-}
-.navbar-context .navbar-nav>li>a:hover,
-.navbar-context .navbar-nav>.active>a:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.navbar-context .navbar-nav>li.parent>a:first-child {
-    float: left;
-    width: 30px;
-    padding-left: 10px;
-}
-.navbar-context .navbar-nav>li.parent>a:first-child>i {
-    text-indent: 4px;  /* compensate active left (red) border */
-}
-.navbar-context .navbar-nav>li.active.parent>a:first-child>i {
-    text-indent: 0;  /* reset active left compensation (red) border */
-}
-
-
-/* article */
-
-article {
-    /*background-color: #fff;*/
+.app-content {
     flex: 1 100%;
 }
+
+.navbars {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+
+    .nav {
+        li {
+            margin-top: 0;
+
+            a {
+                @include text-color(0.5);
+            }
+        }
+    }
+}
+
+nav.nav-main {
+    flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    ul.nav-main {
+        border: 0;
+        margin-bottom: 0;
+        border-radius: 0;
+        width: 50px;
+
+        > li {
+
+            > a {
+                text-align: center;
+                font-size: 25px;
+                line-height: 30px;
+                padding: 10px;
+
+                &:focus, &:hover {
+                    color: $text-color;
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            &.active {
+                > a {
+                    &, &:hover, &:focus {
+                        background-color: rgba(0, 0, 0, 0.4);
+                        color: $text-color;
+                        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+                    }
+                }
+            }
+        }
+    }
+}
+
+nav.nav-context {
+    flex-grow: 1;
+    border-radius: 0;
+    background-color: transparent;
+
+    ul.nav-context {
+        margin-top: 15px;
+
+        .badge {
+            float: right;  /* problem, if not fitted puts the badge on next row (item) visually */
+            margin-top: 6px;
+            font-weight: normal;
+            /*background-color: rgba(0, 0, 0, 0.2);*/
+            @include inverse-bg(0.2);
+        }
+
+        li {
+            a {
+                padding: 0 15px 0 30px;
+                /*padding-left: 4px;*/
+                /*padding: 0;*/
+                height: 30px;
+                line-height: 30px;
+                /*padding: 5px 0;*/
+                /*padding: 5px 10px 5px 25px;*/
+
+                &:hover, &:focus {
+                    @include text-color();
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            &.active {
+                > a {
+                    @include text-color();
+
+                    padding-left: 26px;  /* compensate active left (red) border, 30-4 */
+                    border-left: 4px solid #f40;
+                    font-weight: bold;
+
+                    &:focus, &:hover {
+                        @include inverse();
+
+                        font-weight: bold;
+                        background-color: rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+
+            &.parent {
+                > a:first-child {
+                    float: left;
+                    width: 30px;
+                    padding-left: 10px;
+
+                    > i {
+                        text-indent: 4px;  /* compensate active left (red) border */
+                    }
+
+                }
+
+                &.active > a:first-child > i {
+                    text-indent: 0;  /* reset active left compensation (red) border */
+                }
+            }
+        }
+    }
+}
+
 
 /* table */
 

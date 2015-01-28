@@ -8,6 +8,7 @@ var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
+var debowerify = require('debowerify');
 
 
 gulp.task('js', function () {
@@ -31,6 +32,7 @@ function compileScripts(watch) {
     }
 
     return bundler.transform(reactify)
+        .transform(debowerify)
         .bundle()
         .on('error', gutil.log)
         .pipe(source('trak.js'))
