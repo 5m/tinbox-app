@@ -17,7 +17,7 @@ gulp.task('js', function () {
 
 
 function compileScripts(watch) {
-    var entry = './src/index.js';
+    var entry = './src/start.js';
     var options = {
         paths: ['./src'],
         transform: [
@@ -43,12 +43,23 @@ function compileScripts(watch) {
 }
 
 
+gulp.task('fonts', function () {
+    return gulp.src('node_modules/font-awesome/fonts/**.*')
+        .pipe($.size({showFiles: true}))
+        .pipe(gulp.dest('dist/fonts'))
+});
+
+
 gulp.task('scss', function () {
     return gulp.src('./src/scss/trak.scss')
         .pipe($.rubySass({
-            style: 'expanded',
+            style: 'compressed',
             precision: 10,
-            loadPath: ['bower_components']
+            loadPath: [
+                'bower_components',
+                'src',
+                'node_modules'
+            ]
         }).on('error', gutil.log))
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest('dist/css'))
@@ -68,9 +79,10 @@ gulp.task('watch', function () {
     gulp.watch('src/**/*.{js,coffee}', ['js']);
     gulp.watch('src/scss/**/*.scss', ['scss']);
     gulp.watch('src/**.html', ['html']);
+    gulp.watch('node_modules/font-awesome/fonts/**.*', ['fonts']);
 });
 
 
 gulp.task('default', function () {
-    gulp.start('js', 'scss', 'html', 'watch');
+    gulp.start('js', 'scss', 'html', 'fonts', 'watch');
 });

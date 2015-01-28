@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <title>trak-client</title>
     <link rel="stylesheet" href="/css/trak.css" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
-<body class="dark">
+<body>
 
+<script>
+    var settings = JSON.parse(localStorage.getItem('app-color'));
+
+    if (settings.appColor) {
+        document.body.style.backgroundColor = settings.appColor;
+    }
+</script>
 <script src="/js/trak.js"></script>
 </body>
 </html>

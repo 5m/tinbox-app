@@ -35,7 +35,7 @@ var AuthInfo = React.createClass({
         auth.logOut();
     },
     render: function () {
-        var buttonClass = 'btn btn-lg btn-block fg-100';
+        var buttonClass = 'btn btn-lg btn-block';
 
         if (typeof this.props.auth == 'undefined'
                 || !this.props.auth.isAuthenticated) {

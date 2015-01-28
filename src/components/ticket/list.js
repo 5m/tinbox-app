@@ -29,7 +29,7 @@ var TicketRow = React.createClass({
                 <td><input type="checkbox" /></td>
                 <td>234</td>
                 <td>{this.props.subject}</td>
-                <td>Bruce Lee</td>
+                <td>{this.props.sender.fullname}</td>
                 <td>Kundtjänst</td>
                 <td>Joppe Myra</td>
                 <td>2014-12-24</td>

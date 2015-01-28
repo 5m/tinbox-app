@@ -1,8 +1,11 @@
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "font-awesome/scss/font-awesome";
 
 @import "variables";
 
 @import "ticket";
 @import "mock";
+@import "cp";
 
 @import "mixins/unconfirmed";
+@import "color-picker";

@@ -1,18 +1,14 @@
-html, body, .app-root {
+html, body, .app-root, .trak-root {
     height: 100%;
 }
 
+html {
+    @include inverse()
+}
+
 body {
-    .app-root {
+    .trak-root {
         display: flex;
-    }
-
-    &.dark {
-        color: rgba($inverse-when-dark, 0.9);
-    }
-
-    &.light {
-        color: rgba($inverse-when-light, 0.9);
     }
 
     -moz-osx-font-smoothing: grayscale;
@@ -24,6 +20,16 @@ body {
     /*background-color: #e74c3c;*/
     background-color: $app-color;
     /*background-color: #3f3e3d;*/
+
+    main.app-root {
+        &.dark {
+            color: rgba($inverse-when-dark, 0.9);
+        }
+
+        &.light {
+            color: rgba($inverse-when-light, 0.9);
+        }
+    }
 }
 
 aside {
@@ -37,18 +43,19 @@ aside {
 
 aside header .btn-lg,
 aside footer .btn-lg {
-    background-color: rgba(0, 0, 0, 0.3);
+    @include text-color();
+    background-color: fade(30);
     border-radius: 0;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+    text-shadow: 0 1px 2px fade(75);
     text-align: left;
 }
 
 .app-content {
     flex: 1 100%;
+    overflow-y: auto;
 }
 
-.navbars {
+.navs {
     display: flex;
     flex-grow: 1;
     flex-direction: row;
@@ -58,7 +65,7 @@ aside footer .btn-lg {
             margin-top: 0;
 
             a {
-                @include text-color(0.5);
+                @include inverse(0.5);
             }
         }
     }
@@ -83,7 +90,7 @@ nav.nav-main {
                 padding: 10px;
 
                 &:focus, &:hover {
-                    color: $text-color;
+                    @include text-color();
                     background-color: rgba(0, 0, 0, 0.1);
                 }
             }
@@ -91,9 +98,9 @@ nav.nav-main {
             &.active {
                 > a {
                     &, &:hover, &:focus {
-                        background-color: rgba(0, 0, 0, 0.4);
-                        color: $text-color;
-                        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+                        background-color: fade(40);
+                    @include text-color();
+                        text-shadow: 0 1px 2px fade(75);
                     }
                 }
             }
@@ -110,6 +117,7 @@ nav.nav-context {
         margin-top: 15px;
 
         .badge {
+            @include text-color();
             float: right;  /* problem, if not fitted puts the badge on next row (item) visually */
             margin-top: 6px;
             font-weight: normal;
@@ -129,23 +137,24 @@ nav.nav-context {
 
                 &:hover, &:focus {
                     @include text-color();
-                    background-color: rgba(0, 0, 0, 0.1);
+                    background-color: fade(10);
                 }
             }
 
             &.active {
                 > a {
                     @include text-color();
+                    $border-width: 4px;
 
-                    padding-left: 26px;  /* compensate active left (red) border, 30-4 */
-                    border-left: 4px solid #f40;
+                    padding-left: 30px - $border-width;  /* compensate active left (red) border, 30-4 */
+                    border-left: $border-width solid $accent-color;
                     font-weight: bold;
 
                     &:focus, &:hover {
                         @include inverse();
 
                         font-weight: bold;
-                        background-color: rgba(0, 0, 0, 0.1);
+                        background-color: fade(10);
                     }
                 }
             }
@@ -173,14 +182,29 @@ nav.nav-context {
 
 /* table */
 
-.table>thead>tr>th {
-    /*border-bottom-color: rgba(255, 255, 255, 0.2);*/
-    border-bottom-color: rgba(0, 0, 0, 0.1);
+.table {
+    thead {
+        tr {
+            th {
+                border-bottom-color: fade(10);
+            }
+        }
+    }
 }
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+
+.table > thead > tr > th {
+    /*border-bottom-color: rgba(255, 255, 255, 0.2);*/
+    border-bottom-color: fade(10);
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
     /*border-top-color: rgba(255, 255, 255, 0.2);*/
-    border-top-color: rgba(0, 0, 0, 0.1);
+    border-top-color: fade(10);
 }
 .table-hover>tbody>tr:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: fade(10);
 }

@@ -1,14 +1,20 @@
-$app-color: #fff;
+$app-color: #333;
+$accent-color: #f40;
+
 $inverse-when-dark: #fff;
 $inverse-when-light: #000;
 
+@function fade($amount) {
+    @return rgba(black, $amount / 100);
+}
+
 @mixin inverse($opacity: 1, $attribute: color) {
-    body.dark & {
-        $attribute: rgba($inverse-when-dark, $opacity);
+    main.dark & {
+        #{$attribute}: rgba($inverse-when-dark, $opacity);
     }
 
-    body.light & {
-        $attribute: rgba($inverse-when-light, $opacity);
+    main.light & {
+        #{$attribute}: rgba($inverse-when-light, $opacity);
     }
 }
 
