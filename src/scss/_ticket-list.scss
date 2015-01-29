@@ -1,0 +1,29 @@
+@import "mixins/color";
+
+.ticket-list {
+    &.table {
+        thead {
+            tr {
+                th {
+                    border-bottom-color: fade(10);
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                cursor: pointer;
+
+                &:hover {
+                    background-color: fade(10);
+                }
+            }
+        }
+
+        tbody, tfoot, thead {
+            td, th {
+                border-top-color: fade(10);
+            }
+        }
+    }
+}

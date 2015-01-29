@@ -18,13 +18,14 @@ var Root = React.createClass({
 
 var routes = (
     <Route handler={Root} path="/">
-        <Route handler={hx.Trak} name="app" path="/app">
+        <Route handler={hx.Trak} name="app">
             <Route name="inbox"
                    handler={hx.Inbox}
                    addHandlerKey={true}>
                 <Route name="ticket" path=":ticketID" handler={hx.Ticket} />
                 <DefaultRoute name="ticketList" handler={TicketList} />
             </Route>
+            <Route name="account" handler={hx.Account} />
         </Route>
         <DefaultRoute handler={hx.Default} />
     </Route>

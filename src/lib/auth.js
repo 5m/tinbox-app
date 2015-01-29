@@ -33,6 +33,7 @@ class Auth {
     }
 
     fetchAccessToken(code) {
+        // Not used
         var self = this;
         return $.post(
             this.config.auth_url('/token/'),
@@ -58,6 +59,7 @@ class Auth {
         }
 
         if (jqXHR.status == 401) {
+            // TODO: Handle this more gracefully
             this.logOut();
         }
     }

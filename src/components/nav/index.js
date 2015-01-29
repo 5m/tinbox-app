@@ -1,5 +1,7 @@
 var React = require('react/addons');
-var { Nav, Navbar } = require('react-bootstrap');
+var { Nav } = require('react-bootstrap');
+var { Link } = require('react-router');
+
 
 var MainNav = React.createClass({
     render: function () {
@@ -18,7 +20,7 @@ var MainNav = React.createClass({
                         data-toggle="tooltip"
                         data-placement="right"
                         title="Etiketter">
-                        <i className="fa fa-tags"></i>
+                        <i className="fa fa-life-ring"></i>
                     </a>
                 </li>
                 <li>
@@ -34,45 +36,5 @@ var MainNav = React.createClass({
     }
 });
 
-var ContextNav = React.createClass({
-    render: function () {
-        return (
-            <Nav stacked className="nav-context">
-                <li>
-                    <a href="#">
-                        Inkorgen
-                        <span className="badge">1337</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">Olösta ärenden</a>
-                </li>
-                <li className="parent active">
-                    <a href="#">
-                        <i className="fa fa-caret-right"></i>
-                    </a>
-                    <a href="#">Ej tilldelade</a>
-                </li>
-                <li className="parent">
-                    <a href="#">
-                        <i className="fa fa-caret-right"></i>
-                    </a>
-                    <a href="#">
-                        Uppdaterade
-                        <span className="badge">42</span></a>
-                </li>
-                <li>
-                    <a href="#">Väntande</a></li>
-                <li className="parent">
-                    <a href="#">
-                        <i className="fa fa-caret-right"></i>
-                    </a>
-                    <a href="#">Arkiverade</a>
-                </li>
-            </Nav>
-        )
-    }
-});
 
 module.exports.MainNav = MainNav;
-module.exports.ContextNav = ContextNav;

@@ -8,6 +8,7 @@ var { BootstrapMixin, NavItem, DropdownButton, MenuItem } = ReactBootstrap;
 var AuthInfo = React.createClass({
     mixins: [BootstrapMixin],
     componentDidMount: function () {
+        this.getUserInfo();
         this.setState({
             authURL: auth.getAuthURL()
         });
@@ -34,9 +35,8 @@ var AuthInfo = React.createClass({
     handleLogout: function () {
         auth.logOut();
     },
-    render: function () {
+    getButton: function () {
         var buttonClass = 'btn btn-lg btn-block';
-
         if (typeof this.props.auth == 'undefined'
                 || !this.props.auth.isAuthenticated) {
             return (
@@ -51,19 +51,31 @@ var AuthInfo = React.createClass({
             return (
                 <button className={buttonClass}>
                     {this.state.user.email}
-                    <a onClick={this.handleLogout}>
-                        Log out
-                    </a>
                 </button>
             );
         }
 
-        this.getUserInfo();
+        return (
+            <button className={buttonClass}>
+                Logging in...
+            </button>
+        );
+    },
+    render: function () {
+        var button = this.getButton();
+        var context;
+
+        if (this.state.user) {
+        }
 
         return (
-            <button className={buttonClass}>Logged in</button>
+            <div className="auth-info">
+                {button}
+                {context}
+            </div>
         );
     }
 });
+
 
 module.exports = AuthInfo;

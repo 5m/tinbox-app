@@ -3,25 +3,3 @@ $accent-color: #f40;
 
 $inverse-when-dark: #fff;
 $inverse-when-light: #000;
-
-@function fade($amount) {
-    @return rgba(black, $amount / 100);
-}
-
-@mixin inverse($opacity: 1, $attribute: color) {
-    main.dark & {
-        #{$attribute}: rgba($inverse-when-dark, $opacity);
-    }
-
-    main.light & {
-        #{$attribute}: rgba($inverse-when-light, $opacity);
-    }
-}
-
-@mixin inverse-bg($opacity) {
-    @include inverse($opacity, background-color);
-}
-
-@mixin text-color($opacity: 1) {
-    @include inverse($opacity);
-}

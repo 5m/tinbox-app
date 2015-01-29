@@ -3,9 +3,11 @@ var moment = require('moment');
 var React = require('react');
 var Timestamp = require('react-time');
 
+var { api } = require('lib');
+
 var { State, Navigation } = require('react-router');
 var { socker } = require('app');
-var { SubscriberMixin } = require('mixins/socker');
+var { makeSubscriberMixin } = require('mixins/socker');
 
 
 var TicketRow = React.createClass({
@@ -25,7 +27,7 @@ var TicketRow = React.createClass({
         var created = moment(this.props.created);
 
         return (
-            <tr>
+            <tr onClick={this.handleClick}>
                 <td><input type="checkbox" /></td>
                 <td>234</td>
                 <td>{this.props.subject}</td>
@@ -45,10 +47,15 @@ var TicketRow = React.createClass({
 
 
 var TicketList = React.createClass({
-    mixins: [SubscriberMixin],
+    mixins: [makeSubscriberMixin('tickets')],
 
     componentDidMount: function () {
-        this.subscribe('ticket.*', 'tickets');
+        var self = this;
+
+        api.get('/tickets/')
+            .then(function (tickets) {
+                self.setState({tickets: tickets});
+            });
     },
 
     render: function () {
@@ -58,7 +65,7 @@ var TicketList = React.createClass({
         });
 
         return (
-            <table className="table table-hover">
+            <table className="table table-hover ticket-list">
                 <thead>
                     <tr>
                         <th><input type="checkbox" /></th>

@@ -1,0 +1,125 @@
+@import "mixins/color";
+
+.navs {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+
+    .nav {
+        li {
+            margin-top: 0;
+
+            a {
+                @include inverse(0.5);
+            }
+        }
+    }
+}
+
+nav.nav-main {
+    flex-shrink: 0;
+    background-color: fade(20);
+
+    ul.nav-main {
+        border: 0;
+        margin-bottom: 0;
+        border-radius: 0;
+        width: 50px;
+
+        > li {
+
+            > a {
+                text-align: center;
+                font-size: 25px;
+                line-height: 30px;
+                padding: 10px;
+
+                &:focus, &:hover {
+                    @include text-color();
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            &.active {
+                > a {
+                    &, &:hover, &:focus {
+                        background-color: fade(40);
+                        @include text-color();
+                        //text-shadow: 0 1px 2px fade(75);
+                    }
+                }
+            }
+        }
+    }
+}
+
+nav.nav-context {
+    flex-grow: 1;
+    border-radius: 0;
+    background-color: transparent;
+
+    ul.nav-context {
+        margin-top: 15px;
+
+        .badge {
+            @include text-color();
+            float: right;  /* problem, if not fitted puts the badge on next row (item) visually */
+            margin-top: 6px;
+            font-weight: normal;
+            /*background-color: rgba(0, 0, 0, 0.2);*/
+            @include inverse-bg(0.2);
+        }
+
+        li {
+            a {
+                padding: 0 15px 0 30px;
+                /*padding-left: 4px;*/
+                /*padding: 0;*/
+                height: 30px;
+                line-height: 30px;
+                /*padding: 5px 0;*/
+                /*padding: 5px 10px 5px 25px;*/
+
+                &:hover, &:focus {
+                    @include text-color();
+                    background-color: fade(10);
+                }
+            }
+
+            &.active {
+                > a {
+                    @include text-color();
+                    $border-width: 4px;
+
+                    padding-left: 30px - $border-width;  /* compensate active left (red) border, 30-4 */
+                    border-left: $border-width solid $accent-color;
+                    font-weight: bold;
+
+                    &:focus, &:hover {
+                        @include inverse();
+
+                        font-weight: bold;
+                        background-color: fade(10);
+                    }
+                }
+            }
+
+            &.parent {
+                > a:first-child {
+                    float: left;
+                    width: 30px;
+                    padding-left: 10px;
+
+                    > i {
+                        text-indent: 4px;  /* compensate active left (red) border */
+                    }
+
+                }
+
+                &.active > a:first-child > i {
+                    text-indent: 0;  /* reset active left compensation (red) border */
+                }
+            }
+        }
+    }
+}

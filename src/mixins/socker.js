@@ -2,11 +2,20 @@ var _ = require('lodash');
 var React = require('react/addons');
 var { socker } = require('app');
 
+function makeSubscriberMixin(stateKey) {
+    var _stateKey = stateKey;
+    var mixin =  SubscriberMixin;
 
-class SubscriberHandler {
-    constructor() {
+    mixin.getInitialState = function () {
+        var s = {};
+        s[_stateKey] = [];
+        return s;
+    };
+    mixin.componentDidMount = function () {
+        this.subscribe(_stateKey);
+    };
 
-    }
+    return mixin;
 }
 
 
@@ -14,10 +23,9 @@ var SubscriberMixin = {
     componentWillMount: function () {
         this.__sockerHandlers = {};
     },
-
     consolidated: function (key) {
         var fromStateMaybe = this.state ? this.state[key] || [] : [];
-        return fromStateMaybe.concat(this.props[key]);
+        return fromStateMaybe.concat(this.props[key] || []);
     },
 
     subscribe: function (channel, stateKey) {
@@ -67,3 +75,4 @@ var SubscriberMixin = {
 
 
 module.exports.SubscriberMixin = SubscriberMixin;
+module.exports.makeSubscriberMixin = makeSubscriberMixin;

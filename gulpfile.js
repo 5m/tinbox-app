@@ -16,6 +16,20 @@ gulp.task('js', function () {
 });
 
 
+function handleErrors() {
+    var args = Array.prototype.slice.call(arguments);
+
+    $.notify.onError({
+        title: "Compile Error",
+        message: "<%= error.message %>"
+    }).apply(this, args);
+
+    gutil.log.apply(this, args);
+
+    this.emit('end'); // Keep gulp from hanging on this task
+}
+
+
 function compileScripts(watch) {
     var entry = './src/start.js';
     var options = {
@@ -31,14 +45,16 @@ function compileScripts(watch) {
         bundler = watchify(bundler, watchify.args);
     }
 
-    return bundler.transform(reactify)
+    return bundler
+        .transform(reactify)
         .transform(debowerify)
         .bundle()
-        .on('error', gutil.log)
+        .on('error', handleErrors)
         .pipe(source('trak.js'))
         .pipe(buffer())
         .pipe($.size({showFiles: true}))
         .pipe(gulp.dest('dist/js'))
+        .pipe($.notify())
         .on('error', gutil.log);
 }
 

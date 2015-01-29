@@ -3,9 +3,11 @@
 
 @import "variables";
 
-@import "ticket";
-@import "mock";
-@import "cp";
+@import "mixins/color";
 
-@import "mixins/unconfirmed";
+@import "mock";
+
+@import "nav";
+@import "ticket-list";
+@import "ticket";
 @import "color-picker";
