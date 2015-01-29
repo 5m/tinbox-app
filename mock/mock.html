@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>trak mock</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="mock.css" rel="stylesheet">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <style>
+            /*
+            @include tint(attr, 0.2);
+            @include tint-inverse(attr, 0.4);
+
+            Shortcuts
+            ---------
+            @include text-color(0.2)                      -> tint-inverse('color', 0.2)
+            @include text-color-inverse(0.2)              -> tint('color', 0.2)
+
+            @include primary-color(0.2);                  -> tint('background-color', 0.2);
+            @include primary-color-inverse(0.2);          -> tint-inverse('background-color', 0.2);
+
+            @include primary-color('border-color', 0.2);  -> tint('border-color', 0.2);
+            */
+
+        </style>
+    </head>
+    <body>
+
+        <aside class="bg-10">
+            <header>
+                <button class="btn btn-lg btn-block">
+                    trak
+                </button>
+            </header>
+
+            <div class="navbars">
+                <nav class="navbar navbar-default navbar-vertical navbar-main">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#" data-toggle="tooltip" data-placement="right" title="Inkorg"><i class="fa fa-inbox"></i></a></li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Etiketter"><i class="fa fa-tags"></i></a></li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Inställningar"><i class="fa fa-cog"></i></a></li>
+                    </ul>
+                </nav>
+                <nav class="navbar navbar-default navbar-vertical navbar-context">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">Inkorgen <span class="badge">1337</span></a></li>
+                        <li>
+                            <a href="#">Olösta ärenden</a></li>
+                        <li class="parent active">
+                            <a href="#"><i class="fa fa-caret-right"></i></a><a href="#">Ej tilldelade</a></li>
+                        <li class="parent">
+                            <a href="#"><i class="fa fa-caret-right"></i></a><a href="#">Uppdaterade <span class="badge">42</span></a></li>
+                        <li>
+                            <a href="#">Väntande</a></li>
+                        <li class="parent">
+                            <a href="#"><i class="fa fa-caret-right"></i></a><a href="#">Arkiverade</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <footer>
+                <button class="btn btn-lg btn-block">
+                    Joppe Myra
+                </button>
+            </footer>
+        </aside>
+
+        <!--
+        <div class="content container-fluid">
+            <table class="table table-hover Xtable-condensed">
+              <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th>Ämne</th>
+                    <th>Frågeställare</th>
+                    <th>Grupp</th>
+                    <th>Handläggare</th>
+                    <th>Inkommet</th>
+                    <th>Uppdaterat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>234</td>
+                    <td>Reklamation yxa Hultafors</td>
+                    <td>Bruce Lee</td>
+                    <td>Kundtjänst</td>
+                    <td>Joppe Myra</td>
+                    <td>2014-12-24</td>
+                    <td>Idag 14:44</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>234</td>
+                    <td>Reklamation yxa Hultafors</td>
+                    <td>Bruce Lee</td>
+                    <td>Kundtjänst</td>
+                    <td>Joppe Myra</td>
+                    <td>2014-12-24</td>
+                    <td>Idag 14:44</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>234</td>
+                    <td>Reklamation yxa Hultafors</td>
+                    <td>Bruce Lee</td>
+                    <td>Kundtjänst</td>
+                    <td>Joppe Myra</td>
+                    <td>2014-12-24</td>
+                    <td>Idag 14:44</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>234</td>
+                    <td>Reklamation yxa Hultafors</td>
+                    <td>Bruce Lee</td>
+                    <td>Kundtjänst</td>
+                    <td>Joppe Myra</td>
+                    <td>2014-12-24</td>
+                    <td>Idag 14:44</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>234</td>
+                    <td>Reklamation yxa Hultafors</td>
+                    <td>Bruce Lee</td>
+                    <td>Kundtjänst</td>
+                    <td>Joppe Myra</td>
+                    <td>2014-12-24</td>
+                    <td>Idag 14:44</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>234</td>
+                    <td>Reklamation yxa Hultafors</td>
+                    <td>Bruce Lee</td>
+                    <td>Kundtjänst</td>
+                    <td>Joppe Myra</td>
+                    <td>2014-12-24</td>
+                    <td>Idag 14:44</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        -->
+
+        <div class="content">
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Alla konversationer</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Bruce Lee</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Acme</a></li>
+            </ul>
+
+            <div class="messages container-fluid">
+
+                <div class="timestamp"><time class="badge">2015-01-01 12:00</time></div>
+
+                <article class="row message thread-1">
+                    <div class="col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-comment"></i>
+                                Bruce Lee
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="timestamp"><time class="badge">2015-01-01 12:00</time></div>
+
+                <article class="row message thread-1">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply"></i>
+                                Kundtjänst
+                                <span class="pull-right text-muted">
+                                    <i class="fa fa-envelope-o"></i> Bruce Lee
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="timestamp"><time class="badge">2015-01-01 12:00</time></div>
+
+                <article class="row message note">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>
+                                    Crazy customer
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="timestamp"><time class="badge">2015-01-01 12:00</time></div>
+
+                <article class="row message thread-2">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-comment"></i>
+                                Kundtjänst
+                                <span class="pull-right text-muted">
+                                    <i class="fa fa-envelope-o"></i> Acme
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="timestamp"><time class="badge">2015-01-01 12:00</time></div>
+
+                <article class="row message thread-2">
+                    <div class="col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply"></i>
+                                Acme
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="timestamp"><time class="badge">2015-01-01 12:00</time></div>
+
+                <article class="row message thread-1">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply"></i>
+                                Kundtjänst
+                                <div class="pull-right">
+                                    <strong>Till:</strong>
+                                    <span class="badge address pull-right">
+                                        <!--<i class="fa fa-envelope"></i>-->
+                                        Bruce Lee
+                                    </span>
+                                </div>
+                                <!--<span class="pull-right text-muted">-->
+                                    <!--<i class="fa fa-envelope-o"></i> Bruce Lee-->
+                                <!--</span>-->
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script>
+//            $(function () {
+//                $('[data-toggle="tooltip"]').tooltip();
+//            });
+        </script>
+    </body>
+</html>
