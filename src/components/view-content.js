@@ -4,7 +4,7 @@ var { RouteHandler } = require('react-router');
 var ViewContent = React.createClass({
     render: function () {
         return (
-            <div className="view-content container-fluid">
+            <div className="view-content">
                 <RouteHandler {...this.props} />
             </div>
         );

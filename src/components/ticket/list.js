@@ -65,23 +65,25 @@ var TicketList = React.createClass({
         });
 
         return (
-            <table className="table table-hover ticket-list">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" /></th>
-                        <th>ID</th>
-                        <th>Ämne</th>
-                        <th>Frågeställare</th>
-                        <th>Grupp</th>
-                        <th>Handläggare</th>
-                        <th>Inkommet</th>
-                        <th>Uppdaterat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tickets}
-                </tbody>
-            </table>
+            <div className="container-fluid scrollable">
+                <table className="table table-hover ticket-list">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" /></th>
+                            <th>ID</th>
+                            <th>Ämne</th>
+                            <th>Frågeställare</th>
+                            <th>Grupp</th>
+                            <th>Handläggare</th>
+                            <th>Inkommet</th>
+                            <th>Uppdaterat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tickets}
+                    </tbody>
+                </table>
+            </div>
         );
     }
 });

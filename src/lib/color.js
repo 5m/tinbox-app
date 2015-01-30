@@ -1,3 +1,6 @@
+var _ = require('lodash');
+
+
 function isDark(color) {
     var [r, g, b] = parseColor(color);
 
@@ -6,6 +9,29 @@ function isDark(color) {
         0.587 * g * g +
         0.114 * b * b) < 130;
 }
+
+
+/**
+ * Use UUID as Hue in HSL, then return it as RGB.
+ * @param uuid
+ * @param o Options
+ * @returns {Array} [r, g, b]
+ * @constructor
+ */
+function UUIDToRGB(uuid, o) {
+    _.defaults(o, {
+        s: 1,
+        l: 0.5,
+        size: 20
+    });
+
+    return HSLToRGB(
+        parseInt(uuid.split('-').slice(-1)[0], 16) % o.size / o.size,
+        o.s,
+        o.l
+    );
+}
+
 
 function parseColor(input) {
     var div = document.createElement('div'),
@@ -101,3 +127,4 @@ function RGBToHSL(r, g, b){
 module.exports.isDark = isDark;
 module.exports.RGBToHSL = RGBToHSL;
 module.exports.HSLToRGB = HSLToRGB;
+module.exports.UUIDToRGB = UUIDToRGB;

@@ -10,14 +10,14 @@ var Composer = React.createClass({
                             <label className="btn btn-default active">
                                 <input type="radio" name="visibility"
                                     value="public"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     checked />
                                     Offentligt svar
                             </label>
                             <label className="btn btn-default">
                                 <input type="radio" name="visibility"
                                     value="private"
-                                    autocomplete="off" />
+                                    autoComplete="off" />
                                     Intern anteckning
                             </label>
                         </div>
@@ -30,16 +30,13 @@ var Composer = React.createClass({
                             <li>
                                 <button type="submit"
                                     className="btn btn-primary">
-                                    <i className="fa fa-send"></i>
-                                    Skicka +
-                                    <i className="fa fa-archive"></i>
+                                    <i className="fa fa-send"></i> Skicka + <i className="fa fa-archive"></i>
                                 </button>
                             </li>
                             <li>
                                 <button type="submit"
                                     className="btn btn-default">
-                                    <i className="fa fa-send"></i>
-                                    Skicka
+                                    <i className="fa fa-send"></i> Skicka
                                 </button>
                             </li>
                             <li>
@@ -54,7 +51,7 @@ var Composer = React.createClass({
                                     data-toggle="buttons">
                                     <label className="btn btn-default tool">
                                         <input type="checkbox" id="private"
-                                            autocomplete="off" />
+                                            autoComplete="off" />
                                             <i className="fa fa-unlock-alt"></i>
                                     </label>
                                 </div>

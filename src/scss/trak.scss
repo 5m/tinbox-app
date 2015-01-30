@@ -16,45 +16,48 @@ html, body, .app-root, .view-root {
     height: 100%;
 }
 
+/* XXX: .tickets needs this to be able to do overflow: auto in
+ a flex-direction: row wrapper */
+html, body, .app-root, .view-root, .view-content {
+    overflow: hidden;
+    height: 100%;
+}
+
 html {
 }
 
 /* Must be a root definition, otherwise inverse() fails */
-.view-root {
-    @include inverse();
-}
 
 body {
-    .view-root {
-        display: flex;
-    }
-
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 
-    /*background-color: #795548;*/
-    /*background-color: #2980b9;*/
-    /*background-color: #27ae60;*/
-    /*background-color: #e74c3c;*/
     background-color: $app-color;
-    /*background-color: #3f3e3d;*/
+}
 
-    main.app-root {
-        &.dark {
-            color: rgba($inverse-when-dark, 0.9);
-        }
+main.app-root {
+    &.dark {
+        color: rgba($inverse-when-dark, 0.9);
+    }
 
-        &.light {
-            color: rgba($inverse-when-light, 0.9);
-        }
+    &.light {
+        color: rgba($inverse-when-light, 0.9);
     }
 }
 
-aside {
-    background-color: rgba(0, 0, 0, 0.1);
+.view-root {
+    @include inverse();
     display: flex;
-    display: -webkit-flex;
-    -webkit-flex-direction: column;
+}
+
+.view-content {
+    flex: 1 100%;
+}
+
+
+aside {
+    background-color: fade(10);
+    display: flex;
     flex-direction: column;
     width: 300px;
 }
@@ -68,7 +71,7 @@ aside footer .btn-lg {
     text-align: left;
 }
 
-.view-content {
-    flex: 1 100%;
-    overflow-y: auto;
+.scrollable {
+    overflow: auto;
+    max-height: 100%;
 }

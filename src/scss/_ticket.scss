@@ -1,14 +1,38 @@
 .ticket {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+
+    > * {
+        width: 100%;
+    }
+
+    header {
+        flex-shrink: 0;
+        background-color: fade(20);
+    }
+
+    footer {
+        flex-shrink: 0;
+        background-color: fade(20);
+        color: fade(80);
+    }
 
     .messages {
-        margin-bottom: 15px;
+        flex-shrink: 2;
+        flex-grow: 0;
+        flex-basis: 100%;
+
+        overflow-y: auto;
 
         .timestamp {
             text-align: center;
             line-height: 1;
         }
 
-        .timestamp:first-child {
+        > .timestamp:first-child,
+        .timestamped-message:first-child {
             margin-top: 15px;
         }
 
@@ -20,6 +44,12 @@
             padding: 5px 10px;
         }
 
+        > .message:last-child,
+        > .timestamped-message:last-child .message {
+            padding-bottom: 0;
+            margin-bottom: 15px;
+        }
+
         .message {
             color: rgba(#000, 0.8);
 
@@ -28,15 +58,20 @@
             background-repeat: repeat-y;
             background-size: 1px 1px;
 
+            margin-bottom: 0;
+
             padding: 15px 0;
 
-            &:last-child {
-                padding-bottom: 0;
-            }
             .panel {
                 border: 0;
                 margin-bottom: 0;
                 /*border-radius: 3px;*/
+
+                .panel-body {
+                    .message-body {
+                        white-space: pre-wrap;
+                    }
+                }
             }
 
             &.note {
@@ -58,12 +93,8 @@
             font-weight: normal;
         }
 
-        .message.thread-1 .panel {
-            border-top: 4px solid #f40;
-        }
-
-        .message.thread-2 .panel {
-            border-top: 4px solid #28B1E0;
+        .message .panel {
+            border-top: 4px solid transparent;
         }
     }
 
@@ -135,3 +166,54 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 }
+
+
+/* tabs (within ticket content area) */
+
+.ticket header .nav-tabs>li>a {
+    @include text-color(0.5);
+}
+.ticket header .nav-tabs>li>a:hover {
+    @include text-color();
+}
+.ticket header .nav-tabs.nav-justified>.active.threads>a {
+    border-top: 4px solid transparent;
+}
+.ticket header .nav-tabs.nav-justified>.active.thread-1>a {
+    border-top: 4px solid #f40;
+}
+.ticket header .nav-tabs.nav-justified>.active.thread-2>a {
+    border-top: 4px solid #28B1E0;
+}
+.ticket header .nav-tabs.nav-justified>.threads>a {
+    border-bottom: 4px solid transparent;
+}
+.ticket header .nav-tabs.nav-justified>.thread-1>a {
+    border-bottom: 4px solid #f40;
+}
+.ticket header .nav-tabs.nav-justified>.thread-2>a {
+    border-bottom: 4px solid #28B1E0;
+}
+.ticket header .nav-tabs>li.active>a,
+.ticket header .nav-tabs>li.active>a:focus,
+.ticket header .nav-tabs>li.active>a:hover {
+    background-color: #455A64;
+    color: rgba(255, 255, 255, 1);
+}
+
+.ticket header .nav-tabs.nav-justified>.active>a,
+.ticket header .nav-tabs.nav-justified>.active>a:focus,
+.ticket header .nav-tabs.nav-justified>.active>a:hover {
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+}
+
+.ticket .nav-tabs.nav-justified>li>a {
+    border-color: transparent;
+}
+
+.ticket header .nav>li>a:focus, .nav>li>a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+

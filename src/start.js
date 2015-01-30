@@ -8,7 +8,14 @@ var hx = require('handlers');
 
 var { TicketList } = require('components/ticket');
 
-var { State, Route, Link, Navigation, DefaultRoute, RouteHandler, Redirect } = Router;
+var {
+    State,
+    Route,
+    Link,
+    Navigation,
+    DefaultRoute,
+    RouteHandler,
+    Redirect } = Router;
 
 var Root = React.createClass({
     render: function () {
