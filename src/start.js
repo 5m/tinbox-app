@@ -8,7 +8,7 @@ var hx = require('handlers');
 
 var { TicketList } = require('components/ticket');
 
-var { State, Route, Link, Navigation, DefaultRoute, RouteHandler } = Router;
+var { State, Route, Link, Navigation, DefaultRoute, RouteHandler, Redirect } = Router;
 
 var Root = React.createClass({
     render: function () {
@@ -25,6 +25,7 @@ var routes = (
                 <Route name="ticket" path=":ticketID" handler={hx.Ticket} />
                 <DefaultRoute name="ticketList" handler={TicketList} />
             </Route>
+            <Redirect from="/inbox" to="inbox" />
             <Route name="account" handler={hx.Account} />
         </Route>
         <DefaultRoute handler={hx.Default} />

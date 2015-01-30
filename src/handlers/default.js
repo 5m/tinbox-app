@@ -3,7 +3,7 @@ var queryString = require('query-string');
 
 var { auth } = require('app');
 var { Navigation } = require('react-router');
-var { AuthInfo } = require('components');
+var AuthInfo = require('components/auth-info');
 
 
 var Default = React.createClass({
@@ -13,7 +13,7 @@ var Default = React.createClass({
             console.log('Got authorization code');
             auth.setAccessToken(queryString.parse(window.location.hash));
 
-            this.transitionTo('/app');
+            this.transitionTo('/inbox');
         }
     },
     render: function () {

@@ -21,8 +21,6 @@ var ColorChooser = React.createClass({
         $(document).off('keydown', this.onKey)
     },
     onKey: function (e) {
-        console.log('down', e.key, e.code, e.altKey, e);
-
         if (!e.altKey) {
             return;
         }
