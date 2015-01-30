@@ -68,11 +68,11 @@ var Trak = React.createClass({
         });
 
         return (
-            <main className={classes} style={style}>
+            <div className={classes} style={style}>
                 <RouteHandler />
                 <cx.color.ColorChooser value={this.state.color.appColor}
                     onChoose={this.handleColorChange} />
-            </main>
+            </div>
         )
     }
 });

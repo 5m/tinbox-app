@@ -1,13 +1,15 @@
+@import "../variables";
+
 @function fade($amount) {
     @return rgba(black, $amount / 100);
 }
 
 @mixin inverse($opacity: 1, $attribute: color) {
-    main.dark & {
+    .app-root.dark & {
         #{$attribute}: rgba($inverse-when-dark, $opacity);
     }
 
-    main.light & {
+    .app-root.light & {
         #{$attribute}: rgba($inverse-when-light, $opacity);
     }
 }

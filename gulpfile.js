@@ -76,7 +76,8 @@ gulp.task('scss', function () {
                 'src',
                 'node_modules'
             ]
-        }).on('error', gutil.log))
+        }).on('error', handleErrors))
+        .pipe($.notify())
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest('dist/css'))
         .pipe($.size({showFiles: true}));

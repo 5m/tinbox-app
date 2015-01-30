@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var $ = require('jquery');
 var React = require('react/addons');
+var DocumentTitle = require('react-document-title');
 var { PageHeader } = require('react-bootstrap');
 var { RouteHandler } = require('react-router');
 
@@ -20,12 +21,14 @@ var Inbox = React.createClass({
     },
     render: function () {
         return (
-            <div className="view-root">
-                <Aside>
-                    <InboxContextNav />
-                </Aside>
-                <ViewContent />
-            </div>
+            <DocumentTitle title="Inbox">
+                <div className="view-root">
+                    <Aside>
+                        <InboxContextNav />
+                    </Aside>
+                    <ViewContent />
+                </div>
+            </DocumentTitle>
         );
     }
 });
