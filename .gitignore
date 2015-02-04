@@ -1,7 +1,18 @@
-node_modules
-dist
+# Dependencies
+/node_modules
+/bower_components
+
+# Build
+/dist
+/npm-debug.log
+
+# Dev
 .tmp
 .sass-cache
-bower_components/
 .idea
+
+¤ Config file
+/src/config.js
+
+# Bloat
 .DS_Store
