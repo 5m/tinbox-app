@@ -18,7 +18,8 @@ class Auth {
         return this.config.auth_url('/authorize/')
             + '?response_type=' + encodeURIComponent('token')
             + '&client_id=' + encodeURIComponent(this.config.client_id)
-            + '&scope=' + encodeURIComponent(this.config.scope.join(' '));
+            + '&scope=' + encodeURIComponent(this.config.scope.join(' '))
+            + '&redirect_uri=' + encodeURIComponent(this.config.redirect_uri);
     }
 
     setAccessToken(tokenObject) {

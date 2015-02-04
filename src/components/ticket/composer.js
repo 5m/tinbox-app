@@ -26,7 +26,7 @@ var Composer = React.createClass({
                         <textarea className="form-control" rows="4"></textarea>
                     </div>
                     <div className="panel-footer">
-                        <ul className="nav nav-pills xpull-right">
+                        <ul className="nav nav-pills">
                             <li>
                                 <button type="submit"
                                     className="btn btn-primary">
