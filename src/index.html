@@ -10,7 +10,7 @@
 <script>
     var settings = JSON.parse(localStorage.getItem('app-color'));
 
-    if (settings.color && settings.color.appColor) {
+    if (settings && settings.color && settings.color.appColor) {
         document.body.style.backgroundColor = settings.color.appColor;
     }
 </script>
