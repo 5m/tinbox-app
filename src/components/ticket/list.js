@@ -14,9 +14,9 @@ var TicketRow = React.createClass({
     mixins: [State, Navigation],
 
     propTypes: {
-        subject: React.PropTypes.string,
-        created: React.PropTypes.string,
-        confirmed: React.PropTypes.bool
+        subject: React.PropTypes.string.isRequired,
+        created: React.PropTypes.string.isRequired,
+        modified: React.PropTypes.string.isRequired
     },
 
     handleClick: function () {
@@ -25,6 +25,7 @@ var TicketRow = React.createClass({
 
     render: function () {
         var created = moment(this.props.created);
+        var modified = moment(this.props.modified);
 
         return (
             <tr onClick={this.handleClick}>
@@ -34,10 +35,14 @@ var TicketRow = React.createClass({
                 <td>{this.props.sender.fullname}</td>
                 <td>Kundtjänst</td>
                 <td>Joppe Myra</td>
-                <td>2014-12-24</td>
                 <td>
                     <Timestamp value={created}
                         title={created.format()}
+                        relative />
+                </td>
+                <td>
+                    <Timestamp value={modified}
+                        title={modified.format()}
                         relative />
                 </td>
             </tr>

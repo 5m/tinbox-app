@@ -11,15 +11,9 @@ var MessageList = React.createClass({
     render: function () {
         var timestampedMessages = this.props.messages.map(function (message) {
             message.key = message.uuid;
-            var newMessage = {
-                key: message.uuid,
-                created: message.created,
-                from: message.sender.fullname || message.sender.email,
-                thread_uuid: message.thread.uuid,
-                body: message.body
-            };
+            message.thread_uuid = message.thread.uuid;
 
-            return (<TimestampedMessage {...newMessage} />);
+            return (<TimestampedMessage {...message} />);
         });
 
         return (
@@ -33,7 +27,7 @@ var MessageList = React.createClass({
 
 var TimestampedMessage = React.createClass({
     propTypes: {
-        message: React.PropTypes.object.isRequired
+        created: React.PropTypes.string.isRequired
     },
     render: function () {
         var timestamp = this.props.created;
@@ -58,7 +52,7 @@ var MessageTimestamp = React.createClass({
         return (
             <div className="timestamp">
                 <time className="badge"
-                    datetime={this.props.timestamp}>
+                    dateTime={this.props.timestamp}>
                     {timestamp}
                 </time>
             </div>
@@ -70,7 +64,7 @@ var MessageTimestamp = React.createClass({
 var Message = React.createClass({
     propTypes: {
         body: React.PropTypes.string.isRequired,
-        from: React.PropTypes.string.isRequired,
+        sender: React.PropTypes.object.isRequired,
         thread: React.PropTypes.object.isRequired
     },
     render: function () {
@@ -86,12 +80,19 @@ var Message = React.createClass({
             borderColor: `rgb(${r}, ${g}, ${b})`
         };
 
+        var colClasses = React.addons.classSet({
+            'col-sm-8': true,
+            'col-sm-offset-4': this.props.sender.user
+        });
+
         return (
-            <article className="row message thread-1">
-                <div className="col-sm-8">
+            <article className="row message">
+                <div className={colClasses}>
                     <div style={style} className="panel panel-default">
                         <div className="panel-heading">
-                            <i className="fa fa-comment"></i> {this.props.from}
+                            <i className="fa fa-comment"></i>
+                            {' '}
+                            {this.props.sender.display_name}
                         </div>
                         <div className="panel-body">
                             <div className="message-body">

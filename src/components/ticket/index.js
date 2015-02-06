@@ -34,6 +34,10 @@ var Ticket = React.createClass({
             messages = messages.concat(threadMessages || []);
         });
 
+        messages.sort(function (a, b) {
+            return (new Date(a.created)) > (new Date(b.created));
+        });
+
         return (
             <DocumentTitle title={this.props.subject}>
                 <section className="ticket">
