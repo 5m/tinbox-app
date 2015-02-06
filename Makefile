@@ -27,4 +27,4 @@ http-server:
 	$(NPM_BIN) install -g http-server
 
 serve:
-	http-server dist/
+	python server/server.py -d dist
