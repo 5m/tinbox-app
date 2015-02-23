@@ -10,8 +10,8 @@ var MessageList = React.createClass({
     },
     render: function () {
         var timestampedMessages = this.props.messages.map(function (message) {
-            message.key = message.uuid;
-            message.thread_uuid = message.thread.uuid;
+            message.key = message.pk;
+            message.thread_uuid = message.thread.pk;
 
             return (<TimestampedMessage {...message} />);
         });
@@ -69,7 +69,7 @@ var Message = React.createClass({
     },
     render: function () {
         var [r, g, b] = lib.color.UUIDToRGB(
-            this.props.thread_uuid,
+            this.props.thread_pk,
             {
                 s: 1,
                 l: 0.7

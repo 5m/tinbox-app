@@ -2,11 +2,11 @@ var _ = require('lodash');
 var React = require('react');
 var Timestamp = require('react-time');
 var DocumentTitle = require('react-document-title');
+var Composer = require('components/ticket/composer');
 
 var { State, Navigation } = require('react-router');
 var { socker } = require('app');
 var { SubscriberMixin } = require('mixins/socker');
-var Composer = require('components/ticket/composer');
 var { MessageList } = require('./message');
 
 
@@ -20,7 +20,7 @@ var Ticket = React.createClass({
     },
 
     componentDidMount: function () {
-        this.subscribe(['ticket', this.props.uuid, 'thread', '*'], 'threads');
+        this.subscribe(['ticket', this.props.pk, 'thread', '*'], 'threads');
     },
 
     render: function () {
@@ -42,8 +42,8 @@ var Ticket = React.createClass({
             <DocumentTitle title={this.props.subject}>
                 <section className="ticket">
                     <header className="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
+                        <div className="row">
+                            <div className="col-sm-6">
                                 <h1>{this.props.subject}</h1>
                             </div>
                         </div>
@@ -69,12 +69,12 @@ var Thread = React.createClass({
     },
 
     componentDidMount: function () {
-        this.subscribe(['thread', this.props.uuid, 'message', '*'], 'messages');
+        this.subscribe(['thread', this.props.pk, 'message', '*'], 'messages');
     },
 
     render: function () {
         var messages = this.consolidated('messages').map(function (message) {
-            message.key = message.uuid;
+            message.key = message.pk;
             return (<Message {...message} />);
         });
 

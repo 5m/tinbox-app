@@ -5,7 +5,7 @@
         thead {
             tr {
                 th {
-                    border-bottom-color: fade(10);
+                    border-bottom-color: fade(0.1);
                 }
             }
         }
@@ -15,14 +15,14 @@
                 cursor: pointer;
 
                 &:hover {
-                    background-color: fade(10);
+                    background-color: fade(0.1);
                 }
             }
         }
 
         tbody, tfoot, thead {
             td, th {
-                border-top-color: fade(10);
+                border-top-color: fade(0.1);
             }
         }
     }

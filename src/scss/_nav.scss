@@ -18,7 +18,7 @@
 
 nav.nav-main {
     flex-shrink: 0;
-    background-color: fade(20);
+    background-color: fade(0.2);
 
     ul.nav-main {
         border: 0;
@@ -43,9 +43,9 @@ nav.nav-main {
             &.active {
                 > a {
                     &, &:hover, &:focus {
-                        background-color: fade(40);
+                        background-color: fade(0.4);
                         @include text-color();
-                        //text-shadow: 0 1px 2px fade(75);
+                        //text-shadow: 0 1px 2px fade(0.75);
                     }
                 }
             }
@@ -82,7 +82,7 @@ nav.nav-context {
 
                 &:hover, &:focus {
                     @include text-color();
-                    background-color: fade(10);
+                    background-color: fade(0.1);
                 }
             }
 
@@ -99,7 +99,7 @@ nav.nav-context {
                         @include inverse();
 
                         font-weight: bold;
-                        background-color: fade(10);
+                        background-color: fade(0.1);
                     }
                 }
             }

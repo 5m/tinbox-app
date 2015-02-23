@@ -1,7 +1,7 @@
 @import "../variables";
 
 @function fade($amount) {
-    @return rgba(black, $amount / 100);
+    @return rgba(black, $amount);
 }
 
 @mixin inverse($opacity: 1, $attribute: color) {

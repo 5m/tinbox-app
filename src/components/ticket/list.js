@@ -20,7 +20,7 @@ var TicketRow = React.createClass({
     },
 
     handleClick: function () {
-        this.transitionTo('ticket', {ticketID: this.props.uuid});
+        this.transitionTo('ticket', {ticketID: this.props.pk});
     },
 
     render: function () {
@@ -65,7 +65,7 @@ var TicketList = React.createClass({
 
     render: function () {
         var tickets = this.consolidated('tickets').map(function (ticket) {
-            ticket.key = ticket.uuid;
+            ticket.key = ticket.pk;
             return (<TicketRow {...ticket} />);
         });
 

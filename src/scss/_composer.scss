@@ -1,0 +1,70 @@
+form.compose {
+    color: fade(0.8);
+
+    textarea {
+        border-radius: 2px;
+        border: 0;
+    }
+
+    &.private {
+        textarea {
+            background-color: #feb;
+            color: #9C6547;
+        }
+    }
+
+    .panel {
+        background-color: fade(0.2);
+        margin-bottom: 0;
+        border: 0;
+        border-radius: 0;
+
+        .panel-heading {
+            background-color: transparent;
+            border-bottom: 0;
+            padding: 15px;
+            display: none;
+        }
+        .panel-body {
+            /*padding-top: 0;*/
+        }
+        .panel-footer {
+            background-color: fade(0.1);
+            border-top: 0;
+            overflow: hidden;
+
+            .nav-pills > li + li {
+                margin-left: 10px;
+            }
+
+            .btn-default {
+                @include inverse(0.2, border-color);
+                @include text-color(0.7);
+
+                background-color: transparent;
+
+                &:focus, &:hover {
+                    @include inverse(0.3, border-color);
+                    @include text-color();
+
+                    background-color: fade(0.1);
+                }
+
+                &.tool {
+                    border-color: transparent;
+
+                    &:focus,
+                    &:hover {
+                        @include inverse(0.2, border-color);
+
+                        background-color: transparent;
+                    }
+                    &.active {
+                        color: #fff; /* both dark and light */
+                        background-color: fade(0.2);
+                    }
+                }
+            }
+        }
+    }
+}
