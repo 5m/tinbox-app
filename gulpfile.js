@@ -100,6 +100,11 @@ gulp.task('watch', function () {
 });
 
 
+gulp.task('build', function () {
+    gulp.start('js', 'scss', 'html', 'fonts');
+});
+
+
 gulp.task('default', function () {
     gulp.start('js', 'scss', 'html', 'fonts', 'watch');
 });
