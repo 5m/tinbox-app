@@ -101,6 +101,7 @@ gulp.task('watch', function () {
 
 
 gulp.task('build', function () {
+    process.env['DISABLE_NOTIFIER'] = 'true';
     gulp.start('js', 'scss', 'html', 'fonts');
 });
 
