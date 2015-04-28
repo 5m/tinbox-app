@@ -1,3 +1,5 @@
+var path = require('path');
+
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 
@@ -14,6 +16,15 @@ var debowerify = require('debowerify');
 gulp.task('js', function () {
     compileScripts();
 });
+
+function distPath() {
+    var base = process.env.STATIC_BASE || 'dist';
+    var args = Array.prototype.slice.call(arguments);
+
+    var paths = [base].concat(args);
+
+    return path.join.apply(path, paths);
+}
 
 
 function handleErrors() {
@@ -53,7 +64,7 @@ function compileScripts(watch) {
         .pipe(source('trak.js'))
         .pipe(buffer())
         .pipe($.size({showFiles: true}))
-        .pipe(gulp.dest('dist/js'))
+        .pipe(gulp.dest(distPath('js')))
         .pipe($.notify())
         .on('error', gutil.log);
 }
@@ -62,7 +73,7 @@ function compileScripts(watch) {
 gulp.task('fonts', function () {
     return gulp.src('node_modules/font-awesome/fonts/**.*')
         .pipe($.size({showFiles: true}))
-        .pipe(gulp.dest('dist/fonts'))
+        .pipe(gulp.dest(distPath('fonts')))
 });
 
 
@@ -79,20 +90,19 @@ gulp.task('scss', function () {
         }).on('error', handleErrors))
         .pipe($.notify())
         .pipe($.autoprefixer('last 1 version'))
-        .pipe(gulp.dest('dist/css'))
+        .pipe(gulp.dest(distPath('css')))
         .pipe($.size({showFiles: true}));
 });
 
 
 gulp.task('html', function () {
     return gulp.src('src/index.html')
-        .pipe(gulp.dest('dist/'))
+        .pipe(gulp.dest(distPath()))
         .pipe($.size({showFiles: true})).on('error', gutil.log);
 });
 
 
 gulp.task('watch', function () {
-    // compileScripts(true); // watch
     gulp.watch('src/**/*.{js,coffee}', ['js']);
     gulp.watch('src/scss/**/*.scss', ['scss']);
     gulp.watch('src/**.html', ['html']);
