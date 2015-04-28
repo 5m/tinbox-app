@@ -96,7 +96,10 @@ gulp.task('scss', function () {
 
 
 gulp.task('html', function () {
+    var config = require('./src/config.js');
+
     return gulp.src('src/index.html')
+        .pipe($.template(config))
         .pipe(gulp.dest(distPath()))
         .pipe($.size({showFiles: true})).on('error', gutil.log);
 });

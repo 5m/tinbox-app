@@ -3,7 +3,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>trak-client</title>
-    <link rel="stylesheet" href="/css/trak.css" />
+    <link rel="stylesheet" href="<%= app_base %>/css/trak.css" />
+    <base href="<%= app_base %>/" />
 </head>
 <body>
 
@@ -14,6 +15,6 @@
         document.body.style.backgroundColor = settings.color.appColor;
     }
 </script>
-<script src="/js/trak.js"></script>
+<script src="<%= app_base %>/js/trak.js"></script>
 </body>
 </html>

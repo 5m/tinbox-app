@@ -1,4 +1,5 @@
 var config = {
+    app_base: '', // '' for bare, '/app' for /app/
     api_base: 'YOUR_TRAK_HOSST' + '/api',
     api_url: function (path) {
         return this.api_base + path;
