@@ -6,6 +6,6 @@ var events = require('lib/events');
 
 _.merge(module.exports, {
     events: events,
-    socker: new socker.Socker('ws://localhost:8765'),
+    socker: new socker.Socker(config.socker_uri),
     auth: new Auth(config.auth)
 });
