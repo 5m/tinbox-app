@@ -1,3 +1,4 @@
+var config = require('config');
 var React = require('react/addons');
 
 var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
@@ -24,7 +25,7 @@ var Root = React.createClass({
 });
 
 var routes = (
-    <Route handler={Root} path="/">
+    <Route handler={Root} path={config.app_base + '/'}>
         <Route handler={hx.Trak} name="app">
             <Route name="inbox"
                    handler={hx.Inbox}
