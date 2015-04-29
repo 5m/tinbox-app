@@ -13,19 +13,21 @@ function join(base, path) {
 }
 
 function configure(settings) {
+    var config = {};
+
     var defaults =  {
         api_url: function (path) {
-            return join(this.api_base, path);
+            return join(config.api_base, path);
         },
         auth: {
             auth_url: function (path) {
-                return join(this.base_url, path);
+                return join(config.auth.base_url, path);
             },
             scope: ['read', 'write']
         }
     };
 
-    return _.merge({}, defaults, settings);
+    return _.merge(config, defaults, settings);
 }
 
 
