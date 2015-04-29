@@ -7,7 +7,7 @@ function join(base, path) {
     // strip slash from base
     var base = base.slice(-1) == '/' ? base.slice(0, -1) : base;
     // assure slash in path
-    var path = path.slice(0) !== '/' ? '/' + path : path;
+    var path = path.slice(0, 1) !== '/' ? '/' + path : path;
 
     return base + path;
 }
