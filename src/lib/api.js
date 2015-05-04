@@ -31,7 +31,7 @@ function _getSettings(additionalSettings) {
 
 function get(path, data) {
     return $.ajax(
-        config.api_base + path,
+        config.api_url(path),
         _getSettings(
             {
                 type: 'GET',
@@ -43,7 +43,7 @@ function get(path, data) {
 
 function post(path, data) {
     return $.ajax(
-        config.api_base + path,
+        config.api_url(path),
         _getSettings(
             {
                 type: 'POST',
