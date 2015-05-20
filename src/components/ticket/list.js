@@ -15,8 +15,9 @@ var TicketRow = React.createClass({
 
     propTypes: {
         subject: React.PropTypes.string.isRequired,
-        created: React.PropTypes.string.isRequired,
-        modified: React.PropTypes.string.isRequired
+        sender: React.PropTypes.object.isRequired,
+        date_created: React.PropTypes.string.isRequired,
+        date_modified: React.PropTypes.string.isRequired
     },
 
     handleClick: function () {
@@ -24,15 +25,15 @@ var TicketRow = React.createClass({
     },
 
     render: function () {
-        var created = moment(this.props.created);
-        var modified = moment(this.props.modified);
+        var created = moment(this.props.date_created);
+        var modified = moment(this.props.date_modified);
 
         return (
             <tr onClick={this.handleClick}>
                 <td><input type="checkbox" /></td>
                 <td>234</td>
                 <td>{this.props.subject}</td>
-                <td>{this.props.sender.fullname}</td>
+                <td>{this.props.sender.display_name}</td>
                 <td>Kundtjänst</td>
                 <td>Joppe Myra</td>
                 <td>

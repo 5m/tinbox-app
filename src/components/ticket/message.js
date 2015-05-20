@@ -27,10 +27,10 @@ var MessageList = React.createClass({
 
 var TimestampedMessage = React.createClass({
     propTypes: {
-        created: React.PropTypes.string.isRequired
+        date_created: React.PropTypes.string.isRequired
     },
     render: function () {
-        var timestamp = this.props.created;
+        var timestamp = this.props.date_created;
 
         return (
             <div className="timestamped-message">
