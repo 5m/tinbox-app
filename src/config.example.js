@@ -1,4 +1,4 @@
-module.exports = require('config_util').configure({
+module.exports = require('./config_util').configure({
     socker_uri: 'ws://localhost:8765',
     app_base: '', // '' for bare, '/app' for /app/
     api_base: 'YOUR_TRAK_HOSST' + '/api',
