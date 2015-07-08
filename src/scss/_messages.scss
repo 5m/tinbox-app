@@ -51,6 +51,13 @@
                 .message-body {
                     white-space: pre-wrap;
                 }
+		.message-attachments {
+		    padding-top: 40px;
+		    ul {
+		        list-style-type: none;
+			padding-left: 0px;
+		    }
+		}
             }
         }
 

@@ -61,6 +61,19 @@ var MessageTimestamp = React.createClass({
 });
 
 
+var MessageAttachment = React.createClass({
+    render: function () {
+	return (
+	    <div className="message-attachment">
+		<a href={this.props.file} className="fa fa-paperclip">
+		    {this.props.name}
+	        </a>
+	    </div>
+	)
+    }
+});
+
+
 var Message = React.createClass({
     propTypes: {
         body: React.PropTypes.string.isRequired,
@@ -85,6 +98,14 @@ var Message = React.createClass({
             'col-sm-offset-4': this.props.sender.user
         });
 
+	var attachments = this.props.attachments.map(function(attachment) {
+	    return (
+	        <li>
+		    <MessageAttachment {...attachment} />
+		</li>
+	    );
+	});
+
         return (
             <article className="row message">
                 <div className={colClasses}>
@@ -98,6 +119,11 @@ var Message = React.createClass({
                             <div className="message-body">
                                 {this.props.body}
                             </div>
+		            <div className="message-attachments">
+		                <ul>
+		                    {attachments}
+	                        </ul>
+                	    </div>
                         </div>
                     </div>
                 </div>
