@@ -1,31 +1,40 @@
-var _ = require('lodash');
-var React = require('react/addons');
-var Router = require('react-router');
-var ReactBootstrap = require('react-bootstrap');
-var cx = require('components');
-var libColor = require('lib/color');
+import _ from 'lodash';
 
-var { Link, RouteHandler, State, Navigation } = Router;
-var { Navbar, Nav, NavItem } = ReactBootstrap;
+import Router, { Link } from 'react-router';
+import React, { Component } from 'react/addons';
+import ReactBootstrap from 'react-bootstrap';
 
-var { LinkNavItem } = require('lib');
-var { AuthInfo } = require('components');
+import { isDark } from 'lib/color';
+import { Aside } from 'components';
+import { ColorChooser } from 'components/color';
+
+import InboxContentNav from 'components/InboxContentNav';
+import TicketList from 'components/TicketList';
+
+
+var classnames = require('classnames');
+
 var { auth, events } = require('app');
 
-var Trak = React.createClass({
-    mixins: [State, Navigation],
-    getInitialState: function () {
-        var settings = JSON.parse(localStorage.getItem('app-color'));
 
-        return {
+export default class Trak extends Component {
+    static contextTypes = {
+        routeHandlers: React.PropTypes.array.isRequired,
+        router: React.PropTypes.func.isRequired
+    };
+
+    constructor(props) {
+        super(props);
+        var settings = JSON.parse(localStorage.getItem('app-color'));
+        this.state = {
             contextNav: null,
             color: settings || {
                 appColor: '#333',
                 isDark: true
             }
-        }
-    },
-    componentDidMount: function () {
+        };
+    }
+    componentDidMount() {
         var self = this;
 
         if (!auth.isAuthenticated) {
@@ -36,23 +45,21 @@ var Trak = React.createClass({
             console.warn('Logged out', e);
             self.goHome();
         })
-    },
-    handleColorChange: function (color) {
+    }
+    handleColorChange(color) {
         var settings = {
             appColor: color,
-            isDark: libColor.isDark(color)
+            isDark: isDark(color)
         };
 
         localStorage.setItem('app-color', JSON.stringify(settings));
 
         this.setState({color: settings});
-    },
-    goHome: function () {
-        this.transitionTo('/');
-    },
-    render: function () {
-        var name = this.getRoutes().reverse()[0].name;
-
+    }
+    goHome() {
+        this.context.router.transitionTo('/');
+    }
+    render() {
         if (!auth.isAuthenticated) {
             return (<div>Redirecting...</div>);
         }
@@ -61,7 +68,7 @@ var Trak = React.createClass({
             backgroundColor: this.state.color.appColor
         };
 
-        var classes = React.addons.classSet({
+        var classes = classnames({
             'app-root': true,
             'dark': this.state.color.isDark,
             'light': !this.state.color.isDark
@@ -69,12 +76,13 @@ var Trak = React.createClass({
 
         return (
             <div className={classes} style={style}>
-                <RouteHandler />
-                <cx.color.ColorChooser value={this.state.color.appColor}
+                <Aside>
+                    {this.props.aside || <InboxContentNav />}
+                </Aside>
+                {this.props.content || <TicketList />}
+                <ColorChooser value={this.state.color.appColor}
                     onChoose={this.handleColorChange} />
             </div>
         )
     }
-});
-
-module.exports = Trak;
+}

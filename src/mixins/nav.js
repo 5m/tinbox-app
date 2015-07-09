@@ -1,3 +1,4 @@
+import 'classnames';
 var React = require('react/addons');
 
 
@@ -10,7 +11,7 @@ var ContextNavMixin = {
     },
     render: function () {
         var links = this.links.map(function (link) {
-            var classes = React.addons.classSet({
+            var classes = classnames({
                 parent: link.parent,
                 active: link.active
             });

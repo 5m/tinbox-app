@@ -1,10 +1,12 @@
-var React = require('react/addons');
-var { Nav } = require('react-bootstrap');
-var { Link } = require('react-router');
+import React from 'react/addons';
+import { Nav } from 'react-bootstrap';
+import { Link } from 'react-router';
 
-
-var InboxContextNav = React.createClass({
-    render: function () {
+export default class InboxContentNav extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
         return (
             <Nav stacked className="nav-context">
                 <li className="active">
@@ -41,6 +43,4 @@ var InboxContextNav = React.createClass({
             </Nav>
         )
     }
-});
-
-module.exports.InboxContextNav = InboxContextNav;
+}

@@ -1,6 +1,5 @@
+var classnames = require('classnames');
 var React = require('react');
-var classSet = require('react-bootstrap/utils/classSet');
-var joinClasses = require('react-bootstrap/utils/joinClasses');
 var { BootstrapMixin } = require('react-bootstrap');
 var { Link } = require('react-router');
 
@@ -36,7 +35,7 @@ var LinkNavItem = React.createClass({
             };
 
         return (
-            <li className={joinClasses(this.props.className, classSet(classes))}>
+            <li className={classnames(this.props.className, classnames(classes))}>
                 <Link
                     to={this.props.to}
                     title={title}
