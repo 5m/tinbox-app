@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var classnames = require('classnames');
 var React = require('react/addons');
 var ColorPicker = require('react-color-picker');
 
@@ -15,12 +15,12 @@ var ColorChooser = React.createClass({
         }
     },
     componentDidMount: function () {
-        $(document).on('keydown', this.onKey);
+        document.addEventListener('keydown', this.onKey);
     },
     componentWillUnmount: function () {
-        $(document).off('keydown', this.onKey)
+        document.removeEventListener('keydown', this.onKey);
     },
-    onKey: function (e) {
+    onKey: (e) => {
         if (!e.altKey) {
             return;
         }
@@ -36,7 +36,7 @@ var ColorChooser = React.createClass({
         this.setState({currentColor: color});
     },
     render: function () {
-        var classes = React.addons.classSet({
+        var classes = classnames({
             hidden: !this.state.visible,
             'color-picker': true
         });

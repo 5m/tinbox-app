@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var { Link, RouteHandler, State, Navigation } = require('react-router');
+var { Link, State, Navigation } = require('react-router');
 
 var api = require('lib/api');
 

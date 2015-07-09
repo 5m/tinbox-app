@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var log = require('loglevel');
 var events = require('lib/events');
 

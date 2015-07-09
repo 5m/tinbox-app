@@ -30,3 +30,4 @@ var Aside = React.createClass({
 });
 
 module.exports = Aside;
+module.exports.Aside = Aside;

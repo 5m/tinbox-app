@@ -15,6 +15,9 @@ var debowerify = require('debowerify');
 
 gulp.task('js', function () {
     compileScripts();
+    return gulp.src('bower_components/jquery/dist/jquery.min.js')
+        .pipe($.size({showFiles: true}))
+        .pipe(gulp.dest(distPath('js')))
 });
 
 function distPath() {
@@ -42,13 +45,18 @@ function handleErrors() {
 
 
 function compileScripts(watch) {
-    var entry = './src/start.js';
+    var entry = __dirname + '/src/start.js';
     var options = {
-        paths: ['./src'],
+        fullPaths: true,
+        paths: [__dirname + '/src'],
         transform: [
-            ["reactify", {es6: true}]
+            ["babelify", {optional: ['runtime'], stage: 0}]
         ]
     };
+
+    if (!(process.env.NODE_ENV === 'production')) {
+        //options.debug = true;
+    }
 
     var bundler = browserify(entry, options);
 
@@ -56,10 +64,20 @@ function compileScripts(watch) {
         bundler = watchify(bundler, watchify.args);
     }
 
-    return bundler
+    bundler = bundler
         .transform(reactify)
         .transform(debowerify)
         .bundle()
+
+    if (process.env.NODE_ENV === 'production') {
+        bundler = bundler
+            .transform({
+                global: true
+            }, 'uglifyify')
+            .pipe($.notify())
+    }
+
+    return bundler
         .on('error', handleErrors)
         .pipe(source('trak.js'))
         .pipe(buffer())
@@ -98,6 +116,12 @@ gulp.task('scss', function () {
 gulp.task('html', function () {
     var config = require('./src/config.js');
 
+    if (process.env.NODE_ENV === 'production') {
+        config.entry_point = config.app_base + '/js/trak.js';
+    } else {
+        config.entry_point = 'http://localhost:3000/js/trak.webpack.js';
+    }
+
     return gulp.src('src/index.html')
         .pipe($.template(config))
         .pipe(gulp.dest(distPath()))
@@ -106,7 +130,7 @@ gulp.task('html', function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch('src/**/*.{js,coffee}', ['js']);
+    //gulp.watch('src/**/*.{js,coffee}', ['js']);
     gulp.watch('src/scss/**/*.scss', ['scss']);
     gulp.watch('src/**.html', ['html']);
     gulp.watch('node_modules/font-awesome/fonts/**.*', ['fonts']);

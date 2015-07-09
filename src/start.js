@@ -1,52 +1,62 @@
+import BrowserHistory from 'react-router/lib/BrowserHistory';
+import React from 'react/addons';
+//import { routes } from 'routes';
 var config = require('config');
-var React = require('react/addons');
 
 var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
-var Router = require('react-router');
+import { Router, Route, DefaultRoute, Redirect } from 'react-router';
+import { Account, Default } from 'handlers';
 
-var cx = require('components');
-var hx = require('handlers');
-
-var { TicketList } = require('components/ticket');
-
-var {
-    State,
-    Route,
-    Link,
-    Navigation,
-    DefaultRoute,
-    RouteHandler,
-    Redirect } = Router;
-
-var Root = React.createClass({
-    render: function () {
-        return (<RouteHandler />);
-    }
-});
-
-var routes = (
-    <Route handler={Root} path={config.app_base + '/'}>
-        <Route handler={hx.Trak} name="app">
-            <Route name="inbox"
-                   handler={hx.Inbox}
-                   addHandlerKey={true}>
-                <Route name="ticket" path=":ticketID" handler={hx.Ticket} />
-                <DefaultRoute name="ticketList" handler={TicketList} />
+import Trak from 'handlers/trak';
+import TicketList from 'components/TicketList';
+import Inbox from 'components/Inbox';
+import Ticket from 'components/Ticket';
+import InboxContentNav from 'components/InboxContentNav';
+import { ViewContent } from 'components/view-content';
+/*
+React.render((
+    <Router history={BrowserHistory}>
+        <Route component={Trak}
+               path={config.app_base + '/'}>
+            <Route path="inbox"
+                   component={Inbox}>
+                <Route path=":ticketID"
+                       components={{content: Ticket, aside: InboxContentNav}} />
+                <DefaultRoute
+                    name="ticketList"
+                    components={{content: TicketList, aside: InboxContentNav}} />
             </Route>
             <Redirect from="/inbox" to="inbox" />
-            <Route name="account" handler={hx.Account} />
+            <Route path="account" component={Account} />
+            <DefaultRoute component={Default} />
         </Route>
-        <DefaultRoute handler={hx.Default} />
-    </Route>
-);
+    </Router>
+), document.body);
+*/
 
-Router.run(routes, Router.HistoryLocation, function (Handler) {
-    React.render(<Handler />, document.body);
-});
+const basePath = config.app_base + '/';
+console.log('basePath', basePath);
+console.log('Trak', Trak);
+console.log('Ticket', Ticket);
+console.log('Inbox', Inbox);
+console.log('InboxContentNav', InboxContentNav);
+
+React.render((
+    <Router history={new BrowserHistory()}>
+        <Route component={Trak}
+               path={basePath}>
+            <Route path="inbox"
+                   components={{content: Inbox, aside: InboxContentNav}} />
+            <Route path=":ticketID"
+                   components={{content: Ticket, aside: InboxContentNav}} />
+        </Route>
+    </Router>
+), document.body);
+
+
 
 try {
-    window.jQuery = require('jquery');
-    require('bootstrap-sass-official/assets/javascripts/bootstrap');
+    //require('bootstrap-sass-official/assets/javascripts/bootstrap');
 } catch (e) {
     console.error(e);
 }

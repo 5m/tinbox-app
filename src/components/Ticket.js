@@ -1,29 +1,29 @@
-var _ = require('lodash');
-var React = require('react');
+import _ from 'lodash';
+import React from 'react/addons';
 var Timestamp = require('react-time');
 var DocumentTitle = require('react-document-title');
 var Composer = require('components/ticket/composer');
 
 var { State, Navigation } = require('react-router');
-var { socker } = require('app');
 var { SubscriberMixin } = require('mixins/socker');
-var { MessageList } = require('./message');
+var { MessageList } = require('components/ticket/message');
 
 
-var Ticket = React.createClass({
-    mixins: [SubscriberMixin],
-
-    getInitialState: function () {
-        return {
+export default class Ticket extends React.Component {
+    static mixins = [SubscriberMixin];
+    constructor(props) {
+        super(props);
+        this.state = {
             threads: []
         };
-    },
 
-    componentDidMount: function () {
+    }
+
+    componentDidMount() {
         this.subscribe(['ticket', this.props.pk, 'thread', '*'], 'threads');
-    },
+    }
 
-    render: function () {
+    render() {
         var messages = [];
 
         this.consolidated('threads').map(function (thread) {
@@ -56,47 +56,4 @@ var Ticket = React.createClass({
             </DocumentTitle>
         );
     }
-});
-
-
-var Thread = React.createClass({
-    mixins: [SubscriberMixin],
-
-    getInitialState: function () {
-        return {
-            messages: []
-        };
-    },
-
-    componentDidMount: function () {
-        this.subscribe(['thread', this.props.pk, 'message', '*'], 'messages');
-    },
-
-    render: function () {
-        var messages = this.consolidated('messages').map(function (message) {
-            message.key = message.pk;
-            return (<Message {...message} />);
-        });
-
-        var contacts = this.props.contacts.map(function (contact) {
-            return (<li key={contact.email}>{contact.email}</li>);
-        });
-
-        return (
-            <div className="thread">
-                <ul className="contacts">
-                    {contacts}
-                </ul>
-                {messages}
-            </div>
-        );
-    }
-});
-
-
-_.merge(module.exports, {
-    Ticket: Ticket,
-    MessageList: MessageList,
-    Thread: Thread,
-    TicketList: require('./list').TicketList
-});
+}

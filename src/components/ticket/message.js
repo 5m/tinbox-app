@@ -1,3 +1,4 @@
+var classnames = require('classnames');
 var moment = require('moment');
 var React = require('react');
 var Timestamp = require('react-time');
@@ -80,7 +81,7 @@ var Message = React.createClass({
             borderColor: `rgb(${r}, ${g}, ${b})`
         };
 
-        var colClasses = React.addons.classSet({
+        var colClasses = classnames({
             'col-sm-8': true,
             'col-sm-offset-4': this.props.sender.user
         });

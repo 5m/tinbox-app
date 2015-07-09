@@ -1,9 +1,8 @@
+import { Ticket as TicketComponent } from 'components/Ticket';
 var React = require('react/addons');
 var { State } = require('react-router');
 
 var { api } = require('lib');
-
-var TicketComponent = require('components/ticket').Ticket;
 
 
 var Ticket = React.createClass({
