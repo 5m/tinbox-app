@@ -2,25 +2,27 @@ var classnames = require('classnames');
 var React = require('react/addons');
 var ColorPicker = require('react-color-picker');
 
-var ColorChooser = React.createClass({
-    getInitialState: function () {
-        return {
-            currentColor: '#333',
-            visible: false
-        };
-    },
-    getDefaultProps: function () {
-        return {
-            onChoose: function () { console.warn('No onChoose handler'); }
+export class ColorChooser extends React.Component {
+    static defaultProps = {
+        onChoose: function () {
+            console.warn('No onChoose handler');
         }
-    },
-    componentDidMount: function () {
+    };
+
+    state = {
+        currentColor: '#333',
+        visible: false
+    };
+
+    componentDidMount() {
         document.addEventListener('keydown', this.onKey);
-    },
-    componentWillUnmount: function () {
+    }
+
+    componentWillUnmount() {
         document.removeEventListener('keydown', this.onKey);
-    },
-    onKey: (e) => {
+    }
+
+    onKey = (e) => {
         if (!e.altKey) {
             return;
         }
@@ -28,14 +30,16 @@ var ColorChooser = React.createClass({
         if (e.keyCode == 67) {
             this.setState({visible: !this.state.visible});
         }
-    },
-    onDrag: function (color, c) {
+    };
+
+    onDrag = (color, c) => {
         console.log(color, c);
         this.props.onChoose(color);
 
         this.setState({currentColor: color});
-    },
-    render: function () {
+    };
+
+    render() {
         var classes = classnames({
             hidden: !this.state.visible,
             'color-picker': true
@@ -48,6 +52,7 @@ var ColorChooser = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports.ColorChooser = ColorChooser;
+export default ColorChooser;
+
