@@ -8,6 +8,8 @@ import { isDark } from 'lib/color';
 import { Aside } from 'components';
 import { ColorChooser } from 'components/color';
 
+import Default from 'handlers/default';
+
 import InboxContentNav from 'components/InboxContentNav';
 import TicketList from 'components/TicketList';
 
@@ -17,12 +19,7 @@ var classnames = require('classnames');
 var { auth, events } = require('app');
 
 
-export default class Trak extends Component {
-    static contextTypes = {
-        routeHandlers: React.PropTypes.array.isRequired,
-        router: React.PropTypes.func.isRequired
-    };
-
+export class Trak extends Component {
     constructor(props) {
         super(props);
         var settings = JSON.parse(localStorage.getItem('app-color'));
@@ -37,16 +34,12 @@ export default class Trak extends Component {
     componentDidMount() {
         var self = this;
 
-        if (!auth.isAuthenticated) {
-            this.goHome();
-        }
-
         events.on('auth.loggedout', function (e) {
             console.warn('Logged out', e);
             self.goHome();
         })
     }
-    handleColorChange(color) {
+    handleColorChange = (color) => {
         var settings = {
             appColor: color,
             isDark: isDark(color)
@@ -55,13 +48,16 @@ export default class Trak extends Component {
         localStorage.setItem('app-color', JSON.stringify(settings));
 
         this.setState({color: settings});
-    }
+    };
+
     goHome() {
         this.context.router.transitionTo('/');
     }
+
     render() {
+        console.log('Trak.render, isAuthenticated', auth.isAuthenticated);
         if (!auth.isAuthenticated) {
-            return (<div>Redirecting...</div>);
+            return (<Default />);
         }
 
         var style = {
@@ -76,13 +72,23 @@ export default class Trak extends Component {
 
         return (
             <div className={classes} style={style}>
-                <Aside>
-                    {this.props.aside || <InboxContentNav />}
-                </Aside>
-                {this.props.content || <TicketList />}
+                <div className="view-root">
+                    <Aside>
+                        {this.props.aside || <InboxContentNav />}
+                    </Aside>
+                    <div className="view-content">
+                        {this.props.content || <TicketList />}
+                    </div>
+                </div>
                 <ColorChooser value={this.state.color.appColor}
                     onChoose={this.handleColorChange} />
             </div>
         )
     }
 }
+
+Trak.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
+
+export default Trak;
