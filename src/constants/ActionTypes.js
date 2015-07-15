@@ -1,8 +1,11 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    CREATE_MESSAGE: null,
+    AUTH_LOGIN: null,
+    AUTH_LOGOUT: null,
+    AUTH_USERINFO: null,
 
+    CREATE_MESSAGE: null,
 
     REQUEST_TICKETS: null,
     REQUEST_TICKETS_SUCCESS: null,

@@ -1,8 +1,8 @@
-import { React, Component } from 'react/addons';
-import { DocumentTitle } from 'react-document-title';
+import React from 'react/addons';
+import DocumentTitle from 'react-document-title';
 
 
-export default class Inbox extends Component {
+export class Inbox extends React.Component {
     constructor(props) {
         super(props);
         this.state = { tickets: [], result: null };
@@ -18,3 +18,5 @@ export default class Inbox extends Component {
         );
     }
 }
+
+export default Inbox;

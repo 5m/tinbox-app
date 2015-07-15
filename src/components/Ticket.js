@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react/addons';
 var Timestamp = require('react-time');
 var DocumentTitle = require('react-document-title');
-var Composer = require('components/ticket/composer');
+var Composer = require('components/MessageComposer');
 
 var { State, Navigation } = require('react-router');
 var { SubscriberMixin } = require('mixins/socker');

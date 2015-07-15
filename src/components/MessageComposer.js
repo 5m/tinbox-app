@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 var classnames = require('classnames');
 
 var { TicketStore } = require('stores/TicketStore');
-var MessageActionCreators = require('actions/MessageActionCreators');
+var MessageActions = require('actions/MessageActions');
 
 var { Panel, Input } = require('react-bootstrap');
 
-export class Composer extends Component {
+export class MessageComposer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +27,7 @@ export class Composer extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        MessageActionCreators.createMessage(body, this.state.replyIn);
+        MessageActions.createMessage(body, this.state.replyIn);
     }
 
     render() {
@@ -110,5 +110,4 @@ var CheckboxLock = React.createClass({
     }
 });
 
-
-module.exports = Composer;
+export default MessageComposer;

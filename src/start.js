@@ -1,18 +1,21 @@
-import BrowserHistory from 'react-router/lib/BrowserHistory';
-import React from 'react/addons';
-//import { routes } from 'routes';
 var config = require('config');
-
-var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
+import React from 'react/addons';
+import BrowserHistory from 'react-router/lib/BrowserHistory';
 import { Router, Route, DefaultRoute, Redirect } from 'react-router';
-import { Account, Default } from 'handlers';
 
-import Trak from 'handlers/trak';
+import TrakApp from 'components/TrakApp';
+import Login from 'components/Login';
+import Authorize from 'components/Authorize';
+import Desk from 'components/Desk';
+
 import TicketList from 'components/TicketList';
 import Inbox from 'components/Inbox';
 import Ticket from 'components/Ticket';
 import InboxContentNav from 'components/InboxContentNav';
-import { ViewContent } from 'components/view-content';
+
+import RouterContainer from 'services/RouterContainer';
+import AuthConstants from 'constants/AuthConstants';
+import AuthActions from 'actions/AuthActions';
 /*
 React.render((
     <Router history={BrowserHistory}>
@@ -35,28 +38,36 @@ React.render((
 */
 
 const basePath = config.app_base + '/';
-console.log('basePath', basePath);
-console.log('Trak', Trak);
-console.log('Ticket', Ticket);
-console.log('Inbox', Inbox);
-console.log('InboxContentNav', InboxContentNav);
 
-React.render((
+var router = (
     <Router history={new BrowserHistory()}>
-        <Route component={Trak}
+        <Route component={TrakApp}
                path={basePath}>
-            <Route path="inbox"
-                   components={{content: Inbox, aside: InboxContentNav}} />
-            <Route path=":ticketID"
-                   components={{content: Ticket, aside: InboxContentNav}} />
+            <Route path="desk/"
+                components={Desk}>
+                <Route path="inbox"
+                       components={{content: Inbox, aside: InboxContentNav}} />
+                <Route path="ticket/:ticketID"
+                       components={{content: Ticket, aside: InboxContentNav}} />
+            </Route>
+            <Route path="login"
+                   component={Login} />
+            <Route path="authorize"
+                   component={Authorize} />
         </Route>
     </Router>
-), document.body);
+);
+/*
+router.addTransitionHook((nextState, transition, error) => {
+    console.log('TRANSITION', nextState, transition, error)
+});
+*/
 
+RouterContainer.set(router);
 
-
-try {
-    //require('bootstrap-sass-official/assets/javascripts/bootstrap');
-} catch (e) {
-    console.error(e);
+var stored_token = localStorage.getItem(AuthConstants.STORAGE_KEY);
+if (stored_token) {
+    AuthActions.loginUser(JSON.parse(stored_token));
 }
+
+React.render(router, document.body);

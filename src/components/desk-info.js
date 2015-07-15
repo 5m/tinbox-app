@@ -11,16 +11,17 @@ var DeskInfo = React.createClass({
     },
     componentDidMount: function () {
         var self = this;
-
+        /*
         api.get('/desks/')
             .then(function (response) {
                 if (!response.active) {
-                    console.log('No active desk');
+                    console.error('No active desk');
                     return;
                 }
 
                 self.setState({desk: response.active});
             })
+        */
     },
     render: function () {
         var info;

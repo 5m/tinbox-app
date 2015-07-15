@@ -4,8 +4,9 @@ import Router, { Link } from 'react-router';
 import React, { Component } from 'react/addons';
 import ReactBootstrap from 'react-bootstrap';
 
+import AuthStore from 'stores/AuthStore';
+
 import { isDark } from 'lib/color';
-import { Aside } from 'components';
 import { ColorChooser } from 'components/color';
 
 import Default from 'handlers/default';
@@ -19,26 +20,55 @@ var classnames = require('classnames');
 var { auth, events } = require('app');
 
 
-export class Trak extends Component {
-    constructor(props) {
-        super(props);
+export class TrakApp extends Component {
+    static propTypes = {
+        children: React.PropTypes.object
+    };
+
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    };
+
+    constructor(props, context) {
+        super(props, context);
+
         var settings = JSON.parse(localStorage.getItem('app-color'));
-        this.state = {
-            contextNav: null,
+
+        var state = {
             color: settings || {
                 appColor: '#333',
                 isDark: true
             }
         };
-    }
-    componentDidMount() {
-        var self = this;
+        var loginState = this._getLoginState();
 
-        events.on('auth.loggedout', function (e) {
-            console.warn('Logged out', e);
-            self.goHome();
-        })
+        this.state = { ...loginState, ...state};
     }
+
+    _getLoginState() {
+        var loginState = {
+            userLoggedIn: AuthStore.isLoggedIn()
+        };
+
+        if (DEBUG) {
+            console.log(`${ this.constructor.name }._getLoginstate`,
+                loginState);
+        }
+        return loginState;
+    }
+
+    componentDidMount() {
+        AuthStore.addChangeListener(this.onLoginChange);
+    }
+
+    componentWillUnmount() {
+        AuthStore.removeChangeListener(this.onLoginChange);
+    }
+
+    onLoginChange = () => {
+        this.setState(this._getLoginState());
+    };
+
     handleColorChange = (color) => {
         var settings = {
             appColor: color,
@@ -50,16 +80,7 @@ export class Trak extends Component {
         this.setState({color: settings});
     };
 
-    goHome() {
-        this.context.router.transitionTo('/');
-    }
-
     render() {
-        console.log('Trak.render, isAuthenticated', auth.isAuthenticated);
-        if (!auth.isAuthenticated) {
-            return (<Default />);
-        }
-
         var style = {
             backgroundColor: this.state.color.appColor
         };
@@ -72,14 +93,7 @@ export class Trak extends Component {
 
         return (
             <div className={classes} style={style}>
-                <div className="view-root">
-                    <Aside>
-                        {this.props.aside || <InboxContentNav />}
-                    </Aside>
-                    <div className="view-content">
-                        {this.props.content || <TicketList />}
-                    </div>
-                </div>
+                {this.props.children}
                 <ColorChooser value={this.state.color.appColor}
                     onChoose={this.handleColorChange} />
             </div>
@@ -87,8 +101,4 @@ export class Trak extends Component {
     }
 }
 
-Trak.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
-
-export default Trak;
+export default TrakApp;

@@ -7,12 +7,12 @@
 /npm-debug.log
 
 # Dev
+.env
 .tmp
 .sass-cache
 .idea
 
 ¤ Config file
-/src/config.js
 /src/config.json
 
 # Bloat

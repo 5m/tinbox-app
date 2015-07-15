@@ -1,56 +1,78 @@
-var _ = require('lodash');
-
+import 'whatwg-fetch';
+import _ from 'lodash';
 var config = require('config');
+
+import AuthStore from 'stores/AuthStore';
+
 
 var { auth } = require('app');
 
-function _getSettings(additionalSettings) {
-    additionalSettings = additionalSettings || {};
+export class API {
+    _getSettings(additionalSettings) {
+        additionalSettings = additionalSettings || {};
 
-    var headers = {};
-
-    if (auth.token) {
-        headers = {
-            Authorization: [
-                auth.token.token_type,
-                auth.token.access_token
-            ].join(' ')
+        var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         };
+
+        var token = AuthStore.getToken();
+
+        if (token) {
+            _.merge(headers, {
+                Authorization: [
+                    token.token_type,
+                    token.access_token
+                ].join(' ')
+            });
+        }
+
+        console.log('headers', headers);
+
+        var settings = _.merge(
+            {},
+            {
+                error: [auth.jqXHRErrorHandler.bind(auth)],
+                headers: headers
+            },
+            additionalSettings
+        );
+        console.log('settings', settings);
+        return settings;
+    }
+    get(path, data) {
+        return fetch(
+            config.api_url(path),
+            this._getSettings(
+                {
+                    type: 'GET',
+                    body: data
+                }
+            ))
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                return json;
+            });
     }
 
-    return _.merge(
-        {},
-        {
-            error: [auth.jqXHRErrorHandler.bind(auth)],
-            headers: headers
-        },
-        additionalSettings
-    );
+    post(path, data) {
+        return fetch(
+            config.api_url(path),
+            this._getSettings(
+                {
+                    type: 'POST',
+                    body: data
+                }
+            ))
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                return json;
+            });
+    }
 }
 
-function get(path, data) {
-    return $.ajax(
-        config.api_url(path),
-        _getSettings(
-            {
-                type: 'GET',
-                data: data
-            }
-        )
-    )
-}
-
-function post(path, data) {
-    return $.ajax(
-        config.api_url(path),
-        _getSettings(
-            {
-                type: 'POST',
-                data: data
-            }
-        )
-    )
-}
-
-module.exports.get = get;
-module.exports.post = post;
+export default new API();
