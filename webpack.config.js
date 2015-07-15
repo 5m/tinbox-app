@@ -10,7 +10,7 @@ module.exports = {
     devtool: 'eval-source-map',
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: path.join('js', 'trak.webpack.js'),
+        filename: path.join('js', 'trak-dev.js'),
         publicPath: '/'
     },
     plugins: [

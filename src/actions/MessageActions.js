@@ -1,10 +1,10 @@
-import { dispatchAsync } from 'dispatcher';
+import { dispatchAsync } from 'dispatchers/AppDispatcher';
 import ActionTypes from 'constants/ActionTypes';
-import * as MessageAPI from 'api/message';
+import MessageService from 'services/MessageService';
 import MessageStore from 'stores/MessageStore';
 
 export function createMessage(body, replyIn=null, subject=null) {
-    dispatchAsync(MessageAPI.postMessage(body, replyIn, subject), {
+    dispatchAsync(MessageService.postMessage(body, replyIn, subject), {
         request: ActionTypes.CREATE_MESSAGE
     });
 }

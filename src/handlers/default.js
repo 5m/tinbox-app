@@ -13,11 +13,14 @@ var Default = React.createClass({
             console.log('Got authorization code');
             auth.setAccessToken(queryString.parse(window.location.hash));
 
-            this.transitionTo('/inbox');
+            this.transitionTo('/');
         }
     },
     render: function () {
+        console.log('Default.render');
+
         if (window.location.hash) {
+            console.log('Logging in');
             return (
                 <h1>Logging in</h1>
             );

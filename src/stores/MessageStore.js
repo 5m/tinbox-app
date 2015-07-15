@@ -1,25 +1,17 @@
-import { register } from 'dispatcher';
-import { createStore, mergeIntoBag, isInBag } from './StoreUtils';
-import selectn from 'selectn';
+import BaseStore from 'stores/BaseStore';
 
-const _messages = {};
 
-const MessageStore = createStore({
-    contains(id, fields) {
-        return isInBag(_messages, id, fields);
-    },
+export class MessageStore extends BaseStore {
+    items = [];
 
-    get(id) {
-        return _messages[id];
+    constructor() {
+        super();
+        this.subscribe(this.onDispatch.bind(this));
     }
-});
+    onDispatch(action) {
 
-MessageStore.dispatchToken = register(action => {
-    const responseMessages = selectn('response.tickets', action);
-    if (responseMessages) {
-        mergeIntoBag(_messages, responseMessages);
-        MessageStore.emitChange();
     }
-});
+}
+
 
 export default MessageStore;

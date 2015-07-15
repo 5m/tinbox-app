@@ -60,7 +60,7 @@ class Auth {
 
         if (jqXHR.status == 401) {
             // TODO: Handle this more gracefully
-            this.logOut();
+            //this.logOut();
         }
     }
 
@@ -77,13 +77,6 @@ class Auth {
     }
 
     loadAuth() {
-        try {
-            this.token = JSON.parse(localStorage.getItem(this.storageKey));
-            console.log('Loaded', this.token);
-            this.isAuthenticated = true;  // TODO: Better checking
-        } catch (e) {
-            console.warn('Could not load token from storage');
-        }
     }
 }
 

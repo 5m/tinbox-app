@@ -2,7 +2,7 @@ var _ = require('lodash');
 var React = require('react');
 var Timestamp = require('react-time');
 var DocumentTitle = require('react-document-title');
-var Composer = require('components/ticket/composer');
+var Composer = require('components/MessageComposer');
 
 var { State, Navigation } = require('react-router');
 var { socker } = require('app');

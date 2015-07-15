@@ -1,0 +1,15 @@
+{
+  "socker_uri": "ws://localhost:8765",
+  "app_base": "",
+  "api_base": "http://localhost:8000/5m/api",
+  "auth": {
+    "base_url": "http://localhost:8000/api/oauth2",
+    "scope": [
+      "read",
+      "write"
+    ],
+    "client_id": "REPLACE_THIS",
+    "client_secret": "REPLACE_THIS",
+    "redirect_uri": "http://localhost:5000/authorize"
+  }
+}
