@@ -3,7 +3,7 @@ var { Nav } = require('react-bootstrap');
 var { Link } = require('react-router');
 
 
-var MainNav = React.createClass({
+export const MainNav = React.createClass({
     render: function () {
         return (
             <Nav stacked className="nav-main">
@@ -36,5 +36,7 @@ var MainNav = React.createClass({
     }
 });
 
+
+export default MainNav;
 
 module.exports.MainNav = MainNav;

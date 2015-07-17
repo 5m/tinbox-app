@@ -4,11 +4,12 @@ var { Link, RouteHandler, State, Navigation } = require('react-router');
 
 var { auth, events } = require('app');
 
-var AuthInfo = require('components/auth-info');
-var DeskInfo = require('components/desk-info');
-var { MainNav } = require('components/nav');
+import AuthInfo from 'components/AuthInfo';
+import DeskInfo from 'components/DeskInfo';
+import MainNav from 'components/MainNav';
 
-var Aside = React.createClass({
+
+export const Aside = React.createClass({
     render: function () {
         return (
             <aside>
@@ -29,5 +30,4 @@ var Aside = React.createClass({
     }
 });
 
-module.exports = Aside;
-module.exports.Aside = Aside;
+export default Aside;

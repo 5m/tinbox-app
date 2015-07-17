@@ -1,50 +1,69 @@
 import _ from 'lodash';
 import React from 'react/addons';
-var Timestamp = require('react-time');
-var DocumentTitle = require('react-document-title');
-var Composer = require('components/MessageComposer');
+import DocumentTitle from 'react-document-title';
 
-var { State, Navigation } = require('react-router');
-var { SubscriberMixin } = require('mixins/socker');
-var { MessageList } = require('components/ticket/message');
+import TicketStore from 'stores/TicketStore';
+import TicketService from 'services/TicketService';
+
+import Composer from 'components/MessageComposer';
+import { MessageList } from 'components/message';
 
 
 export default class Ticket extends React.Component {
-    static mixins = [SubscriberMixin];
-    constructor(props) {
-        super(props);
-        this.state = {
-            threads: []
-        };
+    static propTypes = {
+        ticketPK: React.PropTypes.string.isRequired
+    };
 
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            ticket: null
+        };
     }
 
     componentDidMount() {
-        this.subscribe(['ticket', this.props.pk, 'thread', '*'], 'threads');
+        TicketService.getTickets();
+        this._updateTicket();
+        TicketStore.addChangeListener(this._updateTicket);
     }
+
+    componentWillUnmount() {
+        TicketStore.removeChangeListener(this._updateTicket);
+    }
+
+    _updateTicket = () => {
+        this.setState({
+            ticket: TicketStore.getTicket(
+                this.props.routeParams.ticketPK)
+        });
+    };
 
     render() {
         var messages = [];
 
-        this.consolidated('threads').map(function (thread) {
-            var threadMessages = thread.messages.map(function (m) {
-                m.thread = thread;
-                return m;
+        if (this.state.ticket) {
+            this.state.ticket.threads.forEach((thread) => {
+                messages = messages.concat(thread.messages);
             });
-            messages = messages.concat(threadMessages || []);
-        });
+        }
 
         messages.sort(function (a, b) {
             return (new Date(a.created)) > (new Date(b.created));
         });
 
+        var subject = 'Loading...';
+
+        if (this.state.ticket) {
+            subject = this.state.ticket.subject;
+        }
+
         return (
-            <DocumentTitle title={this.props.subject}>
+            <DocumentTitle title={subject}>
                 <section className="ticket">
                     <header className="container-fluid">
                         <div className="row">
-                            <div className="col-sm-6">
-                                <h1>{this.props.subject}</h1>
+                            <div className="col-sm-12">
+                                <h1>{subject}</h1>
                             </div>
                         </div>
                     </header>

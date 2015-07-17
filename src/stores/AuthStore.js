@@ -1,5 +1,3 @@
-import RouterContainer from 'services/RouterContainer';
-
 import ActionTypes from 'constants/ActionTypes';
 import BaseStore from 'stores/BaseStore';
 

@@ -9,8 +9,6 @@ import AuthStore from 'stores/AuthStore';
 import { isDark } from 'lib/color';
 import { ColorChooser } from 'components/color';
 
-import Default from 'handlers/default';
-
 import InboxContentNav from 'components/InboxContentNav';
 import TicketList from 'components/TicketList';
 

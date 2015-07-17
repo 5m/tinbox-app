@@ -5,14 +5,13 @@ var Timestamp = require('react-time');
 var lib = require('lib');
 
 
-var MessageList = React.createClass({
+export const MessageList = React.createClass({
     propTypes: {
         messages: React.PropTypes.array.isRequired
     },
     render: function () {
         var timestampedMessages = this.props.messages.map(function (message) {
             message.key = message.pk;
-            message.thread_uuid = message.thread.pk;
 
             return (<TimestampedMessage {...message} />);
         });

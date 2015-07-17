@@ -5,6 +5,8 @@ export default keyMirror({
     AUTH_LOGOUT: null,
     AUTH_USERINFO: null,
 
+    DESKS_UPDATED: null,
+
     CREATE_MESSAGE: null,
 
     REQUEST_TICKETS: null,

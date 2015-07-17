@@ -8,6 +8,19 @@ import AuthStore from 'stores/AuthStore';
 var { auth } = require('app');
 
 export class API {
+    constructor() {
+        this._beforeTransform = [];
+        this._logPrefix = `${ this.constructor.name }`;
+    }
+
+    addBeforeTransform(callback) {
+        if (DEBUG) {
+            console.log(`${this._logPrefix}.addBeforeTransform`, callback);
+        }
+        this._beforeTransform.push(callback);
+        return this;
+    }
+
     _getSettings(additionalSettings) {
         additionalSettings = additionalSettings || {};
 
@@ -40,38 +53,59 @@ export class API {
         console.log('settings', settings);
         return settings;
     }
+
     get(path, data) {
-        return fetch(
+        var promise = fetch(
             config.api_url(path),
             this._getSettings(
                 {
                     type: 'GET',
                     body: data
                 }
-            ))
-            .then(response => {
+            ));
+
+        this._beforeTransform.forEach((transform, index) => {
+            promise = promise.then(transform);
+        });
+
+        return promise.then(response => {
                 return response.json()
             })
             .then(json => {
                 return json;
+            })
+            .catch(error => {
+                this._handleError(error);
             });
     }
 
     post(path, data) {
-        return fetch(
+        var promise = fetch(
             config.api_url(path),
             this._getSettings(
                 {
                     type: 'POST',
                     body: data
                 }
-            ))
-            .then(response => {
+            ));
+
+        this._beforeTransform.forEach((transform, index) => {
+            promise = promise.then(transform);
+        });
+
+        return promise.then(response => {
                 return response.json()
             })
             .then(json => {
                 return json;
+            })
+            .catch(error => {
+                this._handleError(error);
             });
+    }
+
+    _handleError(error) {
+        console.error(`${ this.constructor.name }: ${ error }`);
     }
 }
 
