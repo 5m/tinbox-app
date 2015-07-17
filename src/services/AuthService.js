@@ -3,13 +3,31 @@ import querystring from 'querystring';
 import url from 'url';
 import { join } from 'path';
 
-import api from 'lib/api';
+import { API } from 'lib/api';
 
 import AuthConstants from 'constants/AuthConstants';
 import AuthActions from 'actions/AuthActions';
 
 
 export class AuthService {
+    constructor() {
+        this.api = new API();
+        this.api.addBeforeTransform(this._checkAPIResponse);
+    }
+
+    _checkAPIResponse = (response) => {
+        if (response.status == 401) {
+            if (DEBUG) {
+                console.error(
+                    `${this.constructor.name}._checkAPIResponse`,
+                    'status',
+                    response.status);
+            }
+            this.logout();
+        }
+        return response;
+    };
+
     URL(path=null, params=null) {
         var urlObj = url.parse(AuthConstants.API_BASE,
             {parseQueryString: true});
@@ -19,7 +37,8 @@ export class AuthService {
         }
 
         if (params) {
-            urlObj.query = _.merge({}, urlObj.query, params);
+            var uOq = urlObj.query;
+            urlObj.query = {...uOq, ...params};
         }
 
         console.log('urlObj', urlObj);
@@ -39,6 +58,9 @@ export class AuthService {
     }
 
     logout() {
+        if (DEBUG) {
+            console.log(`${ this.constructor.name }.logout`);
+        }
         AuthActions.logoutUser();
     }
 
@@ -48,7 +70,7 @@ export class AuthService {
     }
 
     getUser() {
-        api.get('/me/')
+        this.api.get('/me/')
             .then(function (data) {
                 AuthActions.updateUserInfo(data);
             })

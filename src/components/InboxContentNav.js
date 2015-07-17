@@ -10,7 +10,7 @@ export default class InboxContentNav extends React.Component {
         return (
             <Nav stacked className="nav-context">
                 <li className="active">
-                    <Link to="inbox">
+                    <Link to="/desk/inbox">
                         Inkorgen
                         <span className="badge">1337</span>
                     </Link>

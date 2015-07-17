@@ -10,21 +10,29 @@ var { socker } = require('app');
 var { makeSubscriberMixin } = require('mixins/socker');
 
 
-var TicketRow = React.createClass({
-    mixins: [State, Navigation],
+export class TicketRow extends React.Component {
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    };
 
-    propTypes: {
+    static propTypes: {
+        pk: React.PropTypes.string.isRequired,
         subject: React.PropTypes.string.isRequired,
         sender: React.PropTypes.object.isRequired,
         date_created: React.PropTypes.string.isRequired,
         date_modified: React.PropTypes.string.isRequired
-    },
+    };
 
-    handleClick: function () {
-        this.transitionTo('ticket', {ticketID: this.props.pk});
-    },
+    constructor(props, context) {
+        super(props, context);
+    }
 
-    render: function () {
+    handleClick = () => {
+        this.context.router.transitionTo(
+                `/desk/ticket/${this.props.pk}`);
+    };
+
+    render() {
         var created = moment(this.props.date_created);
         var modified = moment(this.props.date_modified);
 
@@ -49,5 +57,6 @@ var TicketRow = React.createClass({
             </tr>
         );
     }
-});
+}
 
+export default TicketRow;

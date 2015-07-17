@@ -1,4 +1,4 @@
-import { TicketRow } from 'components/TicketRow';
+import TicketRow from 'components/TicketRow';
 import React, { Component } from 'react/addons';
 
 var { api } = require('lib');
@@ -7,25 +7,16 @@ var { makeSubscriberMixin } = require('mixins/socker');
 
 
 export default class TicketList extends Component {
-    static mixins = [makeSubscriberMixin('tickets')];
-    constructor(props) {
-        super(props);
-        this.state = {
-            tickets: []
-        };
-    }
+    static propTypes = {
+        tickets: React.PropTypes.array.isRequired
+    };
 
-    componentDidMount() {
-        var self = this;
-
-        api.get('/tickets/')
-            .then(function (tickets) {
-                self.setState({tickets: tickets});
-            });
+    constructor(props, context) {
+        super(props, context);
     }
 
     render = () => {
-        var tickets = this.state.tickets.map(function (ticket) {
+        var tickets = this.props.tickets.map(function (ticket) {
             ticket.key = ticket.pk;
             return (<TicketRow {...ticket} />);
         });

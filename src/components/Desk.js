@@ -1,5 +1,7 @@
 import React from 'react';
-import { Aside } from 'components';
+import Aside from 'components/Aside';
+
+import AuthStore from 'stores/AuthStore';
 
 
 export class Desk extends React.Component {
@@ -12,15 +14,24 @@ export class Desk extends React.Component {
     }
 
     componentDidMount() {
-        AuthStore.addChangeListener(this.onLoginChange);
+        this.checkLogin();
+        AuthStore.addChangeListener(this.checkLogin);
     }
 
     componentWillUnmount() {
-        AuthStore.removeChangeListener(this.onLoginChange);
+        AuthStore.removeChangeListener(this.checkLogin);
     }
 
-    onLoginChange = () => {
-        console.log('Login changed');
+    checkLogin = () => {
+        if (DEBUG) {
+            console.log('Login changed');
+        }
+        if (! AuthStore.isLoggedIn()) {
+            if (DEBUG) {
+                console.log(`${ this.constructor.name } User logged out.`);
+            }
+            this.context.router.transitionTo('/');
+        }
     };
 
     render() {

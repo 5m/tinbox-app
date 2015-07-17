@@ -14,8 +14,10 @@ import Ticket from 'components/Ticket';
 import InboxContentNav from 'components/InboxContentNav';
 
 import RouterContainer from 'services/RouterContainer';
+
+import AuthService from 'services/AuthService';
 import AuthConstants from 'constants/AuthConstants';
-import AuthActions from 'actions/AuthActions';
+
 /*
 React.render((
     <Router history={BrowserHistory}>
@@ -47,7 +49,7 @@ var router = (
                 components={Desk}>
                 <Route path="inbox"
                        components={{content: Inbox, aside: InboxContentNav}} />
-                <Route path="ticket/:ticketID"
+                <Route path="ticket/:ticketPK"
                        components={{content: Ticket, aside: InboxContentNav}} />
             </Route>
             <Route path="login"
@@ -67,7 +69,7 @@ RouterContainer.set(router);
 
 var stored_token = localStorage.getItem(AuthConstants.STORAGE_KEY);
 if (stored_token) {
-    AuthActions.loginUser(JSON.parse(stored_token));
+    AuthService.handleAuth(JSON.parse(stored_token));
 }
 
 React.render(router, document.body);
