@@ -30,7 +30,7 @@ export class AuthInfo extends React.Component {
     };
 
     _getUserInfo() {
-        return AuthStore.getUser();
+        return AuthStore.user;
     }
 
     getButton() {

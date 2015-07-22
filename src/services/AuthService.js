@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import url from 'url';
 import { join } from 'path';
 
-import { API } from 'lib/api';
+import { APIv2 } from 'lib/api';
 
 import AuthConstants from 'constants/AuthConstants';
 import AuthActions from 'actions/AuthActions';
@@ -11,8 +11,11 @@ import AuthActions from 'actions/AuthActions';
 
 export class AuthService {
     constructor() {
-        this.api = new API();
-        this.api.addBeforeTransform(this._checkAPIResponse);
+        this.api = (new APIv2())
+            .onResponse(this._checkAPIResponse)
+            .onResponse(response => {
+                return response.json();
+            });
     }
 
     _checkAPIResponse = (response) => {
@@ -23,7 +26,12 @@ export class AuthService {
                     'status',
                     response.status);
             }
+            throw new Error('');
             this.logout();
+        }
+
+        if (response.status == 400) {
+            throw new Error('')
         }
         return response;
     };
@@ -41,7 +49,9 @@ export class AuthService {
             urlObj.query = {...uOq, ...params};
         }
 
-        console.log('urlObj', urlObj);
+        if (DEBUG) {
+            console.log(`${this.constructor.name}.URL: urlObj`, urlObj);
+        }
 
         return url.format(urlObj);
     }
@@ -57,6 +67,34 @@ export class AuthService {
         return this.URL('/authorize/', query);
     }
 
+    login(username, password) {
+        if (DEBUG) {
+            console.log(`${this.constructor.name}.login: username`, username);
+        }
+        var api = new APIv2();
+        api.url(this.URL('/token/'))
+            .post()
+            .formData({
+                username: username,
+                password: password,
+                client_id: AuthConstants.CLIENT_ID,
+                grant_type: 'password'
+            })
+            .exec()
+            .then(response => {
+                return response.json();
+            })
+            .then(response => {
+                if (DEBUG) {
+                    console.log(
+                        `${this.constructor.name}.login: token response`,
+                        response
+                    );
+                }
+                this.handleAuth(response);
+            });
+    }
+
     logout() {
         if (DEBUG) {
             console.log(`${ this.constructor.name }.logout`);
@@ -66,10 +104,12 @@ export class AuthService {
 
     handleAuth(tokenObject) {
         AuthActions.loginUser(tokenObject);
-        this.getUser();
+        // this.getUser();
     }
 
     getUser() {
+        /* DEPRECATED */
+        throw new Error('Deprecated');
         this.api.get('/me/')
             .then(function (data) {
                 AuthActions.updateUserInfo(data);
