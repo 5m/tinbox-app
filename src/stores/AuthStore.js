@@ -1,5 +1,6 @@
 import ActionTypes from 'constants/ActionTypes';
 import BaseStore from 'stores/BaseStore';
+import jwt_decode from 'jwt-decode';
 
 
 class AuthStore extends BaseStore {
@@ -11,11 +12,11 @@ class AuthStore extends BaseStore {
         this._token = null;
     }
 
-    getUser() {
+    get user() {
         return this._user;
     }
 
-    getToken() {
+    get token() {
         return this._token;
     }
 
@@ -30,10 +31,19 @@ class AuthStore extends BaseStore {
         switch (action.type) {
             case ActionTypes.AUTH_LOGIN:
                 this._token = action.token;
-                this.emitChange();
-                break;
-            case ActionTypes.AUTH_USERINFO:
-                this._user = action.user;
+                this._user = jwt_decode(action.token.access_token);
+
+                if (DEBUG) {
+                    console.log(
+                        `${this.constructor.name}.onDispatch: this._token`,
+                        this._token
+                    );
+                    console.log(
+                        `${this.constructor.name}.onDispatch: this._user`,
+                        this._user
+                    );
+                }
+
                 this.emitChange();
                 break;
             case ActionTypes.AUTH_LOGOUT:

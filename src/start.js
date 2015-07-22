@@ -67,9 +67,16 @@ router.addTransitionHook((nextState, transition, error) => {
 
 RouterContainer.set(router);
 
-var stored_token = localStorage.getItem(AuthConstants.STORAGE_KEY);
-if (stored_token) {
-    AuthService.handleAuth(JSON.parse(stored_token));
+var stored_jwt = localStorage.getItem(AuthConstants.STORAGE_KEY);
+if (stored_jwt) {
+    if (DEBUG) {
+        console.log('start.js: stored_jwt', stored_jwt);
+    }
+    try {
+        AuthService.handleAuth(JSON.parse(stored_jwt));
+    } catch (e) {
+        console.error('Failed to login with stored token', e);
+    }
 }
 
 React.render(router, document.body);

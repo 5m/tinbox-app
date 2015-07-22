@@ -118,11 +118,13 @@ function getWebpackConfig() {
     }));
 
     if (IS_PRODUCTION) {
+        config.entry = ['./src/start'];
         config.output.filename = path.join('js', 'trak.min.js');
-        plugins = plugins.concat(
+
+        plugins = [
             new webpack.optimize.DedupePlugin(),
             new webpack.optimize.UglifyJsPlugin()
-        );
+        ];
     }
 
     config.plugins = plugins;
@@ -133,7 +135,6 @@ function getWebpackConfig() {
 function compileScriptsWebpackStream(callback) {
     var config = getWebpackConfig();
     config.watch = global.WEBPACK_STREAM_WATCH;
-    config.entry = [config.entry.pop()];
     console.log('config', config);
 
     gulp.src(path.join(__dirname, 'src/start.js'))
@@ -179,7 +180,7 @@ function compileScriptsWebpack(callback) {
                 }
 
                 gutil.log('[webpack-dev-server]',
-                    'Watching scriptos and running on http://'
+                    'Watching scripts and running on http://'
                     + listenConfig.host + ':' + listenConfig.port);
             })
     }
@@ -288,8 +289,10 @@ gulp.task('watch', function () {
     // Rebuild entire app if .env changes
     gulp.watch('.env', ['app']);
 
-    // Webpack's devserver handles this
-    //gulp.watch('src/**/*.{js,coffee}', ['js']);
+    if (IS_PRODUCTION) {
+        // Webpack's devserver handles this in non-production
+        gulp.watch('src/**/*.{js,coffee}', ['js']);
+    }
 
     gulp.watch('src/scss/**/*.scss', ['scss']);
     gulp.watch('src/**.html', ['html']);

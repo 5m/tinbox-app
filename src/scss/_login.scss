@@ -1,0 +1,16 @@
+.login-component {
+    border: thin solid white;
+
+    @include inverse(0.8, border-color);
+
+    max-width: 500px;
+    max-height: 300px;
+    padding: 20px;
+    margin: auto;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
