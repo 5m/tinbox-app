@@ -8,12 +8,12 @@ class AuthStore extends BaseStore {
         super();
         this.subscribe(() => this.onDispatch.bind(this));
 
-        this._user = null;
+        this._decoded = null;
         this._token = null;
     }
 
     get user() {
-        return this._user;
+        return this._decoded.user;
     }
 
     get token() {
@@ -31,7 +31,7 @@ class AuthStore extends BaseStore {
         switch (action.type) {
             case ActionTypes.AUTH_LOGIN:
                 this._token = action.token;
-                this._user = jwt_decode(action.token.access_token);
+                this._decoded = jwt_decode(action.token.access_token);
 
                 if (DEBUG) {
                     console.log(
@@ -40,7 +40,7 @@ class AuthStore extends BaseStore {
                     );
                     console.log(
                         `${this.constructor.name}.onDispatch: this._user`,
-                        this._user
+                        this._decoded
                     );
                 }
 

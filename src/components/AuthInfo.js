@@ -30,7 +30,11 @@ export class AuthInfo extends React.Component {
     };
 
     _getUserInfo() {
-        return AuthStore.user;
+        var user = AuthStore.user;
+        if (DEBUG) {
+            console.log(`${this.constructor.name}._getUserInfo: user`, user);
+        }
+        return user;
     }
 
     getButton() {
