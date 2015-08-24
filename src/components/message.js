@@ -78,7 +78,7 @@ var Message = React.createClass({
     propTypes: {
         body: React.PropTypes.string.isRequired,
         sender: React.PropTypes.object.isRequired,
-        thread: React.PropTypes.object.isRequired
+        thread_pk: React.PropTypes.string.isRequired
     },
     render: function () {
         var [r, g, b] = lib.color.UUIDToRGB(
