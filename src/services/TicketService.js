@@ -24,15 +24,15 @@ export class TicketService {
             .get()
             .exec()
             .then(json => {
-            if (DEBUG) {
-                console.log(
-                    `${ this.constructor.name }`,
-                    'Got tickets',
-                    json
-                );
-            }
-            TicketActions.updateTickets(json);
-        });
+                if (DEBUG) {
+                    console.log(
+                        `${ this.constructor.name }`,
+                        'Got tickets',
+                        json
+                    );
+                }
+                TicketActions.updateTickets(json);
+            });
     }
 }
 

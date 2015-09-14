@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
+import MessageActions from 'actions/MessageActions';
+import TicketStore from 'stores/TicketStore';
+import { Panel, Input } from 'react-bootstrap';
+
 var classnames = require('classnames');
 
-var { TicketStore } = require('stores/TicketStore');
-var MessageActions = require('actions/MessageActions');
-
-var { Panel, Input } = require('react-bootstrap');
 
 export class MessageComposer extends Component {
+    static propTypes = {
+        replyIn: React.PropTypes.string
+    };
+
     constructor(props) {
         super(props);
+
+        console.log('props', props);
         this.state = {
-            replyIn: null,
+            replyIn: props.replyIn,
             values: {}
         };
     }
 
-    handleChange(field, value) {
+    updateField(field) {
         var values = this.state.values;
 
         console.log('Updating', field, value);
@@ -24,11 +30,27 @@ export class MessageComposer extends Component {
         this.setState({values: values});
     }
 
-    onSubmit(e) {
+    link(field) {
+        return {
+            value: this.state.values[field],
+            requestChange: (value) => {
+                var values = this.state.values;
+
+                console.log('Updating', field, value);
+
+                values[field] = value;
+                this.setState({values: values});
+            }
+        }
+    }
+
+    onSubmit = (e) => {
         e.preventDefault();
 
-        MessageActions.createMessage(body, this.state.replyIn);
-    }
+        MessageActions.createMessage(
+            this.state.values.body,
+            this.props.replyIn);
+    };
 
     render() {
         var formFooter = (
@@ -58,7 +80,7 @@ export class MessageComposer extends Component {
                         name="private"
                         title="Private"
                         value={this.state.values.private}
-                        onChange={this.handleChange.bind(this, 'private')}>
+                        onChange={this.updateField.bind(this, 'private')}>
                     </CheckboxLock>
                 </li>
             </ul>
@@ -75,27 +97,31 @@ export class MessageComposer extends Component {
                     <textarea className="form-control"
                               ref="textarea"
                               rows="4"
-                              value={this.state.values.body}
-                              onChange={this.handleChange} />
+                              valueLink={this.link('body')} />
                 </Panel>
             </form>
         );
     }
 }
 
-
-var CheckboxLock = React.createClass({
-    propTypes: {
+export class CheckboxLock extends React.Component {
+    static propTypes = {
         onChange: React.PropTypes.func.isRequired,
         name: React.PropTypes.string.isRequired,
         title: React.PropTypes.string
-    },
-    handleChange: function (e) {
+    };
+
+    constructor(props) {
+        super(props);
+    }
+
+    handleChange(e) {
         var value = e.target.checked;
         console.log(this, value);
         this.props.onChange(value);
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <div className="btn btn-default tool tr-btn-lock"
                 title={this.props.title}>
@@ -108,6 +134,6 @@ var CheckboxLock = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default MessageComposer;

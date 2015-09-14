@@ -18,24 +18,6 @@ export class AuthService {
             });
     }
 
-    _checkAPIResponse = (response) => {
-        if (response.status == 401) {
-            if (DEBUG) {
-                console.error(
-                    `${this.constructor.name}._checkAPIResponse`,
-                    'status',
-                    response.status);
-            }
-            throw new Error('');
-            this.logout();
-        }
-
-        if (response.status == 400) {
-            throw new Error('')
-        }
-        return response;
-    };
-
     URL(path=null, params=null) {
         var urlObj = url.parse(AuthConstants.API_BASE,
             {parseQueryString: true});
@@ -67,33 +49,6 @@ export class AuthService {
         return this.URL('/authorize/', query);
     }
 
-    login(username, password) {
-        if (DEBUG) {
-            console.log(`${this.constructor.name}.login: username`, username);
-        }
-        var api = new APIv2();
-        api.url(this.URL('/token/'))
-            .post()
-            .formData({
-                username: username,
-                password: password,
-                client_id: AuthConstants.CLIENT_ID,
-                grant_type: 'password'
-            })
-            .exec()
-            .then(response => {
-                return response.json();
-            })
-            .then(response => {
-                if (DEBUG) {
-                    console.log(
-                        `${this.constructor.name}.login: token response`,
-                        response
-                    );
-                }
-                this.handleAuth(response);
-            });
-    }
 
     logout() {
         if (DEBUG) {
@@ -105,15 +60,6 @@ export class AuthService {
     handleAuth(tokenObject) {
         AuthActions.loginUser(tokenObject);
         // this.getUser();
-    }
-
-    getUser() {
-        /* DEPRECATED */
-        throw new Error('Deprecated');
-        this.api.get('/me/')
-            .then(function (data) {
-                AuthActions.updateUserInfo(data);
-            })
     }
 }
 

@@ -4,30 +4,17 @@ import AppDispatcher from 'dispatchers/AppDispatcher';
 import RouterContainer from 'services/RouterContainer';
 
 export class AuthActions {
-    loginUser(jwt) {
-        var stored_token = JSON.stringify(jwt);
+    login(username, password) {
+        AppDispatcher.dispatch(ActionTypes.AUTH_LOGIN, {username, password});
+    }
 
-        if (DEBUG) {
-            console.log(`${ this.constructor.name }.loginUser`, jwt);
-            console.log(
-                `${ this.constructor.name }.loginUser: storing token as`,
-                stored_token);
-        }
-
-        localStorage.setItem(STORAGE_KEY, stored_token); // TODO: Move to store
-        AppDispatcher.dispatch(ActionTypes.AUTH_LOGIN, {token: jwt});
+    loadState() {
+        AppDispatcher.dispatch(ActionTypes.AUTH_LOAD_STATE);
     }
 
     logoutUser() {
-        localStorage.removeItem(STORAGE_KEY); // TODO: Move to store
         AppDispatcher.dispatch(ActionTypes.AUTH_LOGOUT);
-        //RouterContainer.get().transitionTo('/login');
     }
-
-    updateUserInfo(user) {
-        AppDispatcher.dispatch(ActionTypes.AUTH_USERINFO, {user: user});
-    }
-
 }
 
 

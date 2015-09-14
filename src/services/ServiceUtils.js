@@ -5,13 +5,16 @@ import AuthActions from 'actions/AuthActions';
 export function verifyProtectedResourceResponse(response) {
     let invalidResponseStatuses = [
         400,
-        401,
         403
     ];
 
+    if (response.status == 401) {
+        AuthActions.logoutUser();
+    }
+
     if (_.contains(invalidResponseStatuses, response.status)) {
         throw new Error(
-            `Invalid response status: ${this.constructor.name}`);
+            `Invalid response status: ${response.status}`);
     }
     return response;
 }

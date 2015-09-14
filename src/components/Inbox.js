@@ -13,8 +13,8 @@ export class Inbox extends React.Component {
     }
 
     componentWillMount() {
-        TicketService.getTickets();
         TicketStore.addChangeListener(this._updateTickets);
+        TicketActions.list();
     }
 
     componentWillUnmount() {
@@ -23,7 +23,7 @@ export class Inbox extends React.Component {
 
     _updateTickets = () => {
         this.setState({
-            tickets: TicketStore.getTickets()
+            tickets: TicketStore.all()
         });
     };
 

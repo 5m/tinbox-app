@@ -6,8 +6,6 @@ var config = require('config');
 import AuthStore from 'stores/AuthStore';
 
 
-var { auth } = require('app');
-
 export class API {
     constructor() {
         this._beforeTransform = [];

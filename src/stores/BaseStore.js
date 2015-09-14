@@ -1,6 +1,4 @@
-import { each, isFunction } from 'lodash';
 import { EventEmitter } from 'events';
-import shallowEqual from 'react-pure-render/shallowEqual';
 import AppDispatcher from 'dispatchers/AppDispatcher';
 
 const CHANGE_EVENT = 'change';
@@ -39,5 +37,6 @@ export class BaseStore extends EventEmitter {
         this.removeListener(CHANGE_EVENT, callback);
     }
 }
+
 
 export default BaseStore;

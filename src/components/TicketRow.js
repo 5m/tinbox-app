@@ -6,7 +6,6 @@ var Timestamp = require('react-time');
 var { api } = require('lib');
 
 var { State, Navigation } = require('react-router');
-var { socker } = require('app');
 var { makeSubscriberMixin } = require('mixins/socker');
 
 
