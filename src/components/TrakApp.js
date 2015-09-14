@@ -15,8 +15,6 @@ import TicketList from 'components/TicketList';
 
 var classnames = require('classnames');
 
-var { auth, events } = require('app');
-
 
 export class TrakApp extends Component {
     static propTypes = {

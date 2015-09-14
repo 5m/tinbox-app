@@ -1,32 +1,44 @@
-import BaseStore from 'stores/BaseStore';
+import IndexedItemStore from 'stores/IndexedItemStore';
 import ActionTypes from 'constants/ActionTypes';
+import AuthStore from 'stores/AuthStore';
+
+import { APIv2 } from 'lib/api';
+import {
+    verifyProtectedResourceResponse,
+    jsonResponse
+} from 'services/ServiceUtils';
 
 
-export class TicketStore extends BaseStore {
-    items = {};
-
+export class TicketStore extends IndexedItemStore {
     constructor() {
         super();
         this.subscribe(() => this.onDispatch);
+
+        this.api = (new APIv2())
+            .onResponse(verifyProtectedResourceResponse)
+            .onResponse(jsonResponse)
     }
 
-    _asArray() {
-        var array = [];
-        for (var key in this.items) {
-            array.push(this.items[key]);
-        }
-        return array;
-    }
+    _getTickets() {
+        var token = AuthStore.token;
 
-    getTickets() {
-        return this._asArray();
-    }
+        this.api.url('/tickets/')
+            .headers({
+                Authorization: `Bearer ${token.access_token}`
+            })
+            .get()
+            .exec()
+            .then(json => {
+                if (DEBUG) {
+                    console.log(
+                        `${ this.constructor.name }`,
+                        'Got tickets',
+                        json
+                    );
+                }
 
-    getTicket(pk) {
-        if (!pk) {
-            throw new Error('getTicket(pk) - pk can not be falsey');
-        }
-        return this.items[pk];
+                this.bulkSet(action.tickets);
+            });
     }
 
     onDispatch = (action) => {
@@ -35,10 +47,7 @@ export class TicketStore extends BaseStore {
         }
         switch (action.type) {
             case ActionTypes.REQUEST_TICKETS:
-                action.tickets.forEach((ticket) => {
-                    this.items[ticket.pk] = ticket;
-                });
-                this.emitChange();
+                this._getTickets();
                 break;
         }
     };

@@ -2,8 +2,6 @@ var React = require('react/addons');
 
 var { Link, RouteHandler, State, Navigation } = require('react-router');
 
-var { auth, events } = require('app');
-
 import AuthInfo from 'components/AuthInfo';
 import DeskInfo from 'components/DeskInfo';
 import MainNav from 'components/MainNav';
@@ -23,7 +21,7 @@ export const Aside = React.createClass({
                 </div>
 
                 <footer>
-                    <AuthInfo auth={auth} />
+                    <AuthInfo />
                 </footer>
             </aside>
         );

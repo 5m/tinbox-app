@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var React = require('react/addons');
-var { socker } = require('app');
 
 function makeSubscriberMixin(stateKey) {
     var _stateKey = stateKey;

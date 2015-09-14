@@ -2,10 +2,12 @@ import AppDispatcher from 'dispatchers/AppDispatcher';
 import ActionTypes from 'constants/ActionTypes';
 
 export class TicketActions {
-    updateTickets(tickets) {
-        AppDispatcher.dispatch(
-            ActionTypes.REQUEST_TICKETS,
-            { tickets: tickets });
+    list(tickets) {
+        // TODO: Accept filter options
+        AppDispatcher.dispatch(ActionTypes.REQUEST_TICKETS);
+    }
+    get(pk) {
+
     }
 }
 

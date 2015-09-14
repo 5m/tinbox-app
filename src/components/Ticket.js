@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react/addons';
 import DocumentTitle from 'react-document-title';
 
+import TicketActions from 'actions/TicketActions';
 import TicketStore from 'stores/TicketStore';
 import TicketService from 'services/TicketService';
 
@@ -10,10 +11,6 @@ import { MessageList } from 'components/message';
 
 
 export default class Ticket extends React.Component {
-    static propTypes = {
-        ticketPK: React.PropTypes.string.isRequired
-    };
-
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -22,9 +19,8 @@ export default class Ticket extends React.Component {
     }
 
     componentDidMount() {
-        TicketService.getTickets();
-        this._updateTicket();
         TicketStore.addChangeListener(this._updateTicket);
+        TicketActions.getTicket();
     }
 
     componentWillUnmount() {
@@ -41,11 +37,15 @@ export default class Ticket extends React.Component {
     render() {
         var messages = [];
 
+        var lastThreadPK = null;
+
         if (this.state.ticket) {
             this.state.ticket.threads.forEach((thread) => {
                 messages = messages.concat(thread.messages);
+                lastThreadPK = thread.pk;
             });
         }
+        console.log(`${this.constructor.name} lastThreadPK`, lastThreadPK);
 
         messages.sort(function (a, b) {
             return (new Date(a.created)) > (new Date(b.created));
@@ -69,7 +69,7 @@ export default class Ticket extends React.Component {
                     </header>
                     <MessageList messages={messages} />
                     <footer>
-                        <Composer />
+                        <Composer replyIn={lastThreadPK} />
                     </footer>
                 </section>
             </DocumentTitle>

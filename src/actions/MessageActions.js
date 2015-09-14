@@ -1,13 +1,21 @@
-import { dispatchAsync } from 'dispatchers/AppDispatcher';
 import ActionTypes from 'constants/ActionTypes';
 import MessageService from 'services/MessageService';
 import MessageStore from 'stores/MessageStore';
+import AppDispatcher from 'dispatchers/AppDispatcher';
 
-export function createMessage(body, replyIn=null, subject=null) {
-    dispatchAsync(MessageService.postMessage(body, replyIn, subject), {
-        request: ActionTypes.CREATE_MESSAGE
-    });
+export class MessageActions {
+    createMessage(body, replyIn=null, subject=null) {
+        AppDispatcher.dispatch(
+            ActionTypes.CREATE_MESSAGE,
+            {
+                body: body,
+                replyIn: replyIn,
+                subject: subject
+            });
+    }
 }
+
+export default new MessageActions();
 /*
 export function requestRepo(fullName, fields) {
   // Exit early if we know about this repo
