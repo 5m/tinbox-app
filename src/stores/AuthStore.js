@@ -55,14 +55,12 @@ class AuthStore extends BaseStore {
     };
 
     isLoggedIn() {
-        if (DEBUG) {
-            console.log('AuthStore.isLoggedIn', !!this._token);
-        }
+        DEBUG && console.log('AuthStore.isLoggedIn', !!this._token);
         return !!this._token;
     }
 
     authenticate(username, password) {
-        this.api.url('/token/')
+        this.api.url('/oauth2/token/')
             .post()
             .formData({
                 username: username,
@@ -72,27 +70,21 @@ class AuthStore extends BaseStore {
             })
             .exec()
             .then(response => {
-                return response.json();
-            })
-            .then(response => {
-                if (DEBUG) {
-                    console.log(
-                        `${this.constructor.name}.login: token response`,
-                        response
-                    );
-                }
+                DEBUG && console.log(
+                    `${this.constructor.name}.login: token response`,
+                    response);
 
                 this.token = response;
+                this.storeState()
+                this.emitChange()
             });
     }
 
     onDispatch(action) {
         switch (action.type) {
-            case ActionTypes.AUTH_LOGIN:
+            case ActionTypes.AUTH_AUTHORIZE:
                 this.authenticate(action.username, action.password)
 
-                this.storeState();
-                this.emitChange();
                 break;
             case ActionTypes.AUTH_LOGOUT:
                 this._token = null;
@@ -101,6 +93,20 @@ class AuthStore extends BaseStore {
                 this.storeState();
                 this.emitChange();
                 break;
+            case ActionTypes.AUTH_LOAD_STATE:
+                this.loadState();
+                break;
+        }
+    }
+
+    loadState() {
+        try {
+            let token = JSON.parse(localStorage.getItem(
+                AuthConstants.STORAGE_KEY));
+            DEBUG && console.log('Loading state, got token', token);
+            this.token = token;
+        } catch (e) {
+            console.error(e);
         }
     }
 

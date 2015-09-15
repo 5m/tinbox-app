@@ -46,10 +46,8 @@ export class TrakApp extends Component {
             userLoggedIn: AuthStore.isLoggedIn()
         };
 
-        if (DEBUG) {
-            console.log(`${ this.constructor.name }._getLoginstate`,
-                loginState);
-        }
+        DEBUG && console.log(`${ this.constructor.name }._getLoginstate`,
+            loginState);
         return loginState;
     }
 

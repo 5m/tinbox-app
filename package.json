@@ -57,7 +57,7 @@
     "react-color-picker": "^2.1.9",
     "react-document-title": "^1.0.2",
     "react-hot-loader": "^1.2.8",
-    "react-mixin": "^1.6.0",
+    "react-mixin": "^2.0.2",
     "react-pure-render": "^1.0.2",
     "react-router": "^1.0.0-rc1",
     "react-time": "^3.0.0",

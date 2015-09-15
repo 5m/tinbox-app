@@ -1,9 +1,9 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    AUTH_LOGIN: null,
+    AUTH_AUTHORIZE: null,
     AUTH_LOGOUT: null,
-    AUTH_USERINFO: null,
+    AUTH_LOAD_STATE: null,
 
     DESKS_UPDATED: null,
 
