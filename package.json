@@ -18,6 +18,7 @@
   "homepage": "https://github.com/5m/trak-app",
   "dependencies": {
     "bl": "^0.9.4",
+    "bower": "^1.5.2",
     "browserify": "^7.0.2",
     "coffee-reactify": "^2.1.0",
     "coffeeify": "^1.0.0",
