@@ -253,10 +253,10 @@ gulp.task('fonts', function () {
 gulp.task('scss', function () {
     reloadConfig();
     return gulp.src('./src/scss/trak.scss')
-        .pipe($.rubySass({
-            style: 'compressed',
+        .pipe($.sass({
+            outputStyle: 'compressed',
             precision: 10,
-            loadPath: [
+            includePaths: [
                 'bower_components',
                 'src',
                 'node_modules'
