@@ -4,8 +4,8 @@ import AppDispatcher from 'dispatchers/AppDispatcher';
 import RouterContainer from 'services/RouterContainer';
 
 export class AuthActions {
-    login(username, password) {
-        AppDispatcher.dispatch(ActionTypes.AUTH_LOGIN, {username, password});
+    authorize(username, password) {
+        AppDispatcher.dispatch(ActionTypes.AUTH_AUTHORIZE, {username, password});
     }
 
     loadState() {

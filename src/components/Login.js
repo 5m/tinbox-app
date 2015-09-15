@@ -2,12 +2,14 @@ import React from 'react/addons';
 import ReactMixin from 'react-mixin';
 import ReactRouter from 'react-router';
 import { ButtonInput, Input } from 'react-bootstrap';
-import AuthService from 'services/AuthService';
+import AuthActions from 'actions/AuthActions';
+import AuthStore from 'stores/AuthStore';
 
 import DocumentTitle from 'react-document-title';
 import View from 'components/View';
 
 export class Login extends React.Component {
+
     constructor(props, context) {
         super(props, context);
 
@@ -16,7 +18,23 @@ export class Login extends React.Component {
             password: ''
         };
     }
+
+    onLoginChange = () => {
+        let loggedIn = AuthStore.isLoggedIn();
+        DEBUG && console.log(`${this.constructor.name}.onLoginChange`,
+            loggedIn);
+
+        if (loggedIn) {
+            this.props.history.pushState()
+            this.props.history.go('/')
+        }
+    };
+
     componentDidMount() {
+        AuthStore.addChangeListener(this.onLoginChange);
+    }
+    componentWillUnmount() {
+        AuthStore.removeChangeListener(this.onLoginChange);
     }
 
     onSubmit = (e) => {
@@ -27,7 +45,7 @@ export class Login extends React.Component {
                 this.refs.username);
         }
 
-        AuthService.login(this.state.username, this.state.password);
+        AuthActions.authorize(this.state.username, this.state.password);
     };
 
     render() {

@@ -1,24 +1,21 @@
 var config = require('config');
 import React from 'react/addons';
 import { createHistory } from 'history';
-import { Router, Route, DefaultRoute, Redirect } from 'react-router';
+import { Router, Route, Redirect, IndexRoute } from 'react-router';
 
 import AuthActions from 'actions/AuthActions';
 
 import TrakApp from 'components/TrakApp';
 import Login from 'components/Login';
-import Authorize from 'components/Authorize';
 import Desk from 'components/Desk';
 
 import TicketList from 'components/TicketList';
 import Inbox from 'components/Inbox';
 import Ticket from 'components/Ticket';
 import InboxContentNav from 'components/InboxContentNav';
+import Home from 'components/Home';
 
 import RouterContainer from 'services/RouterContainer';
-
-import AuthService from 'services/AuthService';
-import AuthConstants from 'constants/AuthConstants';
 
 const basePath = config.app_base + '/';
 
@@ -28,6 +25,7 @@ let router = (
     <Router history={history}>
         <Route component={TrakApp}
                path={basePath}>
+            <IndexRoute component={Home} />
             <Route path="desk/"
                 components={Desk}>
                 <Route path="inbox"
@@ -37,8 +35,7 @@ let router = (
             </Route>
             <Route path="login"
                    component={Login} />
-            <Route path="authorize"
-                   component={Authorize} />
+            <Route path="*" component={TrakApp} />
         </Route>
     </Router>
 );
