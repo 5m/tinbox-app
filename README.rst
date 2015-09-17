@@ -1,8 +1,8 @@
 ==========================
- trak-client
+ tinbox-app
 ==========================
 
-Static client for trak.
+Static web app client/gui for tinbox.
 
 
 --------------------------
