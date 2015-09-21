@@ -6,7 +6,8 @@
 @import "mixins/color";
 @import "color-picker";
 
-
+// Components
+@import "desk";
 @import "aside";
 @import "nav";
 @import "ticket-list";
@@ -15,18 +16,10 @@
 @import "composer";
 @import "login";
 
+@import "app-root";
+@import "components/auth-info";
 
 
-html, body, .app-root, .view-root {
-    height: 100%;
-}
-
-/* XXX: .tickets needs this to be able to do overflow: auto in
- a flex-direction: row wrapper */
-html, body, .app-root, .view-root, .view-content {
-    overflow: hidden;
-    height: 100%;
-}
 
 html {
 }
@@ -40,23 +33,8 @@ body {
     background-color: $app-color;
 }
 
-main.app-root {
-    &.dark {
-        color: rgba($inverse-when-dark, 0.9);
-    }
-
-    &.light {
-        color: rgba($inverse-when-light, 0.9);
-    }
-}
-
 .view-root {
-    @include inverse();
     display: flex;
-}
-
-.view-content {
-    flex: 1 100%;
 }
 
 .scrollable {

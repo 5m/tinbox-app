@@ -16,6 +16,7 @@ export function verifyProtectedResourceResponse(response) {
         throw new Error(
             `Invalid response status: ${response.status}`);
     }
+
     return response;
 }
 

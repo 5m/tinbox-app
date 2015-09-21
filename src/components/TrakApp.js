@@ -21,12 +21,8 @@ export class TrakApp extends Component {
         children: React.PropTypes.object
     };
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
-
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
 
         var settings = JSON.parse(localStorage.getItem('app-color'));
 
@@ -36,32 +32,9 @@ export class TrakApp extends Component {
                 isDark: true
             }
         };
-        var loginState = this._getLoginState();
 
-        this.state = { ...loginState, ...state};
+        this.state = {...state};
     }
-
-    _getLoginState() {
-        var loginState = {
-            userLoggedIn: AuthStore.isLoggedIn()
-        };
-
-        DEBUG && console.log(`${ this.constructor.name }._getLoginstate`,
-            loginState);
-        return loginState;
-    }
-
-    componentDidMount() {
-        AuthStore.addChangeListener(this.onLoginChange);
-    }
-
-    componentWillUnmount() {
-        AuthStore.removeChangeListener(this.onLoginChange);
-    }
-
-    onLoginChange = () => {
-        this.setState(this._getLoginState());
-    };
 
     handleColorChange = (color) => {
         var settings = {
@@ -86,11 +59,11 @@ export class TrakApp extends Component {
         });
 
         return (
-            <div className={classes} style={style}>
+            <main className={classes} style={style}>
                 {this.props.children}
                 <ColorChooser value={this.state.color.appColor}
                     onChoose={this.handleColorChange} />
-            </div>
+            </main>
         )
     }
 }

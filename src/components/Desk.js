@@ -5,12 +5,8 @@ import AuthStore from 'stores/AuthStore';
 
 
 export class Desk extends React.Component {
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
-
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
     }
 
     componentDidMount() {
@@ -30,18 +26,18 @@ export class Desk extends React.Component {
             if (DEBUG) {
                 console.log(`${ this.constructor.name } User logged out.`);
             }
-            this.context.router.transitionTo('/');
+            this.props.history.pushState(null, '/', null);
         }
     };
 
     render() {
         return (
-            <div className="view-root">
+            <div className="view-root desk">
                 <Aside>
-                    {this.props.aside}
+                    {this.props.children.aside}
                 </Aside>
                 <div className="view-content">
-                    {this.props.content}
+                    {this.props.children.content}
                 </div>
             </div>
         );

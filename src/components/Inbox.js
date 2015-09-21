@@ -1,8 +1,9 @@
 import React from 'react/addons';
 import DocumentTitle from 'react-document-title';
 
-import TicketService from 'services/TicketService';
 import TicketStore from 'stores/TicketStore';
+import TicketActions from 'actions/TicketActions';
+
 import TicketList from 'components/TicketList';
 
 
@@ -13,12 +14,14 @@ export class Inbox extends React.Component {
     }
 
     componentWillMount() {
+        DEBUG && console.group('Inbox');
         TicketStore.addChangeListener(this._updateTickets);
         TicketActions.list();
     }
 
     componentWillUnmount() {
         TicketStore.removeChangeListener(this._updateTickets);
+        DEBUG && console.groupEnd();
     }
 
     _updateTickets = () => {

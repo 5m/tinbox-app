@@ -1,6 +1,8 @@
 import ActionTypes from 'constants/ActionTypes';
-import IndexedItemStore from 'stores/IndexedItemStore';
+import SockerIndexedStore from 'stores/SockerIndexedStore';
 import AuthStore from 'stores/AuthStore';
+
+import TicketActions from 'actions/TicketActions';
 
 import { APIv2 } from 'lib/api';
 import {
@@ -9,7 +11,7 @@ import {
 } from 'services/ServiceUtils';
 
 
-export class MessageStore extends IndexedItemStore {
+export class MessageStore extends SockerIndexedStore {
     items = [];
 
     constructor() {
@@ -29,9 +31,9 @@ export class MessageStore extends IndexedItemStore {
         };
         var token = AuthStore.token;
 
-        if (DEBUG) {
-            console.log(`${this.constructor.name}.create: payload`, payload);
-        }
+        DEBUG && console.log(`${this.constructor.name}.create: payload`,
+            payload);
+
 
         return this.api.url('/messages/')
             .headers({
@@ -42,25 +44,26 @@ export class MessageStore extends IndexedItemStore {
             .post()
             .exec()
             .then(json => {
-                if (DEBUG) {
-                    console.log(`${this.constructor.name} Posted message`,
-                        json);
-                }
+                DEBUG && console.log(`${this.constructor.name} Posted message`,
+                    json);
+                return json;
             });
     }
 
     handleCreateMessage(action) {
         this.create(action.body, action.replyIn, action.subject)
             .then(json => {
-                console.log()
                 this.updateItem(json)
+                TicketActions.newMessage(json);
             });
     }
 
     onDispatch = action => {
         switch (action.type) {
             case ActionTypes.CREATE_MESSAGE:
+                DEBUG && console.group(this.constructor.name);
                 this.handleCreateMessage(action);
+                DEBUG && console.groupEnd(this.constructor.name);
                 break;
         }
     }

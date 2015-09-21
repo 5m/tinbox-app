@@ -1,4 +1,3 @@
-var log = require('loglevel');
 var events = require('lib/events');
 
 
@@ -28,7 +27,7 @@ class Auth {
     }
 
     setAuthorizationCode(code) {
-        log.debug('Got authorization code', code);
+        DEBUG && console.log('Got authorization code', code);
         this.fetchAccessToken(code);
     }
 
@@ -53,7 +52,7 @@ class Auth {
     }
 
     jqXHRErrorHandler(jqXHR, status, error) {
-        console.log('$.ajax error', jqXHR, status, error);
+        DEBUG && console.log('$.ajax error', jqXHR, status, error);
         if (status != 'error') {
             return;
         }
@@ -72,7 +71,7 @@ class Auth {
     }
 
     saveAuth() {
-        console.log('Saving', this.token);
+        DEBUG && console.log('Saving', this.token);
         localStorage.setItem(this.storageKey, JSON.stringify(this.token));
     }
 

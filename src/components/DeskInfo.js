@@ -35,7 +35,7 @@ var DeskInfo = React.createClass({
         } else {
             info = (
                 <Link to="app" className="btn btn-lg btn-block">
-                    trak
+                    tinbox
                 </Link>
             );
         }

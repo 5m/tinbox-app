@@ -27,6 +27,14 @@ function configure(settings) {
         }
     };
 
+    // Define config.socker_uri as a getter method, to avoid gulpfile.js's
+    // loading of the config file throwing errors.
+    Object.defineProperty(defaults, 'socker_uri', {
+        get: function () {
+            return 'ws://' + window.location.host + '/ws';
+        }
+    });
+
     return _.merge(config, defaults, settings);
 }
 

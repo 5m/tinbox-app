@@ -1,2 +1,2 @@
 var config_json = require('./config.json');
-module.exports = require('./config_util').configure(config_json);
+module.exports = require('./config-utils').configure(config_json);

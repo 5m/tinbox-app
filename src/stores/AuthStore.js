@@ -38,24 +38,23 @@ class AuthStore extends BaseStore {
 
     _checkAPIResponse = (response) => {
         if (response.status == 401) {
-            if (DEBUG) {
-                console.error(
+            DEBUG && console.error(
                     `${this.constructor.name}._checkAPIResponse`,
                     'status',
                     response.status);
-            }
-            this.logout();
-            throw new Error('');
+
+            throw new Error('HTTP 401, Could not log in.');
         }
 
         if (response.status == 400) {
-            throw new Error('')
+            throw new Error('HTTP 400, Could not log in.')
         }
         return response;
     };
 
     isLoggedIn() {
-        DEBUG && console.log('AuthStore.isLoggedIn', !!this._token);
+        DEBUG && console.log(`${this.constructor.name}.isLoggedIn`,
+            !!this._token);
         return !!this._token;
     }
 
@@ -81,6 +80,7 @@ class AuthStore extends BaseStore {
     }
 
     onDispatch(action) {
+        DEBUG && console.group('AuthStore');
         switch (action.type) {
             case ActionTypes.AUTH_AUTHORIZE:
                 this.authenticate(action.username, action.password)
@@ -97,6 +97,7 @@ class AuthStore extends BaseStore {
                 this.loadState();
                 break;
         }
+        DEBUG && console.groupEnd('AuthStore');
     }
 
     loadState() {
@@ -106,7 +107,7 @@ class AuthStore extends BaseStore {
             DEBUG && console.log('Loading state, got token', token);
             this.token = token;
         } catch (e) {
-            console.error(e);
+            console.warn(e);
         }
     }
 

@@ -1,0 +1,11 @@
+@import "mixins/color";
+
+.auth-info {
+    .btn {
+        @include text-color();
+        background-color: fade(0.3);
+        border-radius: 0;
+        //text-shadow: 0 1px 2px fade(75);
+        text-align: left;
+    }
+}

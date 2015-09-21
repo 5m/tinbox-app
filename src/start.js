@@ -1,4 +1,5 @@
-var config = require('config');
+import config from 'config';
+
 import React from 'react/addons';
 import { createHistory } from 'history';
 import { Router, Route, Redirect, IndexRoute } from 'react-router';
@@ -16,6 +17,7 @@ import InboxContentNav from 'components/InboxContentNav';
 import Home from 'components/Home';
 
 import RouterContainer from 'services/RouterContainer';
+
 
 const basePath = config.app_base + '/';
 

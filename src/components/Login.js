@@ -8,6 +8,8 @@ import AuthStore from 'stores/AuthStore';
 import DocumentTitle from 'react-document-title';
 import View from 'components/View';
 
+
+@ReactMixin.decorate(React.addons.LinkedStateMixin)
 export class Login extends React.Component {
 
     constructor(props, context) {
@@ -19,9 +21,9 @@ export class Login extends React.Component {
         };
     }
 
-    onLoginChange = () => {
+    checkLogin = () => {
         let loggedIn = AuthStore.isLoggedIn();
-        DEBUG && console.log(`${this.constructor.name}.onLoginChange`,
+        DEBUG && console.log(`${this.constructor.name}.checkLogin`,
             loggedIn);
 
         if (loggedIn) {
@@ -31,10 +33,11 @@ export class Login extends React.Component {
     };
 
     componentDidMount() {
-        AuthStore.addChangeListener(this.onLoginChange);
+        this.checkLogin();
+        AuthStore.addChangeListener(this.checkLogin);
     }
     componentWillUnmount() {
-        AuthStore.removeChangeListener(this.onLoginChange);
+        AuthStore.removeChangeListener(this.checkLogin);
     }
 
     onSubmit = (e) => {
@@ -71,7 +74,5 @@ export class Login extends React.Component {
         );
     }
 }
-
-ReactMixin(Login.prototype, React.addons.LinkedStateMixin);
 
 export default Login;

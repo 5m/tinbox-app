@@ -1,19 +1,14 @@
-var _ = require('lodash');
-var moment = require('moment');
-var React = require('react');
-var Timestamp = require('react-time');
+import _ from 'lodash';
+import moment from 'moment';
+import React from 'react';
+import Timestamp from 'react-time';
 
-var { api } = require('lib');
-
-var { State, Navigation } = require('react-router');
-var { makeSubscriberMixin } = require('mixins/socker');
+import ReactMixin from 'react-mixin';
+import { History } from 'react-router';
 
 
+@ReactMixin.decorate(History)
 export class TicketRow extends React.Component {
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    };
-
     static propTypes: {
         pk: React.PropTypes.string.isRequired,
         subject: React.PropTypes.string.isRequired,
@@ -27,8 +22,9 @@ export class TicketRow extends React.Component {
     }
 
     handleClick = () => {
-        this.context.router.transitionTo(
-                `/desk/ticket/${this.props.pk}`);
+        this.history.pushState(
+            null,
+            `/desk/ticket/${this.props.pk}`);
     };
 
     render() {

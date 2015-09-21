@@ -3,15 +3,16 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: [
-        'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
+        // WebpackDevServer host and port
+        'webpack-dev-server/client?http://0.0.0.0:3000',
         'webpack/hot/only-dev-server',
         './src/start'
     ],
-    devtool: 'eval-source-map',
+    devtool: 'inline-source-map',
     output: {
         path: path.join(__dirname, 'dist'),
         filename: path.join('js', 'trak-dev.js'),
-        publicPath: '/'
+        publicPath: 'http://localhost:3000/'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -25,7 +26,10 @@ module.exports = {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot', 'babel?optional[]=runtime&stage=0'],
+                loaders: [
+                    'react-hot',
+                    'babel?optional[]=runtime&stage=0',
+                ],
                 include: path.resolve(__dirname, 'src')
             },
             {

@@ -2,12 +2,12 @@ import _ from 'lodash';
 import BaseStore from 'stores/BaseStore';
 
 export class IndexedItemStore extends BaseStore {
-    constructor(keyAttribute='uuid') {
+    constructor(keyAttribute='pk') {
         super();
 
         this.keyAttribute = keyAttribute;
 
-        this._index = {};
+        this.map = new Map();
     }
 
     _getKey = (item) => {
@@ -19,28 +19,19 @@ export class IndexedItemStore extends BaseStore {
         if (item === undefined) {
             throw new Error('Cannot add an item which is undefined');
         }
-        if (item[this.key] === undefined || item[this.key] === null) {
-            throw new Error(`The key attribute ("${this.key}")
+        if (item[this.keyAttribute] === undefined ||
+            item[this.keyAttribute] === null) {
+            throw new Error(`The key attribute "${this.keyAttribute}"
              of the item ${JSON.stringify(item)} is null or undefined`);
         }
     }
 
-    _itemsAsList() {
-        var _all = [];
-
-        for (var key in this._index) {
-            _all.push(this._index[key]);
-        }
-
-        return _all;
-    }
-
     all() {
-        return this._itemsAsList();
+        return Array.from(this.map.values());
     }
 
     get(key) {
-        return this._index[key];
+        return this.map.get(key);
     }
 
     bulkSet(items) {
@@ -53,12 +44,12 @@ export class IndexedItemStore extends BaseStore {
     bulkUpdate(items) {
         items.forEach((item) => {
             this.updateItem(items, false);
-        })
+        });
         this.emitChange();
     }
 
     setItem(item, emit=true) {
-        this._index[this._getKey(item)] = item;
+        this.map.set(this._getKey(item), item);
 
         if (emit) {
             this.emitChange();
@@ -69,11 +60,11 @@ export class IndexedItemStore extends BaseStore {
 
     updateItem(item, emit=true) {
         var key = this._getKey(item);
-        var exists = this._index[key] !== undefined;
+        var exists = this.map.has(key);
         var storedItem;
 
         if (exists) {
-            storedItem = _.merge(this._index[key], item);
+            storedItem = _.merge(this.map.get(key), item);
         } else {
             storedItem = this.setItem(item);
         }

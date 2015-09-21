@@ -1,21 +1,19 @@
-import React from 'react';
-import ReactBootstrap from 'react-bootstrap';
-
 import classnames from 'classnames';
+import React from 'react';
+import ReactMixin from 'react-mixin';
+import { Link } from 'react-router';
 
 import AuthStore from 'stores/AuthStore';
 
 
 export class AuthInfo extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            user: this._getUserInfo()
-        };
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
 
     componentDidMount() {
+        this.updateUserInfo();
         AuthStore.addChangeListener(this.onAuthChange);
     }
 
@@ -24,17 +22,20 @@ export class AuthInfo extends React.Component {
     }
 
     onAuthChange = () => {
-        this.setState({
-            user: this._getUserInfo()
-        });
+        this.updateUserInfo();
     };
 
-    _getUserInfo() {
+    getUserInfo() {
         var user = AuthStore.user;
-        if (DEBUG) {
-            console.log(`${this.constructor.name}._getUserInfo: user`, user);
-        }
+        DEBUG && console.log(`${this.constructor.name}.getUserInfo: user`,
+            user);
         return user;
+    }
+
+    updateUserInfo() {
+        this.setState({
+            user: this.getUserInfo()
+        })
     }
 
     getButton() {
@@ -55,7 +56,7 @@ export class AuthInfo extends React.Component {
 
         return (
             <button className={classes}>
-                No user info
+                <Link to="/logiN">Log in</Link>
             </button>
         );
     }

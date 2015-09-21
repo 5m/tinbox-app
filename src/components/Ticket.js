@@ -19,18 +19,21 @@ export default class Ticket extends React.Component {
     }
 
     componentDidMount() {
-        TicketStore.addChangeListener(this._updateTicket);
-        TicketActions.getTicket();
+        DEBUG && console.group(this.constructor.name);
+        TicketActions.get(this.props.routeParams.ticketPK);
+
+        this.updateTicket();
+        TicketStore.addChangeListener(this.updateTicket);
     }
 
     componentWillUnmount() {
-        TicketStore.removeChangeListener(this._updateTicket);
+        TicketStore.removeChangeListener(this.updateTicket);
+        DEBUG && console.groupEnd(this.constructor.name);
     }
 
-    _updateTicket = () => {
+    updateTicket = () => {
         this.setState({
-            ticket: TicketStore.getTicket(
-                this.props.routeParams.ticketPK)
+            ticket: TicketStore.get(this.props.routeParams.ticketPK)
         });
     };
 

@@ -1,0 +1,43 @@
+@import "variables";
+
+html, body, .app-root, .view-root {
+    height: 100%;
+}
+
+/* XXX: .tickets needs this to be able to do overflow: auto in
+ a flex-direction: row wrapper */
+html, body, .app-root, .view-root, .view-content {
+    overflow: hidden;
+    height: 100%;
+}
+
+@mixin link-color($color, $opacity) {
+    & a {
+        &:active,
+        &:hover,
+        &:link,
+        &:visited {
+            color: rgba($color, $default-text-opacity);
+        }
+    }
+}
+
+.app-root.dark {
+    @include link-color($inverse-when-dark, $default-link-opacity);
+    color: rgba($inverse-when-dark, $default-text-opacity);
+}
+
+.app-root.light {
+    @include link-color($inverse-when-light, $default-link-opacity);
+    color: rgba($inverse-when-light, $default-text-opacity);
+}
+
+.app-root {
+    &.light {
+        @include inverse
+    }
+}
+
+> * {
+    @include text-color(0.9);
+}
