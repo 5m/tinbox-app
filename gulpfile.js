@@ -1,7 +1,6 @@
 var dotenv = require('dotenv');
 dotenv.load();
 
-
 var path = require('path');
 var requireUncached = require('require-uncached');
 var _ = require('lodash');
@@ -21,6 +20,8 @@ var debowerify = require('debowerify');
 var webpack = require('webpack');
 var webpackStream = require('webpack-stream');
 var WebpackDevServer = require('webpack-dev-server');
+
+var notify = $.notify({hint: 'int:transient:1'})
 
 
 global.FORCE_IS_PRODUCTION = false;
@@ -95,7 +96,7 @@ function distPath() {
 function handleErrors() {
     var args = Array.prototype.slice.call(arguments);
 
-    $.notify.onError({
+    notify.onError({
         title: "Compile Error",
         message: "<%= error.message %>"
     }).apply(this, args);
@@ -213,7 +214,7 @@ function compileScriptsBrowserify(callback) {
             .transform({
                 global: true
             }, 'uglifyify')
-            .pipe($.notify())
+            .pipe(notify)
     }
 
     return bundler
@@ -222,7 +223,7 @@ function compileScriptsBrowserify(callback) {
         .pipe(buffer())
         .pipe($.size({showFiles: true}))
         .pipe(gulp.dest(distPath('js')))
-        .pipe($.notify())
+        .pipe(notify)
         .on('error', gutil.log);
 }
 
@@ -252,9 +253,9 @@ gulp.task('fonts', function () {
 
 gulp.task('scss', function () {
     reloadConfig();
-    return gulp.src('./src/scss/trak.scss')
+    return gulp.src('./src/scss/main.scss')
         .pipe($.sass({
-            outputStyle: 'compressed',
+            outputStyle: IS_PRODUCTION ? 'compressed' : 'expanded',
             precision: 10,
             includePaths: [
                 'bower_components',
@@ -262,7 +263,7 @@ gulp.task('scss', function () {
                 'node_modules'
             ]
         }).on('error', handleErrors))
-        .pipe($.notify())
+        .pipe(notify)
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest(distPath('css')))
         .pipe($.size({showFiles: true}));
