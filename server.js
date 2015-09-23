@@ -1,20 +1,23 @@
-/* eslint-disable no-var, strict */
-'use strict';
+(() => {
+    'use strict';
+    var express = require('express'),
+        path = require('path'),
+        morgan = require('morgan')
 
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
+    const STATIC_BASE = process.env.STATIC_BASE || path.join(__dirname, 'dist')
+    const LISTEN_PORT = parseInt(process.env.PORT) || 5000
+    const LISTEN_HOST = process.env.HOST || null
 
-var server = new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
-  hot: true,
-  historyApiFallback: true
-});
+    let server = express()
 
-server.listen(3000, 'localhost', function (err) {
-  if (err) {
-    console.log(err);
-  }
+    server.use(express.static(STATIC_BASE))
+    server.use(morgan('short'))
 
-  console.log('Listening at localhost:3000');
-});
+    server.get('*', function (req, res) {
+        res.sendFile(path.join(STATIC_BASE, 'index.html'));
+    })
+
+    server.listen(LISTEN_PORT, LISTEN_HOST, function () {
+        console.log(`Listening on ${LISTEN_HOST || '*'}:${LISTEN_PORT}`)
+    })
+})()

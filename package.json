@@ -1,18 +1,20 @@
 {
-  "name": "trak-app",
-  "version": "0.0.0",
-  "description": "Client application for trak.",
+  "name": "tinbox-app",
+  "version": "0.1.0",
+  "description": "tinbox frontend",
   "main": "",
   "scripts": {
     "test": "gulp test",
+    "build": "gulp build",
+    "watch": "gulp",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/5m/trak-app.git"
   },
-  "author": "",
-  "license": "",
+  "author": "Joar Wandborg <joar@wandborg.se>",
+  "license": "Undefined",
   "bugs": {
     "url": "https://github.com/5m/trak-app/issues"
   },
@@ -30,6 +32,7 @@
     "dotenv": "^1.2.0",
     "es6-mixins": "^1.0.2",
     "expose-loader": "^0.7.0",
+    "express": "^4.13.3",
     "flux": "^2.0.3",
     "font-awesome": "^4.3.0",
     "gulp": "^3.7.0",
@@ -44,7 +47,7 @@
     "gulp-template": "^3.0.0",
     "gulp-uglify": "^0.3.0",
     "gulp-util": "^2.2.20",
-    "history": "^1.9.0",
+    "history": "^1.10.1",
     "jquery": "^2.1.3",
     "json-loader": "^0.5.2",
     "jsonfile": "^2.2.1",
@@ -52,6 +55,7 @@
     "keymirror": "^0.1.1",
     "lodash": "^2.4.1",
     "moment": "^2.9.0",
+    "morgan": "^1.6.1",
     "node-libs-browser": "^0.5.2",
     "query-string": "^1.0.0",
     "react": "^0.13.3",
