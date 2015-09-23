@@ -1,0 +1,13 @@
+{
+  "socker_uri": "/ws/",
+  "app_base": "/app",
+  "api_base": "/5m/api",
+  "auth": {
+    "base_url": "/api/oauth2",
+    "scope": [
+      "read",
+      "write"
+    ],
+    "client_id": "app"
+  }
+}

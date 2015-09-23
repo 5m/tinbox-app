@@ -1,38 +1,39 @@
-import ActionTypes from 'constants/ActionTypes';
-import BaseStore from 'stores/BaseStore';
-import jwt_decode from 'jwt-decode';
-import AuthActions from 'actions/AuthActions';
-import AuthConstants from 'constants/AuthConstants';
+import config from 'config'
+import ActionTypes from 'constants/ActionTypes'
+import BaseStore from 'stores/BaseStore'
+import jwt_decode from 'jwt-decode'
+import AuthActions from 'actions/AuthActions'
+import AuthConstants from 'constants/AuthConstants'
 
-import { APIv2 } from 'lib/api';
+import { APIv2 } from 'lib/api'
 
 
 class AuthStore extends BaseStore {
     constructor() {
-        super();
-        this.subscribe(() => this.onDispatch.bind(this));
+        super()
+        this.subscribe(() => this.onDispatch.bind(this))
 
-        this._decoded = null;
-        this._token = null;
+        this._decoded = null
+        this._token = null
 
         this.api = (new APIv2())
             .onResponse(this._checkAPIResponse)
             .onResponse(response => {
-                return response.json();
-            });
+                return response.json()
+            })
     }
 
     get user() {
-        return this._decoded.user;
+        return this._decoded.user
     }
 
     get token() {
-        return this._token;
+        return this._token
     }
 
     set token(token) {
-        this._token = token;
-        this._decoded = jwt_decode(token.access_token);
+        this._token = token
+        this._decoded = jwt_decode(token.access_token)
         this.emitChange()
     }
 
@@ -41,25 +42,25 @@ class AuthStore extends BaseStore {
             DEBUG && console.error(
                     `${this.constructor.name}._checkAPIResponse`,
                     'status',
-                    response.status);
+                    response.status)
 
-            throw new Error('HTTP 401, Could not log in.');
+            throw new Error('HTTP 401, Could not log in.')
         }
 
         if (response.status == 400) {
             throw new Error('HTTP 400, Could not log in.')
         }
-        return response;
-    };
+        return response
+    }
 
     isLoggedIn() {
         DEBUG && console.log(`${this.constructor.name}.isLoggedIn`,
-            !!this._token);
-        return !!this._token;
+            !!this._token)
+        return !!this._token
     }
 
     authenticate(username, password) {
-        this.api.url('/oauth2/token/')
+        this.api.url(config.auth.auth_url('/token/'))
             .post()
             .formData({
                 username: username,
@@ -71,59 +72,59 @@ class AuthStore extends BaseStore {
             .then(response => {
                 DEBUG && console.log(
                     `${this.constructor.name}.login: token response`,
-                    response);
+                    response)
 
-                this.token = response;
+                this.token = response
                 this.storeState()
                 this.emitChange()
-            });
+            })
     }
 
     onDispatch(action) {
-        DEBUG && console.group('AuthStore');
+        DEBUG && console.group('AuthStore')
         switch (action.type) {
             case ActionTypes.AUTH_AUTHORIZE:
                 this.authenticate(action.username, action.password)
 
-                break;
+                break
             case ActionTypes.AUTH_LOGOUT:
-                this._token = null;
-                this._user = null;
+                this._token = null
+                this._user = null
 
-                this.storeState();
-                this.emitChange();
-                break;
+                this.storeState()
+                this.emitChange()
+                break
             case ActionTypes.AUTH_LOAD_STATE:
-                this.loadState();
-                break;
+                this.loadState()
+                break
         }
-        DEBUG && console.groupEnd('AuthStore');
+        DEBUG && console.groupEnd('AuthStore')
     }
 
     loadState() {
         try {
             let token = JSON.parse(localStorage.getItem(
-                AuthConstants.STORAGE_KEY));
-            DEBUG && console.log('Loading state, got token', token);
-            this.token = token;
+                AuthConstants.STORAGE_KEY))
+            DEBUG && console.log('Loading state, got token', token)
+            this.token = token
         } catch (e) {
-            console.warn(e);
+            console.warn(e)
         }
     }
 
     storeState() {
         if (this.isLoggedIn()) {
-            DEBUG && console.log('Storing logged in state');
+            DEBUG && console.log('Storing logged in state')
 
             localStorage.setItem(
                 AuthConstants.STORAGE_KEY,
-                JSON.stringify(this.token));
+                JSON.stringify(this.token))
         } else {
-            DEBUG && console.log('Storing logged out state');
+            DEBUG && console.log('Storing logged out state')
 
             localStorage.removeItem(AuthConstants.STORAGE_KEY)
         }
     }
 }
 
-export default new AuthStore();
+export default new AuthStore()

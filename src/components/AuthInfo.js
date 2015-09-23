@@ -55,9 +55,9 @@ export class AuthInfo extends React.Component {
         }
 
         return (
-            <button className={classes}>
-                <Link to="/logiN">Log in</Link>
-            </button>
+            <Link to="/login" className={classes}>
+                Log in
+            </Link>
         );
     }
 

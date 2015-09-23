@@ -13,7 +13,7 @@ export class IndexedItemStore extends BaseStore {
     _getKey = (item) => {
         this._validateItem(item);
         return item[this.keyAttribute];
-    };
+    }
 
     _validateItem(item) {
         if (item === undefined) {

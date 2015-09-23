@@ -28,3 +28,6 @@ http-server:
 
 serve:
 	python server/server.py -d dist
+
+image:
+	docker build --force-rm -t tinbox_app .

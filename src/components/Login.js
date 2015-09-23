@@ -1,24 +1,24 @@
-import React from 'react/addons';
-import ReactMixin from 'react-mixin';
-import ReactRouter from 'react-router';
-import { ButtonInput, Input } from 'react-bootstrap';
-import AuthActions from 'actions/AuthActions';
-import AuthStore from 'stores/AuthStore';
+import React from 'react/addons'
+import ReactMixin from 'react-mixin'
+import ReactRouter from 'react-router'
+import { ButtonInput, Input } from 'react-bootstrap'
+import AuthActions from 'actions/AuthActions'
+import AuthStore from 'stores/AuthStore'
 
-import DocumentTitle from 'react-document-title';
-import View from 'components/View';
+import DocumentTitle from 'react-document-title'
+import View from 'components/View'
 
 
 @ReactMixin.decorate(React.addons.LinkedStateMixin)
 export class Login extends React.Component {
 
     constructor(props, context) {
-        super(props, context);
+        super(props, context)
 
         this.state = {
             username: '',
             password: ''
-        };
+        }
     }
 
     checkLogin = () => {
@@ -27,29 +27,17 @@ export class Login extends React.Component {
             loggedIn);
 
         if (loggedIn) {
-            this.props.history.pushState()
-            this.props.history.go('/')
+            this.props.history.pushState(null, '/', null);
         }
-    };
-
-    componentDidMount() {
-        this.checkLogin();
-        AuthStore.addChangeListener(this.checkLogin);
-    }
-    componentWillUnmount() {
-        AuthStore.removeChangeListener(this.checkLogin);
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (DEBUG) {
-            console.log(
-                `${this.constructor.name}.onSubmit: username`,
-                this.refs.username);
-        }
+        AuthStore.addChangeListener(this.checkLogin);
+        DEBUG && console.log(`${this.constructor.name}.onSubmit`)
 
-        AuthActions.authorize(this.state.username, this.state.password);
-    };
+        AuthActions.authorize(this.state.username, this.state.password)
+    }
 
     render() {
         return (
@@ -75,4 +63,4 @@ export class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Login

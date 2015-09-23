@@ -49,30 +49,30 @@ var webpackCompileOptions = {
             host: 'localhost'
         },
         hot: true,
-        quiet: false,
-
+        quiet: false
     }
-};
+}
 
 
 function reloadConfig() {
     'use strict';
     dotenv.load();
+
     global.IS_PRODUCTION = FORCE_IS_PRODUCTION
-        || 'production' == process.env.NODE_ENV;
-    global.APP_CONFIG = requireUncached('./src/config.js');
+        || 'production' == process.env.NODE_ENV
+
+    global.APP_CONFIG = requireUncached('./src/config.js')
+
+    global.APP_CONFIG.DEBUG = !IS_PRODUCTION
 
     if (IS_PRODUCTION) {
         global.HTML_ENTRY_POINT = path.join(
-            global.APP_CONFIG.app_base || '/'
-            , 'js/trak.min.js');
+            global.APP_CONFIG.app_base || '/',
+            'js/tinbox.min.js'
+        )
     } else {
-        /*
-        global.HTML_ENTRY_POINT = path.join(
-            global.APP_CONFIG.app_base || '/'
-            , 'js/trak-dev.js');
-        */
-        global.HTML_ENTRY_POINT = 'http://localhost:3000/js/trak-dev.js';
+        // Link to webpack-dev-server
+        global.HTML_ENTRY_POINT = 'http://localhost:3000/js/trak-dev.js'
     }
 }
 
@@ -89,7 +89,9 @@ function distPath() {
         paths = paths.concat(args);
     }
 
-    return path.join.apply(path, paths);
+    var result = path.join.apply(path, paths);
+    gutil.log('distPath', arguments, ' => ', result);
+    return result;
 }
 
 
@@ -106,43 +108,53 @@ function handleErrors() {
     this.emit('end'); // Keep gulp from hanging on this task
 }
 
-function getWebpackConfig() {
-    var config = _.merge({}, requireUncached('./webpack.config.js'));
+var webpackConfig = {
+    dev: function webpackConfig_dev(config) {
+        config.debug = true;
+        if (!IS_PRODUCTION !== config.debug) {
+            throw new gutil.PluginError('tinbox-conf',
+                'IS_PRODUCTION is not false, I will not use the dev config' +
+                ' for production.');
+        }
 
-    var plugins = config.plugins || [];
+        var plugins = config.plugins || [];
 
-    config.debug = !IS_PRODUCTION;
+        plugins.push(new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            },
+            DEBUG: !IS_PRODUCTION
+        }));
 
-    plugins.push(new webpack.DefinePlugin({
-        'process.env': {
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-        },
-        DEBUG: !IS_PRODUCTION
-    }));
+        config.plugins = plugins;
 
-    if (IS_PRODUCTION) {
+        return config;
+
+    },
+    prod: function webpackConfig_prod(config) {
         config.entry = ['./src/start'];
-        config.output.filename = path.join('js', 'trak.min.js');
+        config.output.path = distPath();
+        config.output.filename = path.join('js', 'tinbox.min.js');
 
-        plugins = [
+        config.plugins = [
             new webpack.optimize.DedupePlugin(),
             new webpack.optimize.UglifyJsPlugin()
         ];
-    }
 
-    config.plugins = plugins;
-    return config;
+        return config;
+    }
 }
 
+function getWebpackConfig() {
+    var config = _.merge({}, requireUncached('./webpack.config.js'));
 
-function compileScriptsWebpackStream(callback) {
-    var config = getWebpackConfig();
-    config.watch = global.WEBPACK_STREAM_WATCH;
-    console.log('config', config);
+    if (IS_PRODUCTION) {
+        config = webpackConfig.prod(config);
+    } else {
+        config = webpackConfig.dev(config);
+    }
 
-    gulp.src(path.join(__dirname, 'src/start.js'))
-        .pipe(webpackStream(config))
-        .pipe(gulp.dest(distPath()))
+    return config;
 }
 
 
@@ -189,45 +201,6 @@ function compileScriptsWebpack(callback) {
     }
 }
 
-
-function compileScriptsBrowserify(callback) {
-    var entry = __dirname + '/src/start.js';
-    var options = {
-        fullPaths: true,
-        paths: [__dirname + '/src'],
-        transform: [
-            ["babelify", {optional: ['runtime'], stage: 0}]
-        ]
-    };
-
-    if (!IS_PRODUCTION) {
-        //options.debug = true;
-    }
-
-    var bundler = browserify(entry, options);
-
-    bundler = bundler
-        .transform(reactify)
-        .transform(debowerify)
-        .bundle()
-
-    if (IS_PRODUCTION) {
-        bundler = bundler
-            .transform({
-                global: true
-            }, 'uglifyify')
-            .pipe(notify)
-    }
-
-    return bundler
-        .on('error', handleErrors)
-        .pipe(source('trak.js'))
-        .pipe(buffer())
-        .pipe($.size({showFiles: true}))
-        .pipe(gulp.dest(distPath('js')))
-        .pipe(notify)
-        .on('error', gutil.log);
-}
 
 var compileScripts = compileScriptsWebpack;
 
@@ -277,6 +250,7 @@ gulp.task('html', function () {
 
     var config = _.merge({}, global.APP_CONFIG);
     config.entry_point = HTML_ENTRY_POINT;
+    gutil.log('html template context', config);
 
     return gulp.src('src/index.html')
         .pipe($.template(config))

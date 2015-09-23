@@ -1,9 +1,11 @@
-FROM node:0.12-onbuild
+FROM node:4.1.0-onbuild
 
 ENV STATIC_BASE /srv/app
 RUN mkdir -p $STATIC_BASE
 
 RUN node_modules/.bin/bower --allow-root install
-RUN node_modules/.bin/gulp build
+COPY src/config-docker.json src/config.json
+RUN npm run build
 
-VOLUME $STATIC_BASE
+EXPOSE 5000
+# CMD is inherited from parent, it's ["npm", "start"]

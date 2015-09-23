@@ -48,21 +48,13 @@ export class API {
             additionalSettings
         );
         console.log('settings', settings);
+
         return settings;
     }
 
-    _makeURL(path) {
-        var obj = url.parse(path);
-
-        if (!obj.hostname) {
-            return config.api_url(path);
-        }
-
-        return path;
-    }
-
     get(path, params) {
-        var _url = new URL(this._makeURL(path));
+        var _url = new URL(makeURL(path));
+
         Object.keys(params).forEach(key => {
             _url.searchParams.append(key, params[key]);
         });
@@ -91,7 +83,7 @@ export class API {
 
     post(path, data=null) {
         var promise = fetch(
-            this._makeURL(path),
+            makeURL(path),
             this._getSettings(
                 {
                     method: 'POST',
@@ -129,16 +121,6 @@ export class APIv2 {
         };
     }
 
-    _makeURL(path) {
-        var obj = url.parse(path);
-
-        if (!obj.hostname) {
-            return config.api_url(path);
-        }
-
-        return path;
-    }
-
     globalHeader(key, value) {
         this._headers[key] = value;
         return this;
@@ -152,7 +134,7 @@ export class APIv2 {
     }
 
     url(url_, params={}) {
-        this.request_url = new URL(this._makeURL(url_));
+        this.request_url = new URL(makeURL(url_));
 
         Object.keys(params).forEach(key => {
             this.request_url.searchParams.append(key, params[key]);
@@ -216,6 +198,21 @@ export class APIv2 {
 
         return promise;
     }
+}
+
+function makeURL(path) {
+    console.group('makeURL')
+    var obj = url.parse(path);
+
+    console.log('obj', obj)
+
+    if (!obj.hostname)  {
+        console.log('api url')
+        return config.api_url(path);
+    }
+
+    console.groupEnd('makeURL')
+    return path;
 }
 
 

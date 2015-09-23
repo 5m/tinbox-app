@@ -1,7 +1,7 @@
 import config from 'config';
 
 import React from 'react/addons';
-import { createHistory } from 'history';
+import { createHistory, useBasename } from 'history';
 import { Router, Route, Redirect, IndexRoute } from 'react-router';
 
 import AuthActions from 'actions/AuthActions';
@@ -19,14 +19,16 @@ import Home from 'components/Home';
 import RouterContainer from 'services/RouterContainer';
 
 
+const history = useBasename(createHistory)({
+    basename: config.app_base
+});
+
 const basePath = config.app_base + '/';
 
-let history = createHistory();
-
-let router = (
+const router = (
     <Router history={history}>
         <Route component={TrakApp}
-               path={basePath}>
+               path="/">
             <IndexRoute component={Home} />
             <Route path="desk/"
                 components={Desk}>
@@ -41,11 +43,6 @@ let router = (
         </Route>
     </Router>
 );
-/*
-router.addTransitionHook((nextState, transition, error) => {
-    console.log('TRANSITION', nextState, transition, error)
-});
-*/
 
 RouterContainer.set(router);
 
